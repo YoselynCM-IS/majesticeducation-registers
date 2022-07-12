@@ -189,13 +189,23 @@ class DatabaseSeeder extends Seeder
         //     ]
         // ]);
 
+        // \DB::table('users')->insert([
+        //     0 => [
+        //         'role'      => 'reviewer',
+        //         'name'      => 'Ximena', 
+        //         'user_name' => 'ximena-7',
+        //         'email'     => 'ximena@gmail.com',
+        //         'password'  => bcrypt('x1m3n4-275')
+        //     ]
+        // ]);
+
         \DB::table('users')->insert([
             0 => [
                 'role'      => 'reviewer',
-                'name'      => 'Ximena', 
-                'user_name' => 'ximena-7',
-                'email'     => 'ximena@gmail.com',
-                'password'  => bcrypt('x1m3n4-275')
+                'name'      => 'Adriana', 
+                'user_name' => 'adriana-8',
+                'email'     => 'adriana@gmail.com',
+                'password'  => bcrypt('4dr14n4-268')
             ]
         ]);
     }
