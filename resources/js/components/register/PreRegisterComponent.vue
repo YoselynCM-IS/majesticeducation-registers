@@ -39,7 +39,7 @@
         </b-row>
         <!-- FORM -->
         <form @submit="onSubmit" enctype="multipart/form-data" method="POST">
-            <input type="hidden" name="_token" :value="csrf">
+            <!-- <input type="hidden" name="_token" :value="csrf"> -->
             <!-- Datos del alumno -->
             <div>
                 <h5><b>Datos del alumno</b></h5>
@@ -423,7 +423,7 @@ export default {
     mixins: [banksMixin,booksMixin,typesMixin],
     data(){
         return {
-            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            // csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             load: false,
             types_externa: [
                 { value: null, text: 'Selecciona una opción', disabled: true },
