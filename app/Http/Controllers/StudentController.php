@@ -112,21 +112,24 @@ class StudentController extends Controller
                 $extension = $file->getClientOriginalExtension();
                 $name_file = time()."_id".$student->id."_".$name_student.".".$extension;
 
-                if($extension != 'pdf'){
-                    $image = Image::make($request->file('file'));
-                    $image->resize(1280, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
+                // if($extension != 'pdf'){
+                //     $image = Image::make($request->file('file'));
+                //     $image->resize(1280, null, function ($constraint) {
+                //         $constraint->aspectRatio();
+                //         $constraint->upsize();
+                //     });
 
-                    Storage::disk('dropbox')->put(
-                        '/comprobantes/'.$name_file, (string) $image->encode('jpg', 30)
-                    );
-                } else {
-                    Storage::disk('dropbox')->putFileAs(
-                        '/comprobantes/', $request->file('file'), $name_file
-                    );
-                }
+                //     Storage::disk('dropbox')->putFileAs(
+                //         '/comprobantes/'.$name_file, (string) $image
+                //     );
+                // } else {
+                //     Storage::disk('dropbox')->putFileAs(
+                //         '/comprobantes/', $request->file('file'), $name_file
+                //     );
+                // }
+                Storage::disk('dropbox')->putFileAs(
+                    '/comprobantes/', $request->file('file'), $name_file
+                );
     
                 $response = $this->dropbox->createSharedLinkWithSettings(
                     '/comprobantes/'.$name_file, 
