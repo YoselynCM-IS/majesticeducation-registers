@@ -51,7 +51,7 @@ class StudentController extends Controller
             'email' => ['required', 'email', 'max:60'],
             'quantity' => ['required', 'numeric', 'min:1'],
             'telephone' => ['required', 'numeric', 'min:1000000000'],
-            'file' => ['required', 'mimes:jpg,png,jpeg,pdf', 'max:3072']
+            'file' => ['required', 'mimes:jpg,png,jpeg,pdf', 'max:5072']
         ]);
         
         // BUSCAR SI EXISTE EL ALUMNO
