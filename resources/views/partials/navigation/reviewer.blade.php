@@ -1,7 +1,7 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route('reviewer.home') }}">{{ __('Inicio') }}</a>
 </li>
-@if(auth()->user()->id == 7 || auth()->user()->id == 12 || auth()->user()->id == 17 || auth()->user()->id == 15)
+@if(auth()->user()->id == 7 || auth()->user()->id == 12 || auth()->user()->id == 17 || auth()->user()->id == 15 || auth()->user()->id == 22)
     <li class="nav-item">
         <a class="nav-link" href="{{ route('reviewer.folios') }}">{{ __('Depósitos') }}</a>
     </li>
