@@ -249,8 +249,8 @@
                                         :disabled="load || selBook" required
                                     ></b-form-input>
                                 </b-form-group>
-                                <b-form-group v-if="comprobante.type == 'BANCO AZTECA'" label="No. Operación" 
-                                    v-b-tooltip.hover title="Ingresar lo que aparece en No. Operación en tu comprobante de pago">
+                                <b-form-group v-if="comprobante.type == 'BANCO AZTECA'" label="Número de autorización" 
+                                    v-b-tooltip.hover title="Ingresar lo que aparece en Número de autorización en tu comprobante de pago">
                                     <b-form-input v-model="comprobante.folio" minlength="5"
                                         :disabled="load || selBook" required
                                     ></b-form-input>
@@ -296,8 +296,8 @@
                                     ></b-form-input>
                                 </b-form-group>
                             </div>
-                            <b-form-group v-if="comprobante.type == 'BANCO AZTECA'" label="Número de autorización" 
-                                v-b-tooltip.hover title="Ingresar lo que aparece en Número de autorización en tu comprobante de pago">
+                            <b-form-group v-if="comprobante.type == 'BANCO AZTECA'" label="No. Operación" 
+                                v-b-tooltip.hover title="Ingresar lo que aparece en No. Operación en tu comprobante de pago">
                                 <b-form-input v-model="comprobante.auto" minlength="5"
                                     :disabled="load || selBook" required
                                 ></b-form-input>
