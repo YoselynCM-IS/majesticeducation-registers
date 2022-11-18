@@ -18,7 +18,7 @@
                 </b-button>
             </b-col>
             <b-col sm="3" class="text-right">
-                <b-button v-if="role == 'manager' || role == 'administrator' || (role == 'reviewer' && userid == 17)" id="btnPre" pill 
+                <b-button v-if="role == 'manager' || role == 'administrator' || (userid == 7 || userid == 17)" id="btnPre" pill 
                     @click="modalShow = !modalShow">
                     <b-icon-plus-circle></b-icon-plus-circle> Subir depósitos
                 </b-button>
