@@ -67,7 +67,7 @@
                     </b-form-group>
                 </b-col>
             </b-row>
-            <div v-if="userid == 7 || userid == 3 || userid == 15">
+            <div v-if="userid == 7 || userid == 3 || userid == 15 || userid == 17">
                 <hr>
                 <!-- PAGOS -->
                 <b-row>
