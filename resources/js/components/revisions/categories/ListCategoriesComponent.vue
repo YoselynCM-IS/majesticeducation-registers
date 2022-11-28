@@ -1,9 +1,15 @@
 <template>
     <div>
-        <b-tabs pills card vertical end class="tab-ctgs"
-            nav-wrapper-class="w-20">
-            <b-tab v-for="(categorie, i) in categories" v-bind:key="i"
-                :title="categorie.categorie" @click="show_registers(categorie.id)">
+        <b-row v-if="!loadall">
+            <b-col sm="3">
+                <b-list-group v-for="(categorie, i) in categories" v-bind:key="i">
+                    <b-list-group-item @click="show_registers(categorie, i)" href="#"
+                        variant="secondary">
+                        {{categorie.categorie}}
+                    </b-list-group-item>
+                </b-list-group>
+            </b-col>
+            <b-col>
                 <b-row>
                     <b-col>
                         <pagination size="default" :limit="1" :data="registersData" 
@@ -16,14 +22,14 @@
                             </span>
                         </pagination>
                         <b-button v-if="registersData.data" variant="dark" pill
-                            :href="`/revisions/download_categorie/${categorie.id}`">
+                            :href="`/revisions/download_categorie/${categorie_id}`">
                             <b-icon-download></b-icon-download> Descargar
                         </b-button>
                     </b-col>
                     <b-col sm="4" class="text-right">
                         <b-form-group label="Buscar alumno:">
                             <b-form-input v-model="sStudent" :disabled="load || !registersData.data" 
-                                @keyup="showStudents(categorie.id)"
+                                @keyup="showStudents(categorie_id)"
                                 style="text-transform:uppercase;">
                             </b-form-input>
                             <div class="list-group" v-if="students.length" id="listR">
@@ -39,16 +45,16 @@
                     </b-col>
                     <b-col sm="3" class="text-right">
                         <b-button variant="warning" pill size="sm" :disabled="categorie_id == null"
-                            @click="editCorte(categorie, i)">
+                            @click="editCorte()">
                             <i class="fa fa-pencil"></i>
                         </b-button>
                         <b-button v-if="role == 'manager'"
                             :disabled="categorie_id == null || registersData.total > 0"
-                            variant="danger" pill size="sm" @click="deleteCorte(categorie)">
+                            variant="danger" pill size="sm" @click="deleteCorte()">
                             <i class="fa fa-close"></i>
                         </b-button>
                         <b-button v-if="role == 'manager'" :disabled="categorie_id == null"
-                            variant="dark" pill size="sm" @click="archivarCorte(categorie)">
+                            variant="dark" pill size="sm" @click="archivarCorte()">
                             <i class="fa fa-archive"></i>
                         </b-button>
                     </b-col>
@@ -69,17 +75,20 @@
                             </b-button>
                         </template>
                     </b-table>
-                    <b-card-text v-else class="text-center">
+                    <b-alert show variant="secondary" v-else class="text-center">
                         Presiona sobre la categoría para ver los registros.
-                    </b-card-text>
+                    </b-alert>
                 </div>
                 <div v-else class="text-center text-danger my-2">
                     <b-spinner class="align-middle"></b-spinner>
                     <strong>Cargando...</strong>
                 </div>
-            </b-tab>
-        </b-tabs>
-
+            </b-col>
+        </b-row>
+        <div v-else class="text-center text-danger my-2">
+            <b-spinner class="align-middle"></b-spinner>
+            <strong>Cargando...</strong>
+        </div>
         <!-- MODALS -->
         <!-- INFORMACION EL ESTUDIANTE -->
         <b-modal v-model="modalInfo" hide-footer :title="student.name" size="xl">
@@ -118,14 +127,14 @@ export default {
                 id: null,
                 categorie: null
             },
-            position: null
+            position: null,
+            loadall: false,
+            load: false,
+            categorie_name: null
         }
     },
     created: function (){
         this.show_categories();
-        if(this.categorie_id !== null){
-            this.getResults();
-        }
     },
     methods: {
         // MOSTRAR PAGINADO
@@ -134,17 +143,19 @@ export default {
         },
         // MOSTRAR LAS CAEGORIAS
         show_categories(){
-            this.load = true;
+            this.loadall = true;
             axios.get('/revisions/show_categories')
                 .then(response => {
                     this.categories = response.data;
-                    this.load = false;   
+                    this.loadall = false;   
                 });
         },
         // MOSTRAR REGISTROS
-        show_registers(categorie_id){
+        show_registers(categorie, i){
             this.registersData = {};
-            this.categorie_id = categorie_id;
+            this.categorie_id = categorie.id;
+            this.categorie_name = categorie.categorie;
+            this.position = i;
             this.sStudent = null;
             this.http_registers();
         },
@@ -168,11 +179,15 @@ export default {
         },
         // MOSTRAR ESTUDIANTES POR CATEGORIA
         showStudents(categorie_id){
-            axios.get('/revisions/by_student', {params: {categorie_id: categorie_id, student: this.sStudent}}).then(response => {
-                this.students = response.data;
-            }).catch(error => {
-                // PENDIENTE
-            });
+            if(this.sStudent.length > 0){
+                axios.get('/revisions/by_student', {params: {categorie_id: categorie_id, student: this.sStudent}}).then(response => {
+                    this.students = response.data;
+                }).catch(error => {
+                    // PENDIENTE
+                });
+            } else {
+                this.students = [];
+            }
         },
         // ELEGIR ESTUDIANTE
         selectStudent(student){
@@ -188,10 +203,9 @@ export default {
             });
         },
         // EDITAR CORTE
-        editCorte(categorie, i){
-            this.form.id = categorie.id;
-            this.form.categorie = categorie.categorie;
-            this.position = i;
+        editCorte(){
+            this.form.id = this.categorie_id;
+            this.form.categorie = this.categorie_name;
             this.modalNEC = true;
         },
         // CATEGORIA MODIFICADA
@@ -201,9 +215,9 @@ export default {
             swal("Guardado", "La categoría se actualizo correctamente", "success");
         },
         // ELIMINAR CORTE
-        deleteCorte(categorie){
+        deleteCorte(){
             this.load = true;
-            axios.delete('/revisions/delete_categorie', {params: {categorie_id: categorie.id}}).then(response => {
+            axios.delete('/revisions/delete_categorie', {params: {categorie_id: this.categorie_id}}).then(response => {
                 swal("Eliminado", "El corte se elimino correctamente.", "success")
                 .then((value) => {
                     location.reload();
@@ -215,9 +229,9 @@ export default {
             });
         },
         // ARCHIVAR CORTE
-        archivarCorte(categorie){
+        archivarCorte(){
             this.load = true;
-            let form = { categorie_id: categorie.id };
+            let form = { categorie_id: this.categorie_id };
             axios.put('/revisions/archive_categorie', form).then(response => {
                 swal("OK", "El corte se archivo correctamente.", "success")
                 .then((value) => {

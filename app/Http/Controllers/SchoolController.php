@@ -60,8 +60,6 @@ class SchoolController extends Controller
         try {
             $name = Str::of($request->name)->upper();
             $s = School::create(['name' => $name]);
-            \DB::connection('categories_rv')->table('schools')
-                    ->insert(['name' => $name]);
             \DB::commit();
         }  catch (Exception $e) {
             \DB::rollBack();
@@ -77,8 +75,6 @@ class SchoolController extends Controller
             $id = $request->id;
             $name = Str::of($request->name)->upper();
             School::whereId($id)->update(['name' => $name]);
-            \DB::connection('categories_rv')->table('schools')
-                    ->where('id', $id)->update(['name' => $name]);
             \DB::commit();
         }  catch (Exception $e) {
             \DB::rollBack();

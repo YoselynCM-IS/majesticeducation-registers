@@ -13,7 +13,7 @@ class Student extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'school_id', 'name', 'email', 'telephone', 
+        'categorie_id', 'school_id', 'name', 'email', 'telephone', 
         'book', 'quantity', 'price', 'total', 'check', 
         'delivery', 'date_delivery', 'user_delivery',
         'codes', 'date_codes', 'user_codes', 'send_codes',
