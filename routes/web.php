@@ -187,6 +187,8 @@ Route::name('revisions.')->prefix('revisions')->group(function () {
     Route::get('/download_categorie/{id}', 'RevisionController@download_categorie' )->name('download_categorie');
 
     Route::put('archive_categorie', 'RevisionController@archive_categorie' )->name('archive_categorie');
+
+    Route::get('/categories_byschool', 'RevisionController@categories_byschool' )->name('categories_byschool');
 });
 
 Route::name('information.')->prefix('information')->group(function () {

@@ -6,6 +6,20 @@
                     style="text-transform:uppercase;">
                 </b-form-input>
             </b-form-group>
+            <b-form-group label="Escuela:">
+                <b-form-input v-model="school" :disabled="load" @keyup="showSchools()"
+                    style="text-transform:uppercase;">
+                </b-form-input>
+                <div class="list-group" v-if="schools.length" id="listR">
+                    <a 
+                        href="#" v-bind:key="i" 
+                        class="list-group-item list-group-item-action" 
+                        v-for="(school, i) in schools" 
+                        @click="selectSchool(school)">
+                        {{ school.name }}
+                    </a>
+                </div>
+            </b-form-group>
             <div class="text-right">
                 <b-button pill :disabled="load" id="btnPre" type="submit">
                     <b-icon-plus-circle></b-icon-plus-circle> Guardar
@@ -16,8 +30,10 @@
 </template>
 
 <script>
+import searchSchoolMixin from '../../../mixins/searchSchoolMixin';
 export default {
     props: ['form', 'edit'],
+    mixins: [searchSchoolMixin],
     data(){
         return {
             load: false
@@ -43,6 +59,11 @@ export default {
                     this.load = false;
                 });
             }
+        },
+        selectSchool(school){
+            this.form.school_id = school.id;
+            this.school = school.name;
+            this.schools = [];
         }
     }
 }

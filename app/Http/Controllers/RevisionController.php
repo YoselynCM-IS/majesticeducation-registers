@@ -32,6 +32,7 @@ class RevisionController extends Controller
         try {
             $hoy = Carbon::now()->format('Y-m-d h:m:s');
             Categorie::create([
+                    'school_id' => $request->school_id,
                     'categorie' => Str::of($request->categorie)->upper(),
                     'creado_por' => auth()->user()->name,
                     'created_at' => $hoy,
@@ -76,7 +77,14 @@ class RevisionController extends Controller
     // OBTENER CATEGORIAS
     public function show_categories(){ 
         $categories = Categorie::where('archivado', 0)
-        ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'desc')->get();
+        return response()->json($categories);
+    }
+
+    // OBTENER CATEGORIAS POR ESCUELA
+    public function categories_byschool(Request $request){
+        $categories = Categorie::where('school_id', $request->school_id)->where('archivado', 0)
+                    ->orderBy('created_at', 'desc')->get();
         return response()->json($categories);
     }
 

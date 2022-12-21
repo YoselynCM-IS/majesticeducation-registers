@@ -110,7 +110,9 @@
 </template>
 
 <script>
+import searchSchoolMixin from '../../mixins/searchSchoolMixin';
 export default {
+    mixins: [searchSchoolMixin],
     data(){
         return {
             studentsData: {},
@@ -125,14 +127,12 @@ export default {
             ],
             selectMode: 'multi',
             selected: [],
-            school: null,
-            schools: [],
             school_id: null,
             modalNEC: false,
             modalSave: false,
             categories: [],
             form: { categorie_id: null, selected: [] },
-            categorie: { id: null, categorie: null },
+            categorie: { id: null, categorie: null, school_id: null },
         }
     },
     // created: function(){
@@ -165,7 +165,7 @@ export default {
         },
         // AGREGAR CATEGORIA
         newCategorie(){
-            this.categorie = { id: null, categorie: null };
+            this.categorie = { id: null, categorie: null, school_id: null };
             this.modalNEC = true;;
         },
         // GUARDAR CATEGORIA
@@ -203,17 +203,6 @@ export default {
                 // PENDIENTE
                 this.load = false;
             });
-        },
-        showSchools(){
-            if(this.school.length > 0 && this.school !== ' '){
-                axios.get('/schools/show_schools', {params: {escuela: this.school}}).then(response => {
-                    this.schools = response.data;
-                }).catch(error => {
-                    // PENDIENTE
-                });
-            } else {
-                this.schools = [];
-            }
         },
         selectSchool(school){
             this.school_id = school.id;

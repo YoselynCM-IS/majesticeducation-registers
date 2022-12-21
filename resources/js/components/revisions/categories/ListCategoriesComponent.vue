@@ -2,6 +2,20 @@
     <div>
         <b-row v-if="!loadall">
             <b-col sm="3">
+                <b-form-group label="Buscar por escuela:">
+                    <b-form-input v-model="school" :disabled="load" @keyup="showSchools()"
+                        style="text-transform:uppercase;">
+                    </b-form-input>
+                    <div class="list-group" v-if="schools.length" id="listR">
+                        <a 
+                            href="#" v-bind:key="i" 
+                            class="list-group-item list-group-item-action" 
+                            v-for="(school, i) in schools" 
+                            @click="selectSchool(school)">
+                            {{ school.name }}
+                        </a>
+                    </div>
+                </b-form-group>
                 <b-list-group v-for="(categorie, i) in categories" v-bind:key="i">
                     <b-list-group-item @click="show_registers(categorie, i)" href="#"
                         variant="secondary">
@@ -103,8 +117,10 @@
 </template>
 
 <script>
+import searchSchoolMixin from '../../../mixins/searchSchoolMixin';
 export default {
     props: ['role'],
+    mixins: [searchSchoolMixin],
     data(){
         return {
             categories: [],
@@ -243,6 +259,16 @@ export default {
                 this.load = false;
                 swal("Ocurrió un problema", "Ocurrió un problema al asignar el libro, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.", "warning");
             });
+        },
+        selectSchool(school){
+            this.loadall = true;
+            axios.get('/revisions/categories_byschool', {params: {school_id: school.id}})
+                .then(response => {
+                    this.categories = response.data;
+                    this.school = school.name;
+                    this.schools = [];
+                    this.loadall = false;   
+                });
         }
     }
 }
