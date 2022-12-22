@@ -64,4 +64,7 @@ class ReviewerController extends Controller
         return view('reviewer.preregister', compact('schools'));
     }
 
+    public function pagos(){
+        return view('reviewer.revisiones.pagos');
+    }
 }

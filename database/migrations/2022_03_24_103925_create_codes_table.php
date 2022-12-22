@@ -13,16 +13,16 @@ class CreateCodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('codes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('student_id')->nullable();
-            $table->foreign('student_id')->references('id')->on('students');
-            $table->string('editorial');
-            $table->string('code1');
-            $table->string('code2');
-            $table->string('code3');
-            $table->timestamps();
-        });
+        // Schema::create('codes', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->unsignedBigInteger('student_id')->nullable();
+        //     $table->foreign('student_id')->references('id')->on('students');
+        //     $table->string('editorial');
+        //     $table->string('code1');
+        //     $table->string('code2');
+        //     $table->string('code3');
+        //     $table->timestamps();
+        // });
     }
 
     /**

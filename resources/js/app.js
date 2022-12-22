@@ -106,6 +106,8 @@ Vue.component('movimientos-component', require('./components/movimientos/Movimie
 Vue.component('revisions-component', require('./components/revisions/RevisionsComponent.vue').default);
 Vue.component('ne-categorie-component', require('./components/revisions/categories/NECategorieComponent.vue').default);
 Vue.component('rev-list-categories-component', require('./components/revisions/categories/ListCategoriesComponent.vue').default);
+Vue.component('pagos-categories-component', require('./components/revisions/pagos/PagosComponent.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

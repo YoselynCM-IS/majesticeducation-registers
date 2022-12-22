@@ -66,4 +66,8 @@ class ManagerController extends Controller
     public function categories(){
         return view('manager.revisiones.categories');
     }
+
+    public function pagos(){
+        return view('manager.revisiones.pagos');
+    }
 }

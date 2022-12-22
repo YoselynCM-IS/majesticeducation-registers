@@ -2,17 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Maatwebsite\Excel\Facades\Excel;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 use App\Exports\CorteCategorieExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Spatie\Dropbox\Client;
 use Carbon\Carbon;
 use App\Categorie;
 use App\Registro;
 use App\Student;
+use App\Pago;
 
 class RevisionController extends Controller
 {
+    public function __construct()
+    {
+        // Necesitamos obtener una instancia de la clase Client la cual tiene algunos métodos
+        // que serán necesarios.
+        $this->dropbox = Storage::disk('dropbox')->getDriver()->getAdapter()->getClient();   
+    }
+    
     public function index(){
         $students = Student::where('check', 'accepted')
                     ->where(function($query) {
@@ -165,5 +177,75 @@ class RevisionController extends Controller
             \DB::rollBack();
         }
         return response()->json(true);
+    }
+
+    public function calculate_libros(Request $request){
+        $students = Student::whereIn('categorie_id', $request->ids)
+                            ->withTrashed()->get();
+        $totales = [
+            'total_libros' => $students->sum('quantity'),
+            'total' => $students->sum('total')
+        ];
+        return response()->json($totales);
+    }
+
+    public function save_pago(Request $request){
+        \DB::beginTransaction();
+        try {
+            // SUBIR IMAGEN
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $name_file = time().".".$extension;
+
+            $image = Image::make($request->file('file'));
+            $image->resize(1280, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            Storage::disk('dropbox')->put(
+                '/comisiones/'.$name_file, (string) $image->encode('jpg', 30)
+            );
+            
+            $response = $this->dropbox->createSharedLinkWithSettings(
+                '/comisiones/'.$name_file, 
+                ["requested_visibility" => "public"]
+            );
+
+            $school_id = $request->school_id;
+            $pago = Pago::create([
+                'school_id' => $school_id, 
+                'total_comision' => $request->total_comision, 
+                'total_libros' => $request->total_libros, 
+                'comision_libro' => (float) $request->comision_libro,
+                'name' => $response['name'], 
+                'size' => $response['size'], 
+                'extension' => $extension, 
+                'public_url' => $response['url']
+            ]);
+
+            $idscortes = collect($request->ids);
+            $idscortes->map(function($id) use($pago, $school_id){
+                \DB::table('categorie_pago_school')->insert([
+                    'categorie_id' => $id,
+                    'pago_id' => $pago->id,
+                    'school_id' => $school_id
+                ]);
+
+                Categorie::where('id', $id)
+                    ->update(['archivado' => 1]);
+            });
+        \DB::commit();
+
+        }  catch (Exception $e) {
+            \DB::rollBack();
+            $success = $exception->getMessage();
+        }
+        return response()->json(true);
+    }
+
+    public function get_pagos(){
+        $pagos = Pago::orderBy('created_at', 'desc')->with('school')->paginate(20);
+        return response()->json($pagos);
     }
 }

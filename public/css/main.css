@@ -69,10 +69,10 @@ input[type="file"]#archivoType {
     }
    
    label[for="archivoType"] {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: #fff;
-    background-color: #106BA0;
+    background-color: #A93235;
     display: inline-block;
     transition: all .5s;
     cursor: pointer;

@@ -18,10 +18,11 @@
         Revisiones
     </a>
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <li><a class="dropdown-item" href="{{ route('manager.categories.lista') }}">Lista</a></li>
         <li>
-            <a class="dropdown-item" href="{{ route('manager.revisions') }}">{{ __('Lista') }}</a>
+            <a class="dropdown-item" href="{{ route('manager.categories.revisions') }}">{{ __('Revisión') }}</a>
         </li>
-        <li><a class="dropdown-item" href="{{ route('manager.categories') }}">Categorias</a></li>
+        <li><a class="dropdown-item" href="{{ route('manager.categories.pagos') }}">Pagos</a></li>
     </ul>
 </li>
 <li class="nav-item">

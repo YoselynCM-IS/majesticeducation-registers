@@ -130,9 +130,11 @@ Route::name('manager.')->prefix('manager')
     Route::get('/books', 'ManagerController@books' )->name('books');
     Route::get('/codes', 'ManagerController@codes' )->name('codes');
     Route::get('/schools', 'ManagerController@schools' )->name('schools');
-    Route::get('/revisions', 'ManagerController@revisions' )->name('revisions');
-    Route::get('/categories', 'ManagerController@categories' )->name('categories');
-    // Route::get('/recognition', 'ManagerController@recognition' )->name('recognition');
+    Route::name('categories.')->prefix('categories')->group(function () {
+        Route::get('/revisions', 'ManagerController@revisions' )->name('revisions');
+        Route::get('/lista', 'ManagerController@categories' )->name('lista');
+        Route::get('/pagos', 'ManagerController@pagos' )->name('pagos');
+    });
 });
 
 Route::name('reviewer.')->prefix('reviewer')
@@ -145,7 +147,7 @@ Route::name('reviewer.')->prefix('reviewer')
     Route::get('/revisions', 'ReviewerController@revisions' )->name('revisions');
     Route::get('/preregister', 'ReviewerController@preregister' )->name('preregister');
     Route::get('/categories', 'ReviewerController@categories' )->name('categories');
-    
+    Route::get('/pagos', 'ReviewerController@pagos' )->name('pagos');
 });
 
 Route::name('books.')->prefix('books')->group(function () {
@@ -189,6 +191,11 @@ Route::name('revisions.')->prefix('revisions')->group(function () {
     Route::put('archive_categorie', 'RevisionController@archive_categorie' )->name('archive_categorie');
 
     Route::get('/categories_byschool', 'RevisionController@categories_byschool' )->name('categories_byschool');
+    Route::put('/calculate_libros', 'RevisionController@calculate_libros' )->name('calculate_libros');
+    Route::post('/save_pago', 'RevisionController@save_pago' )->name('save_pago');
+
+    Route::get('/get_pagos', 'RevisionController@get_pagos' )->name('get_pagos');
+    
 });
 
 Route::name('information.')->prefix('information')->group(function () {

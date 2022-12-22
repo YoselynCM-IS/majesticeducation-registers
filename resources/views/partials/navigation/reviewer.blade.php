@@ -18,6 +18,7 @@
             <a class="dropdown-item" href="{{ route('reviewer.revisions') }}">{{ __('Lista') }}</a>
         </li>
         <li><a class="dropdown-item" href="{{ route('reviewer.categories') }}">Categorias</a></li>
+        <li><a class="dropdown-item" href="{{ route('reviewer.pagos') }}">Pagos</a></li>
     </ul>
 </li>
 <li class="nav-item">
