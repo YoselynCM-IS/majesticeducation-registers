@@ -554,7 +554,7 @@ export default {
                     swal("Pre-registro en proceso", "Tienes un pre-registro que continua en proceso para ser validado. Te haremos llegar un correo electrónico donde te notificaremos si tu pre-registro ha sido validado. Gracias.", "info");
                 } 
                 if(response.data === 2) {
-                    swal("Pre-registro aceptado", "Tu pre-registro ya ha sido aceptado, si no te llego un correo electrónico de confirmación, por favor contactanos a este correo registro.pagos@majesticeducacion.com.mx", "info");
+                    swal("Pre-registro aceptado", "Tu pre-registro ya ha sido aceptado, si no te llego un correo electrónico de confirmación, por favor contáctanos al 56 2741 1481 o al 56 2741 0930", "info");
                 }
                 this.errors = {};
                 this.load = false;
