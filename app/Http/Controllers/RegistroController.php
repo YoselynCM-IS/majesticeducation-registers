@@ -136,8 +136,9 @@ class RegistroController extends Controller
         // VENTANILLA
         if($registro->type === 'ventanilla'){
             $invoice = ltrim($registro->invoice,0);
-            // if($registro->invoice !== 'deposito' && $registro->invoice !== 'deposito en efectivo'){
-            $folio = Folio::where('fecha',$registro->date)
+            if(strlen($invoice) > 3){
+                // if($registro->invoice !== 'deposito' && $registro->invoice !== 'deposito en efectivo'){
+                    $folio = Folio::where('fecha',$registro->date)
                     ->where('concepto','like','%DEPOSITO EN EFECTIVO/0'.$invoice.'%')
                     ->where('abono','like','%'.$registro->total.'%')
                     ->where('occupied', 0)->first();
@@ -145,7 +146,8 @@ class RegistroController extends Controller
                     //     $query->where('concepto','like','%DEPOSITO EN EFECTIVO/0%')
                     //             ->orWhere('concepto','like','%DEPOSITO POR CORRECCION/%');
                     // })
-            // }
+                // }
+            }
         }
         // TRANFERENCIA
         if($registro->type === 'transferencia'){
