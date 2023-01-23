@@ -14,7 +14,7 @@
 				@include('partials.messages.libro-fisico', ['libro' => $student->book])
 			@else
 				@if(str_contains($student->book,'DIGITAL'))
-					<p>Aproximadamente en 48 horas hábiles recibirás por correo tu código.</p>
+					<p>Aproximadamente de 24 a 72 horas hábiles recibirás por correo tu código.</p>
 				@else
 					@if($student->school_id == 13)
 						<p>Para recoger tu libro {{ $student->book }}, acudir al INSTITUTO TECNOLOGICO DE MINATITLAN los días 22 y 23 de septiembre en un horario de 10:00 am a 05:00 pm.</p>
