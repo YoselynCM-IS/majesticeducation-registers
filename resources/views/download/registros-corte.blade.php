@@ -14,6 +14,12 @@
                 <th><b>Cantidad</b></th>
                 <th><b>Precio</b></th>
                 <th><b>Total</b></th>
+                <th><b>Fecha de pago</b></th>
+                <th><b>Tipo de pago</b></th>
+                <th><b>Banco</b></th>
+                <th><b>Referencia</b></th>
+                <th><b>Concepto</b></th>
+                <th><b>Importe</b></th>
                 <th><b>Fecha</b></th>
                 <th><b>Concepto</b></th>
                 <th><b>Abono</b></th>
@@ -29,6 +35,12 @@
                     <td>${{ number_format($student->price, 2) }}</td>
                     <td>${{ number_format($student->total, 2) }}</td>
                     @foreach($student->registros as $registro)
+                        <td>{{ $registro->date }}</td>
+                        <td>{{ $registro->type }}</td>
+                        <td>{{ $registro->bank }}</td>
+                        <td>{{ $registro->invoice }}</td>
+                        <td>{{ $registro->auto }}</td>
+                        <td>{{ $registro->total }}</td>
                         <td>{{ $registro->folio->fecha }}</td>
                         <td>{{ $registro->folio->concepto }}</td>
                         <td>{{ $registro->folio->abono }}</td>
