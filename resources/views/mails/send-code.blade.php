@@ -12,21 +12,16 @@
 			Te enviamos el código para acceder al libro {{ $book }}:
 		</p>
 	    @if($editorial === 'MAJESTIC EDUCATION')
+			<ol>
+				<li>Ingresar a: https://www.blinklearning.com/home</li>
+				<li>Descarga el <a href="https://dl.dropbox.com/s/kbv18zto09ky76w/Manual_alumno_blink_ME.pdf"><b>Manual</b></a> para poder registrarte.</li>
+			</ol>
 			@if($code2 === 'BLINK')
-				<ol>
-					<li>Ingresar a: https://www.blinklearning.com/home</li>
-					<li>Descarga el <a href="https://dl.dropbox.com/s/kbv18zto09ky76w/Manual_alumno_blink_ME.pdf"><b>Manual</b></a> para poder registrarte.</li>
-				</ol>
+				<b>TU CÓDIGO ES: {{ $code }}</b>
+			@else
+				<b>TU CÓDIGO DE BAE 2 ES: {{ $code }}</b><br>
+				<b>TU CÓDIGO DE BAE 4 ES: {{ $code2 }}</b>
 			@endif
-			@if($code2 === 'KOT')
-				<ol>
-					<li>Ingresa a la URL: https://majesticeducationdigital.kotobee.com</li>
-					<li>Dar clic en Redeem Code</li>
-					<li>Ingresar código</li>
-					<li>Clic en el botón login</li>
-				</ol>
-			@endif
-			<b>TU CÓDIGO ES: {{ $code }}</b>
 		@endif
 		@if($editorial === 'EXPRESS PUBLISHING')
 			<p>Ingresa a la URL: <a target="_blank" href="https://www.expressdigibooks.com/site/register">https://www.expressdigibooks.com/site/register</a></p>
