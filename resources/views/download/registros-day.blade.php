@@ -4,7 +4,7 @@
         <table>
             <tr>
                 <th colspan="4"><b>DATOS DEL ALUMNO</b></th>
-                <th colspan="6"><b>REGISTRO DE PAGO DEL ALUMNO</b></th>
+                <th colspan="7"><b>REGISTRO DE PAGO DEL ALUMNO</b></th>
                 <th colspan="3"><b>REFERENCIA DEL EDO. DE CTA.</b></th>
             </tr>
             <tr>
@@ -17,6 +17,7 @@
                 <th><b>Banco</b></th>
                 <th><b>Referencia</b></th>
                 <th><b>Concepto</b></th>
+                <th><b>Cajero / Sucursal</b></th>
                 <th><b>Importe</b></th>
                 <th><b>Fecha de pago</b></th>
                 <th><b>Concepto</b></th>
@@ -33,6 +34,7 @@
                     <td>{{ $registro->bank }}</td>
                     <td>{{ $registro->invoice }}</td>
                     <td>{{ $registro->auto }}</td>
+                    <td>{{ $registro->cajero }}</td>
                     <td>{{ $registro->total }}</td>
                     <td>{{ $registro->fecha }}</td>
                     <td>{{ $registro->concepto }}</td>

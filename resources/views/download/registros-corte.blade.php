@@ -19,6 +19,7 @@
                 <th><b>Banco</b></th>
                 <th><b>Referencia</b></th>
                 <th><b>Concepto</b></th>
+                <th><b>Cajero / Sucursal</b></th>
                 <th><b>Importe</b></th>
                 <th><b>Fecha</b></th>
                 <th><b>Concepto</b></th>
@@ -40,6 +41,7 @@
                         <td>{{ $registro->bank }}</td>
                         <td>{{ $registro->invoice }}</td>
                         <td>{{ $registro->auto }}</td>
+                        <td>{{ $registro->cajero }}</td>
                         <td>{{ $registro->total }}</td>
                         <td>{{ $registro->folio->fecha }}</td>
                         <td>{{ $registro->folio->concepto }}</td>

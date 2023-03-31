@@ -34,7 +34,7 @@ class DayStatusExport implements FromView, WithTitle
             $registros = \DB::table('registros')
                     ->select('students.created_at as fecha_registro', 'schools.name as school', 'students.name as name', 'students.book as book',
                         'registros.date as date', 'registros.type as type', 'registros.bank as bank', 'registros.invoice as invoice', 
-                        'registros.auto as auto', 'registros.total as total', 'folios.fecha as fecha', 'folios.concepto as concepto', 'folios.abono as abono')
+                        'registros.auto as auto', 'registros.cajero as cajero', 'registros.total as total', 'folios.fecha as fecha', 'folios.concepto as concepto', 'folios.abono as abono')
                     ->join('students', 'registros.student_id', '=', 'students.id')
                     ->join('folios', 'registros.folio_id', '=', 'folios.id')
                     ->join('schools', 'students.school_id', '=', 'schools.id')
@@ -51,7 +51,7 @@ class DayStatusExport implements FromView, WithTitle
             $registros = \DB::table('registros')
                     ->select('students.created_at as fecha_registro', 'schools.name as school', 'students.name as name', 'students.book as book',
                         'registros.date as date', 'registros.type as type', 'registros.bank as bank', 'registros.invoice as invoice', 
-                        'registros.auto as auto', 'registros.total as total', 'folios.fecha as fecha', 'folios.concepto as concepto', 'folios.abono as abono')
+                        'registros.auto as auto', 'registros.cajero as cajero', 'registros.total as total', 'folios.fecha as fecha', 'folios.concepto as concepto', 'folios.abono as abono')
                     ->join('students', 'registros.student_id', '=', 'students.id')
                     ->join('folios', 'registros.folio_id', '=', 'folios.id')
                     ->join('schools', 'students.school_id', '=', 'schools.id')
@@ -67,7 +67,7 @@ class DayStatusExport implements FromView, WithTitle
             $registros = \DB::table('registros')
                     ->select('students.created_at as fecha_registro', 'schools.name as school', 'students.name as name', 'students.book as book',
                         'registros.date as date', 'registros.type as type', 'registros.bank as bank', 'registros.invoice as invoice', 
-                        'registros.auto as auto', 'registros.total as total', 'registros.clave as fecha', 'registros.clave as concepto', 'registros.clave as abono')
+                        'registros.auto as auto', 'registros.cajero as cajero', 'registros.total as total', 'registros.clave as fecha', 'registros.clave as concepto', 'registros.clave as abono')
                     ->join('students', 'registros.student_id', '=', 'students.id')
                     ->join('schools', 'students.school_id', '=', 'schools.id')
                     ->where('students.created_at', 'like', '%'.$dia.'%')
