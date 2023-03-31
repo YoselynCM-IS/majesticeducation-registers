@@ -10,7 +10,7 @@ class Registro extends Model
 {
     protected $fillable = [
         'student_id', 'folio_id', 'type', 'invoice', 'auto', 'clave',
-        'total', 'date', 'plaza', 'bank', 'status'
+        'total', 'date', 'plaza', 'bank', 'status', 'cajero'
     ];
 
     public function student(){

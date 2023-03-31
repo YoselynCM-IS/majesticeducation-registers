@@ -51,6 +51,10 @@
                             <th class="text-right" scope="row">Concepto</th>
                             <td>{{ registro.auto }}</td>
                         </tr>
+                        <tr v-if="registro.type == 'practicaja' || registro.type == 'ventanilla'">
+                            <th class="text-right" scope="row">Número de {{registro.type == 'practicaja' ? 'cajero':'sucursal'}}</th>
+                            <td>{{ registro.cajero }}</td>
+                        </tr>
                         <tr>
                             <th class="text-right" scope="row">Total depositado</th>
                             <td>${{ registro.total | numeral('0,0') }}</td>

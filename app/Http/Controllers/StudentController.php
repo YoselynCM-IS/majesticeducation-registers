@@ -101,7 +101,8 @@ class StudentController extends Controller
                         'total' => (float)$comprobante->total, 
                         'date' => $comprobante->date, 
                         'plaza' => Str::of($comprobante->plaza)->upper(),
-                        'bank' => $datos['bank']
+                        'bank' => $datos['bank'],
+                        'cajero' => $comprobante->cajero
                     ]);
                 }
 

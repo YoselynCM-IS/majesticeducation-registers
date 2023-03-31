@@ -107,7 +107,6 @@ class RegistroController extends Controller
             \DB::rollBack();
         }
 
-        
         foreach ($estudiantes as $estudiante) {
             $s = Student::whereId($estudiante['student']['id'])->first();
             if($s->check == 'accepted'){

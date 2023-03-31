@@ -317,6 +317,24 @@
                     </b-row>
                     <b-row>
                         <b-col>
+                            <b-form-group v-if="comprobante.type !== 'BANCO AZTECA' && comprobante.type !== 'transferencia' && comprobante.type !== null"
+                                label="Plaza o sucursal donde se realizo el pago:">
+                                <b-form-input v-model="comprobante.plaza" :disabled="load || selBook"
+                                    style="text-transform:uppercase;" required
+                                ></b-form-input>
+                            </b-form-group>
+                        </b-col>
+                        <b-col>
+                            <b-form-group v-if="comprobante.type == 'practicaja' || comprobante.type == 'ventanilla'" 
+                                :label="`Número de ${comprobante.type == 'practicaja' ? 'cajero':'sucursal'}`" >
+                                <b-form-input v-model="comprobante.cajero" minlength="4" maxlength="4"
+                                    :disabled="load || selBook" required
+                                ></b-form-input>
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
                             <b-form-group label="Importe"
                                 v-b-tooltip.hover title="En tu comprobante puede aparecer como Importe, Monto o Cantidad">
                                 <b-form-input v-model="comprobante.total" :disabled="load || selBook"
@@ -331,12 +349,6 @@
                             </b-form-group>
                         </b-col>
                     </b-row>
-                    <b-form-group v-if="comprobante.type !== 'BANCO AZTECA' && comprobante.type !== 'transferencia' && comprobante.type !== null"
-                        label="Plaza o sucursal donde se realizo el pago:">
-                        <b-form-input v-model="comprobante.plaza" :disabled="load || selBook"
-                            style="text-transform:uppercase;" required
-                        ></b-form-input>
-                    </b-form-group>
                 </div>
                 <hr>
             </div>
@@ -437,7 +449,7 @@ export default {
                 file: null,
                 comprobantes: [{
                     type: null, folio: '', auto: '', clave: null, 
-                    bank: null, total: null, date: null, plaza: ''
+                    bank: null, total: null, date: null, plaza: '', cajero: ''
                 }],
                 teacher: null, group: null
             },
@@ -626,7 +638,7 @@ export default {
         addComprobante(){
             this.form.comprobantes.push({
                 type: null, folio: '', auto: '', clave: null,
-                bank: null, total: null, date: null, plaza: '', file: null
+                bank: null, total: null, date: null, plaza: '', file: null, cajero: ''
             });
         },
         setQuantity(){
