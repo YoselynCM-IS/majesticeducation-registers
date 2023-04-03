@@ -326,10 +326,15 @@
                         </b-col>
                         <b-col>
                             <b-form-group v-if="comprobante.type == 'practicaja' || comprobante.type == 'ventanilla'" 
+                                id="tooltip-target-numero"
                                 :label="`Número de ${comprobante.type == 'practicaja' ? 'cajero':'sucursal'}`" >
                                 <b-form-input v-model="comprobante.cajero" minlength="4" maxlength="4"
                                     :disabled="load || selBook" required
                                 ></b-form-input>
+                                <b-tooltip target="tooltip-target-numero" triggers="hover">
+                                    <p v-if="comprobante.type == 'ventanilla'">En tu comprobante aparece como <b>SUCURSAL</b> debajo de <b>FECHA / HORA</b>.</p>
+                                    <p v-if="comprobante.type == 'practicaja'">En tu comprobante aparece como <b>CAJERO</b> en la parte superior, al final de <b>FECHA HORA</b>.</p>
+                                </b-tooltip>
                             </b-form-group>
                         </b-col>
                     </b-row>
