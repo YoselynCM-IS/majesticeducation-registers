@@ -194,7 +194,7 @@
                                 <b-form-group v-if="form.school != 52"
                                     label="Tipo de pago (BBVA BANCOMER):">
                                     <b-form-select v-model="comprobante.type" :disabled="load || selBook"
-                                        :options="types" required>
+                                        :options="tipo == 'externo' ? types:typesCompleto" required>
                                     </b-form-select>
                                 </b-form-group>
                                 <b-form-group v-else label="Tipo de pago:">
@@ -436,7 +436,7 @@ import banksMixin from '../../mixins/banksMixin';
 import booksMixin from '../../mixins/booksMixin';
 import typesMixin from '../../mixins/typesMixin';
 export default {
-    props: ['registers'],
+    props: ['registers', 'tipo'],
     mixins: [banksMixin,booksMixin,typesMixin],
     data(){
         return {
