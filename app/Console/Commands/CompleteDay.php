@@ -48,7 +48,7 @@ class CompleteDay extends Command
         if($yesterday->format('l') == 'Friday'){
             $status = ['all_week', 'accepted', 'rejected'];
         }
-        $lista = Excel::raw(new DayExport($yesterday, $status), \Maatwebsite\Excel\Excel::XLSX);
+        $lista = Excel::raw(new DayExport($yesterday, $yesterday, $status), \Maatwebsite\Excel\Excel::XLSX);
         
         // Mail::to('yosecmart@gmail.com')
         //     ->cc(['yoscm2@gmail.com'])

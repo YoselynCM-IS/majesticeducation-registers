@@ -111,7 +111,7 @@ Route::name('registros.')->prefix('registros')->group(function () {
     Route::get('down_banxico/{inicio}/{final}', 'RegistroController@down_banxico' )->name('down_banxico');
 
     // DESCARGAS BIEN
-    Route::get('by_day/{fecha}', 'RegistroController@by_day' )->name('by_day');
+    Route::get('by_day/{fecha1}/{fecha2}', 'RegistroController@by_day' )->name('by_day');
 });
 
 Route::name('administrator.')->prefix('administrator')

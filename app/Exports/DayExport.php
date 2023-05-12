@@ -11,12 +11,14 @@ class DayExport implements WithMultipleSheets
     
     use Exportable;
 
-    protected $day;
+    protected $fecha1;
+    protected $fecha2;
     protected $status;
     
-    public function __construct($day, $status)
+    public function __construct($fecha1, $fecha2, $status)
     {
-        $this->day = $day;
+        $this->fecha1 = $fecha1;
+        $this->fecha2 = $fecha2;
         $this->status = $status;
     }
 
@@ -25,7 +27,7 @@ class DayExport implements WithMultipleSheets
         $sheets = [];
         
         foreach ($this->status as $state) {
-            $sheets[] = new DayStatusExport($state, $this->day);
+            $sheets[] = new DayStatusExport($state, $this->fecha1, $this->fecha2);
         }
 
         return $sheets;

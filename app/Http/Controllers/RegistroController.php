@@ -457,10 +457,11 @@ class RegistroController extends Controller
     }
 
     public function by_day(Request $request){
-        $dia = new Carbon($request->fecha);
+        $fecha1 = new Carbon($request->fecha1);
+        $fecha2 = new Carbon($request->fecha2);
         $status = ['accepted', 'rejected'];
 
-        $nombre = $dia->format('d-m-Y').'.xlsx';
-        return Excel::download(new DayExport($dia, $status), $nombre);
+        $nombre = $fecha1->format('d-m-Y').'_'.$fecha2->format('d-m-Y').'.xlsx';
+        return Excel::download(new DayExport($fecha1, $fecha2, $status), $nombre);
     }
 }

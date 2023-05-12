@@ -334,20 +334,30 @@
         <b-modal v-model="modalDownload" title="Descargas" hide-footer>
             <b-row>
                 <b-col>
-                    <label>Registros del dia</label>
-                    <b-form-datepicker v-model="fecha">
-                    </b-form-datepicker>
+                    <label>Registros por fecha</label>
+                    <b-row>
+                        <b-col sm="2" class="text-right">De:</b-col>
+                        <b-col>
+                            <b-form-datepicker v-model="fecha1"></b-form-datepicker>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col sm="2" class="text-right">A:</b-col>
+                        <b-col>
+                            <b-form-datepicker v-model="fecha2"></b-form-datepicker>
+                        </b-col>
+                    </b-row>
                 </b-col>
-                <b-col>
+                <b-col sm="4">
                     <b-button class="mt-4" pill block variant="dark"
-                        :href="`/registros/by_day/${fecha}`">
+                        :href="`/registros/by_day/${fecha1}/${fecha2}`">
                         <b-icon-download></b-icon-download> Descargar
                     </b-button>
                 </b-col>
             </b-row>
             <b-row class="mt-5">
                 <b-col>Busqueda por escuela</b-col>
-                <b-col>
+                <b-col sm="4">
                     <b-button :disabled="load || temporal1 == null" variant="dark" pill 
                         :href="`/registros/download/${temporal1}`" block>
                         <b-icon-download></b-icon-download> Descargar
@@ -356,7 +366,7 @@
             </b-row><hr>
             <b-row>
                 <b-col>Busqueda por status</b-col>
-                <b-col>
+                <b-col sm="4">
                     <b-button :disabled="load || value_status == null" variant="dark" pill 
                         :href="`/registros/download_status/${value_status}`" block>
                         <b-icon-download></b-icon-download> Descargar
@@ -400,6 +410,8 @@ export default {
             escuela: '',
             schools: [],
             fecha: null,
+            fecha1: null,
+            fecha2: null,
             sType: null,
             sSchool: null,
             types: [

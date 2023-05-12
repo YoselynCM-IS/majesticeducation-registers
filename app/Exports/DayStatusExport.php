@@ -10,12 +10,14 @@ use Carbon\Carbon;
 class DayStatusExport implements FromView, WithTitle
 {
     protected $state;
-    protected $fecha;
+    protected $fecha1;
+    protected $fecha2;
     
-    public function __construct($state, $fecha)
+    public function __construct($state, $fecha1, $fecha2)
     {
         $this->state = $state;
-        $this->fecha = $fecha;
+        $this->fecha1 = $fecha1;
+        $this->fecha2 = $fecha2;
     }
 
     public function view(): View
@@ -28,7 +30,8 @@ class DayStatusExport implements FromView, WithTitle
 
     public function get_registers()
     {
-        $dia = $this->fecha->format('Y-m-d');
+        $fecha1 = $this->fecha1->format('Y-m-d');
+        $fecha2 = $this->fecha2->format('Y-m-d');
 
         if($this->state == 'accepted'){
             $registros = \DB::table('registros')
@@ -38,7 +41,7 @@ class DayStatusExport implements FromView, WithTitle
                     ->join('students', 'registros.student_id', '=', 'students.id')
                     ->join('folios', 'registros.folio_id', '=', 'folios.id')
                     ->join('schools', 'students.school_id', '=', 'schools.id')
-                    ->where('students.created_at', 'like', '%'.$dia.'%')
+                    ->whereBetween('students.created_at',[$fecha1, $fecha2])
                     ->where('students.check', 'accepted')
                     ->where(function($query) {
                         $query->where('students.deleted_at', '!=', NULL )
@@ -55,7 +58,7 @@ class DayStatusExport implements FromView, WithTitle
                     ->join('students', 'registros.student_id', '=', 'students.id')
                     ->join('folios', 'registros.folio_id', '=', 'folios.id')
                     ->join('schools', 'students.school_id', '=', 'schools.id')
-                    ->whereBetween('students.created_at',[$saturday->format('Y-m-d'), $dia])
+                    ->whereBetween('students.created_at',[$saturday->format('Y-m-d'), $fecha1])
                     ->where('students.check', 'accepted')
                     ->where(function($query) {
                         $query->where('students.deleted_at', '!=', NULL )
@@ -70,7 +73,7 @@ class DayStatusExport implements FromView, WithTitle
                         'registros.auto as auto', 'registros.cajero as cajero', 'registros.total as total', 'registros.clave as fecha', 'registros.clave as concepto', 'registros.clave as abono')
                     ->join('students', 'registros.student_id', '=', 'students.id')
                     ->join('schools', 'students.school_id', '=', 'schools.id')
-                    ->where('students.created_at', 'like', '%'.$dia.'%')
+                    ->whereBetween('students.created_at',[$fecha1, $fecha2])
                     ->where('students.check', $this->state)
                     ->orderBy('registros.total', 'asc')->get();
         }
