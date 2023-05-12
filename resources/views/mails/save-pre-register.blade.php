@@ -30,6 +30,7 @@
 		<h2><b>Majestic Education</b></h2>
 		Dudas o Aclaraciones: <br>
 		56 2741 1481 <br>
+		56 2741 0930 <br>
 		<strong>Horario de atención</strong><br>
 		<ul>
 			<li>Lunes a Viernes de 10:00 am - 5:00 pm</li>

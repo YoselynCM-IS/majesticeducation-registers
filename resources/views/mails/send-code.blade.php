@@ -59,8 +59,9 @@
 		<p>Por favor no respondas este correo, ya que solo es de envió y tus respuestas no serán leídas. Si tienes alguna duda o aclaración, contáctanos al siguiente número.</p>
 		<hr>
 		<h2><b>Majestic Education</b></h2>
-		Soporte: <br>
-		55-4852-7955 <br>
+		Dudas o Aclaraciones: <br>
+		56 2741 1481 <br>
+		56 2741 0930 <br>
 		<strong>Horario de atención</strong><br>
 		<ul>
 			<li>Lunes a Viernes de 10:00 am - 5:00 pm</li>
