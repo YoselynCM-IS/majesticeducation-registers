@@ -190,7 +190,7 @@
                     <b-row>
                         <!-- TIPO DE PAGO -->
                         <b-col>
-                            <div v-if="cuenta === bancomer1 || cuenta === bancomer2">
+                            <div v-if="cuenta === bancomer1 || cuenta === bancomer2 || cuenta === nctame">
                                 <b-form-group v-if="form.school != 52"
                                     label="Tipo de pago (BBVA BANCOMER):">
                                     <b-form-select v-model="comprobante.type" :disabled="load || selBook"
@@ -478,7 +478,8 @@ export default {
             banco_azteca1: '09330153687444',
             banco_azteca2: '5343810206998814',
             bancoppel1: '19000207503',
-            bancoppel2: '4169160498193532'
+            bancoppel2: '4169160498193532',
+            nctame: '0189525114'
         }
     },
     filters: {
@@ -542,7 +543,7 @@ export default {
             this.load = true;
             this.acum_total();
             if(this.cuenta === this.bancomer1 || this.cuenta === this.bancomer2 || 
-                this.cuenta === this.banamex1 || this.cuenta === this.banamex2){
+                this.cuenta === this.banamex1 || this.cuenta === this.banamex2 || this.cuenta === this.nctame){
                 if(this.a_depositar >= this.form.a_depositar && this.form.file){
                     this.save_all();
                 } else {
@@ -668,7 +669,7 @@ export default {
             if(this.cuenta === this.bancomer1 || this.cuenta === this.bancomer2 || 
                 this.cuenta === this.banamex1 || this.cuenta === this.banamex2 ||
                 this.cuenta === this.bancoppel1 || this.cuenta === this.banco_azteca1 ||
-                this.cuenta === this.bancoppel2 || this.cuenta === this.banco_azteca2) {
+                this.cuenta === this.bancoppel2 || this.cuenta === this.banco_azteca2 || this.cuenta === this.nctame) {
                     this.statusCuenta = true;
             } 
             else {
