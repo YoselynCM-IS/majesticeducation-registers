@@ -6,7 +6,7 @@
             <h6>
                 <b>
                     Si necesitas ayuda para realizar tu pre-registro, puedes descargar este 
-                    <a href="/student/download_tutorial">tutorial</a> para poder guiarte.
+                    <a href="https://dl.dropbox.com/s/s5q75816hzmxbb2/PRE-REGISTRO-DE-BAUCHERS.pdf">tutorial</a> para poder guiarte.
                 </b>
             </h6>
             <hr>
