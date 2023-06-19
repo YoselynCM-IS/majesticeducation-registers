@@ -279,7 +279,7 @@ export default {
         onSubmit(e){
             e.preventDefault();
             var fileInput = document.getElementById('archivoType');
-            var allowedExtensions = /(\.csv)$/i;
+            var allowedExtensions = /(\.xlsx)$/i;
             this.load = true;
             if(allowedExtensions.exec(fileInput.value)){
                 this.errorFormat = false;

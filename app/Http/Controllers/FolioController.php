@@ -80,14 +80,15 @@ class FolioController extends Controller
             $countF = 0;
             $lista = collect($array[0]);
             $lista->map(function($row) use(&$countF){
+                $fecha = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[0]);
                 $search_folio = Folio::where([
-                    'fecha' => $row[0], 'concepto' => $row[1], 
+                    'fecha' => $fecha, 'concepto' => $row[1], 
                     'abono' => $row[2], 'saldo' => $row[3]
                 ])->first();
 
                 if($search_folio === null){
                     Folio::create([
-                        'fecha' => $row[0], 'concepto' => $row[1], 
+                        'fecha' => $fecha, 'concepto' => $row[1], 
                         'abono' => $row[2], 'saldo' => $row[3]
                     ]);
                     $countF++;
