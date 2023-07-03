@@ -616,6 +616,7 @@ export default {
             formData.append('file', this.form.file);
             formData.append('teacher', this.form.teacher);
             formData.append('group', this.form.group);
+            formData.append('numcuenta', this.cuenta);
             formData.append('comprobantes', JSON.stringify(this.form.comprobantes));
             // for (var i = 0; i < this.form.files.length; i++) {
             //     let files = this.form.files[i];

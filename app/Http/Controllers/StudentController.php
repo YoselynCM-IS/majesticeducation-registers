@@ -80,7 +80,8 @@ class StudentController extends Controller
                     'total' => (float)$request->a_depositar,
                     'validate' => 'CREADO',
                     'teacher' => Str::of($request->teacher)->upper(),
-                    'group' => Str::of($request->group)->upper()
+                    'group' => Str::of($request->group)->upper(),
+                    'numcuenta' => $request->numcuenta
                 ]);
                 
                 // COMPROBANTES DE PAGO
