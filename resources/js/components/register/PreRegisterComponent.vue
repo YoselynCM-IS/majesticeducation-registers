@@ -283,6 +283,11 @@
                                     style="text-transform:uppercase;" required
                                 ></b-form-input>
                             </b-form-group>
+                            <b-form-group v-if="cuenta === nctame && comprobante.type == 'ventanilla'" label="Referencia">
+                                <b-form-input v-model="comprobante.auto" :disabled="load || selBook"
+                                    style="text-transform:uppercase;" required  minlength="4"
+                                ></b-form-input>
+                            </b-form-group>
                             <div v-if="comprobante.type === 'transferencia' && comprobante.bank !== null">
                                 <b-form-group v-if="comprobante.bank === 'BANCOMER'" label="Motivo de pago">
                                     <b-form-input v-model="comprobante.auto" type="text" minlength="3"
