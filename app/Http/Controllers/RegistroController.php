@@ -58,7 +58,7 @@ class RegistroController extends Controller
     }
 
     public function update_status(){
-        $students = Student::where('check', 'process')->with('registros')->limit(25)->get();
+        $students = Student::where('check', 'process')->where('school_id', 1)->with('registros')->limit(1)->get();
         
         \DB::beginTransaction();
         try {
@@ -127,31 +127,34 @@ class RegistroController extends Controller
         $folio = null;
         // PRACTICAJA
         if($registro->type === 'practicaja'){
-            $folio = Folio::where('concepto','like','%DEPOSITO EFECTIVO PRACTIC%')
-                ->where('fecha',$registro->date)
-                ->where('concepto','like','%FOLIO:'.$registro->invoice.'%')
-                ->where('abono','like','%'.$registro->total.'%')
-                ->where('occupied', 0)
-                ->first();
+            $fpart1 = Folio::where('concepto','like','%DEPOSITO EFECTIVO PRACTIC%')
+                    ->where('fecha',$registro->date)
+                    ->where('concepto','like','%FOLIO:'.$registro->invoice.'%')
+                    ->where('abono','like','%'.$registro->total.'%')
+                    ->where('occupied', 0);
+            if($registro->student->numcuenta == '0189525114'){
+                $folio = $fpart1->where('concepto','like','%**5114%')->first();
+            } else {
+                $folio = $fpart1->where('concepto','like','%**7206%')->first();
+            }
         }
         // VENTANILLA
         if($registro->type === 'ventanilla'){
             $invoice = ltrim($registro->invoice,0);
+
+            $fpart1 = Folio::where('fecha',$registro->date)
+                    ->where('abono','like','%'.$registro->total.'%')
+                    ->where('occupied', 0);
+
             if($registro->student->numcuenta == '0189525114'){
                 $auto = ltrim($registro->auto,0);
                 if(strlen($invoice) > 3 && strlen($auto) > 3){
-                    $folio = Folio::where('fecha',$registro->date)
-                    ->where('concepto','like','%DEPOSITO EN EFECTIVO/000'.$invoice.''.$auto.'%')
-                    ->where('abono','like','%'.$registro->total.'%')
-                    ->where('occupied', 0)->first();
+                    $folio = $fpart1->where('concepto','like','%DEPOSITO EN EFECTIVO/000'.$invoice.''.$auto.'%')->first();
                 }
             } else {
                 if(strlen($invoice) > 3){
                     // if($registro->invoice !== 'deposito' && $registro->invoice !== 'deposito en efectivo'){
-                        $folio = Folio::where('fecha',$registro->date)
-                        ->where('concepto','like','%DEPOSITO EN EFECTIVO/0'.$invoice.'%')
-                        ->where('abono','like','%'.$registro->total.'%')
-                        ->where('occupied', 0)->first();
+                        $folio = $fpart1->where('concepto','like','%DEPOSITO EN EFECTIVO/0'.$invoice.'%')->first();
                         // ->where(function($query){
                         //     $query->where('concepto','like','%DEPOSITO EN EFECTIVO/0%')
                         //             ->orWhere('concepto','like','%DEPOSITO POR CORRECCION/%');
