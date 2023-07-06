@@ -9,6 +9,11 @@
                             <th colspan="2"><h6><b>Datos de pago</b></h6></th>
                         </tr>
                     </tbody>
+                    <tbody>
+                        <tr class="table-ligth">
+                            <th colspan="6"><h6><b>Número de cuenta al que se realizó el deposito:</b> {{ student.numcuenta }}</h6></th>
+                        </tr>
+                    </tbody>
                     <tbody v-for="(registro, i) in student.registros" v-bind:key="i">
                         <tr class="table-ligth">
                             <th colspan="2"><h6><b>Pago: {{ i + 1 }}</b></h6></th>
@@ -43,6 +48,10 @@
                             <th class="text-right" scope="row">Autorización</th>
                             <td>{{ registro.auto }}</td>
                         </tr>
+                        <tr v-if="registro.type == 'ventanilla'">
+                                <th class="text-right" scope="row">Referencia</th>
+                                <td>{{ registro.auto }}</td>
+                            </tr>
                         <tr v-if="registro.type == 'BANCO AZTECA'">
                             <th class="text-right" scope="row">Número de autorización</th>
                             <td>{{ registro.auto }}</td>
@@ -120,7 +129,7 @@
                             <td>{{ student.name }}</td>
                         </tr>
                         <tr v-if="student.telephone !== null">
-                            <th class="text-right" scope="row">Numero de teléfono</th>
+                            <th class="text-right" scope="row">Número de teléfono</th>
                             <td>{{ student.telephone }}</td>
                         </tr>
                         <tr>

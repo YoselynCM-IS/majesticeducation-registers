@@ -229,13 +229,24 @@ class DatabaseSeeder extends Seeder
         //     ]
         // ]);
 
-        \DB::table('users')->insert([
-            0 => [ 'role'      => 'reviewer', 'name'      => 'Berenice', 'user_name' => 'berenice-ra', 'email'     => 'berenice@me-registers.com', 'password'  => bcrypt('xJ1631%') ],
-            1 => [ 'role'      => 'reviewer', 'name'      => 'Gabriela', 'user_name' => 'gabriela-ra', 'email'     => 'gabriela@me-registers.com', 'password'  => bcrypt('lH1715&') ],
-            2 => [ 'role'      => 'administrator', 'name'      => 'Genaro', 'user_name' => 'genaro-ra', 'email'     => 'genaro@me-registers.com', 'password'  => bcrypt('tR4195&') ],
-            3 => [ 'role'      => 'manager', 'name'      => 'Jenny', 'user_name' => 'jenny-ra', 'email'     => 'jenny@me-registers.com', 'password'  => bcrypt('nF8954$') ],
-            4 => [ 'role'      => 'manager', 'name'      => 'Yoselyn', 'user_name' => 'yoselyn-ra', 'email'     => 'yoselyn@me-registers.com', 'password'  => bcrypt('wN7558&') ],
-            5 => [ 'role'      => 'reviewer', 'name'      => 'Ximena', 'user_name' => 'ximena-ra', 'email'     => 'ximena@me-registers.com', 'password'  => bcrypt('eW1053#') ]
-        ]);
+        // \DB::table('users')->insert([
+        //     0 => [ 'role'      => 'reviewer', 'name'      => 'Berenice', 'user_name' => 'berenice-ra', 'email'     => 'berenice@me-registers.com', 'password'  => bcrypt('xJ1631%') ],
+        //     1 => [ 'role'      => 'reviewer', 'name'      => 'Gabriela', 'user_name' => 'gabriela-ra', 'email'     => 'gabriela@me-registers.com', 'password'  => bcrypt('lH1715&') ],
+        //     2 => [ 'role'      => 'administrator', 'name'      => 'Genaro', 'user_name' => 'genaro-ra', 'email'     => 'genaro@me-registers.com', 'password'  => bcrypt('tR4195&') ],
+        //     3 => [ 'role'      => 'manager', 'name'      => 'Jenny', 'user_name' => 'jenny-ra', 'email'     => 'jenny@me-registers.com', 'password'  => bcrypt('nF8954$') ],
+        //     4 => [ 'role'      => 'manager', 'name'      => 'Yoselyn', 'user_name' => 'yoselyn-ra', 'email'     => 'yoselyn@me-registers.com', 'password'  => bcrypt('wN7558&') ],
+        //     5 => [ 'role'      => 'reviewer', 'name'      => 'Ximena', 'user_name' => 'ximena-ra', 'email'     => 'ximena@me-registers.com', 'password'  => bcrypt('eW1053#') ]
+        // ]);
+
+        // \DB::table('users')->insert([
+        //     0 => [ 
+        //         'id'        => 18,
+        //         'role'      => 'reviewer', 
+        //         'name'      => 'Adriana', 
+        //         'user_name' => 'adriana-ra', 
+        //         'email'     => 'adriana@me-registers.com', 
+        //         'password'  => bcrypt('zF8721%') ],
+
+        // ]);
     }
 }

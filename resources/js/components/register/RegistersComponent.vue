@@ -395,7 +395,7 @@ export default {
                 { label: 'Precio', key: 'price' },
                 { label: 'Total', key: 'total' },
                 { label: 'Fecha de registro', key: 'created_at' },
-                { label: 'Pagos', key: 'information' },
+                { label: 'Pago(s)', key: 'information' },
                 { label: 'Status', key: 'check' }
             ],
             modalShow: false,
