@@ -137,17 +137,27 @@ class RegistroController extends Controller
         // VENTANILLA
         if($registro->type === 'ventanilla'){
             $invoice = ltrim($registro->invoice,0);
-            if(strlen($invoice) > 3){
-                // if($registro->invoice !== 'deposito' && $registro->invoice !== 'deposito en efectivo'){
+            if($registro->student->numcuenta == '0189525114'){
+                $auto = ltrim($registro->auto,0);
+                if(strlen($invoice) > 3 && strlen($auto) > 3){
                     $folio = Folio::where('fecha',$registro->date)
-                    ->where('concepto','like','%DEPOSITO EN EFECTIVO/0'.$invoice.'%')
+                    ->where('concepto','like','%DEPOSITO EN EFECTIVO/000'.$invoice.''.$auto.'%')
                     ->where('abono','like','%'.$registro->total.'%')
                     ->where('occupied', 0)->first();
-                    // ->where(function($query){
-                    //     $query->where('concepto','like','%DEPOSITO EN EFECTIVO/0%')
-                    //             ->orWhere('concepto','like','%DEPOSITO POR CORRECCION/%');
-                    // })
-                // }
+                }
+            } else {
+                if(strlen($invoice) > 3){
+                    // if($registro->invoice !== 'deposito' && $registro->invoice !== 'deposito en efectivo'){
+                        $folio = Folio::where('fecha',$registro->date)
+                        ->where('concepto','like','%DEPOSITO EN EFECTIVO/0'.$invoice.'%')
+                        ->where('abono','like','%'.$registro->total.'%')
+                        ->where('occupied', 0)->first();
+                        // ->where(function($query){
+                        //     $query->where('concepto','like','%DEPOSITO EN EFECTIVO/0%')
+                        //             ->orWhere('concepto','like','%DEPOSITO POR CORRECCION/%');
+                        // })
+                    // }
+                }
             }
         }
         // TRANFERENCIA
