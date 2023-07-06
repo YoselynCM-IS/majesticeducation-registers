@@ -58,7 +58,7 @@ class RegistroController extends Controller
     }
 
     public function update_status(){
-        $students = Student::where('check', 'process')->where('school_id', 1)->with('registros')->limit(1)->get();
+        $students = Student::where('check', 'process')->with('registros')->limit(25)->get();
         
         \DB::beginTransaction();
         try {
