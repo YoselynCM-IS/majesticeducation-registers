@@ -4,7 +4,7 @@
         <table>
             <tr>
                 <th colspan="4"><b>DATOS DEL ALUMNO</b></th>
-                <th colspan="7"><b>REGISTRO DE PAGO DEL ALUMNO</b></th>
+                <th colspan="8"><b>REGISTRO DE PAGO DEL ALUMNO</b></th>
                 <th colspan="3"><b>REFERENCIA DEL EDO. DE CTA.</b></th>
             </tr>
             <tr>
@@ -12,6 +12,7 @@
                 <th><b>Escuela</b></th>
                 <th><b>Alumno</b></th>
                 <th><b>Libro</b></th>
+                <th><b>Num cuenta</b></th>
                 <th><b>Fecha de pago</b></th>
                 <th><b>Tipo de pago</b></th>
                 <th><b>Banco</b></th>
@@ -29,6 +30,7 @@
                     <td>{{ $registro->school }}</td>
                     <td>{{ $registro->name }}</td>
                     <td>{{ $registro->book }}</td>
+                    <td>{{ $registro->numcuenta }}</td>
                     <td>{{ $registro->date }}</td>
                     <td>{{ $registro->type }}</td>
                     <td>{{ $registro->bank }}</td>

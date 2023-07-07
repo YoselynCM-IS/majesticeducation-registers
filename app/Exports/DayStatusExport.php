@@ -36,7 +36,7 @@ class DayStatusExport implements FromView, WithTitle
         if($this->state == 'accepted'){
             $registros = \DB::table('registros')
                     ->select('students.created_at as fecha_registro', 'schools.name as school', 'students.name as name', 'students.book as book',
-                        'registros.date as date', 'registros.type as type', 'registros.bank as bank', 'registros.invoice as invoice', 
+                        'students.numcuenta as numcuenta', 'registros.date as date', 'registros.type as type', 'registros.bank as bank', 'registros.invoice as invoice', 
                         'registros.auto as auto', 'registros.cajero as cajero', 'registros.total as total', 'folios.fecha as fecha', 'folios.concepto as concepto', 'folios.abono as abono')
                     ->join('students', 'registros.student_id', '=', 'students.id')
                     ->join('folios', 'registros.folio_id', '=', 'folios.id')
@@ -53,7 +53,7 @@ class DayStatusExport implements FromView, WithTitle
             $saturday = new Carbon('last saturday');
             $registros = \DB::table('registros')
                     ->select('students.created_at as fecha_registro', 'schools.name as school', 'students.name as name', 'students.book as book',
-                        'registros.date as date', 'registros.type as type', 'registros.bank as bank', 'registros.invoice as invoice', 
+                        'students.numcuenta as numcuenta', 'registros.date as date', 'registros.type as type', 'registros.bank as bank', 'registros.invoice as invoice', 
                         'registros.auto as auto', 'registros.cajero as cajero', 'registros.total as total', 'folios.fecha as fecha', 'folios.concepto as concepto', 'folios.abono as abono')
                     ->join('students', 'registros.student_id', '=', 'students.id')
                     ->join('folios', 'registros.folio_id', '=', 'folios.id')
@@ -69,7 +69,7 @@ class DayStatusExport implements FromView, WithTitle
         if($this->state != 'accepted' && $this->state !== 'all_week') {
             $registros = \DB::table('registros')
                     ->select('students.created_at as fecha_registro', 'schools.name as school', 'students.name as name', 'students.book as book',
-                        'registros.date as date', 'registros.type as type', 'registros.bank as bank', 'registros.invoice as invoice', 
+                        'students.numcuenta as numcuenta', 'registros.date as date', 'registros.type as type', 'registros.bank as bank', 'registros.invoice as invoice', 
                         'registros.auto as auto', 'registros.cajero as cajero', 'registros.total as total', 'registros.clave as fecha', 'registros.clave as concepto', 'registros.clave as abono')
                     ->join('students', 'registros.student_id', '=', 'students.id')
                     ->join('schools', 'students.school_id', '=', 'schools.id')
