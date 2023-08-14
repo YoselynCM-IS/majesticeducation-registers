@@ -37,8 +37,15 @@ class SendRegisters extends Mailable
         $fecha = $this->day->format('d-m-Y h:i');
         $nombre = $fecha.'-registros'.'.xlsx';
 
-        return $this->from('registro.pagos@majesticeducation-registers.com')
-            ->cc("rp.majesticeducacion@gmail.com")
+        if(env('APP_NAME') == 'MAJESTIC EDUCATION'){
+            $from = 'registro.pagos@majesticeducation-registers.com';
+            $cc = "rp.majesticeducacion@gmail.com";
+        } else {
+            $from = 'registro.pagos@omegabook-registers.com';
+            $cc = "rp.omegabook@gmail.com";
+        }
+
+        return $this->from($from)->cc($cc)
             ->subject(__($fecha))
             ->attachData($this->lista, $nombre)
             ->markdown('mails.send-registers')

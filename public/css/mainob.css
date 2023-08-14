@@ -5,7 +5,7 @@
     --white: #ffffff;
     --info: #5bc0de;
     --blue: blue;
-    --rojo: #A93235;
+    --rojo: #16407E;
 }
 
 #btnLogin {
@@ -72,7 +72,7 @@ input[type="file"]#archivoType {
     font-size: 12px;
     font-weight: 600;
     color: #fff;
-    background-color: #A93235;
+    background-color: var(--rojo);
     display: inline-block;
     transition: all .5s;
     cursor: pointer;

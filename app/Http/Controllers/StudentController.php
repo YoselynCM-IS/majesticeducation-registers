@@ -129,12 +129,16 @@ class StudentController extends Controller
                 //         '/comprobantes/', $request->file('file'), $name_file
                 //     );
                 // }
+
+                if(env('APP_NAME') == 'MAJESTIC EDUCATION') $carpeta = 'majesticeducation';
+                else $carpeta = 'omegabook';
+
                 Storage::disk('dropbox')->putFileAs(
-                    '/comprobantes/', $request->file('file'), $name_file
+                    '/comprobantes/'.$carpeta, $request->file('file'), $name_file
                 );
     
                 $response = $this->dropbox->createSharedLinkWithSettings(
-                    '/comprobantes/'.$name_file, 
+                    '/comprobantes/'.$carpeta.'/'.$name_file, 
                     ["requested_visibility" => "public"]
                 );
 

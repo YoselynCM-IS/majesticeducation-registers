@@ -4,7 +4,7 @@
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <title>Majestic Education</title>
+	    <title>{{ env('APP_NAME') }}</title>
 	</head>
 	<body style="background-color: white; color: black;">
         <h2>Status Preregister</h2>

@@ -4,7 +4,7 @@
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <title>Majestic Education</title>
+	    <title>{{ env('APP_NAME') }}</title>
 	</head>
 	<body style="background-color: white; color: black;">
         <h2>Hola {{ $student->name }}</h2>
@@ -27,7 +27,7 @@
         <hr>
 		<p>Por favor no respondas este correo, ya que solo es de envió y tus respuestas no serán leídas. Si tienes alguna duda o aclaración, contáctanos al siguiente número.</p>
 		<hr>
-		<h2><b>Majestic Education</b></h2>
+		<h2><b>{{ env('APP_NAME') }}</b></h2>
 		Dudas o Aclaraciones: <br>
 		56 2741 1481 <br>
 		56 2741 0930 <br>

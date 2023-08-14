@@ -30,8 +30,15 @@ class ErrorPreregister extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->from('registro.pagos@majesticeducation-registers.com')
-        ->cc("rp.majesticeducacion@gmail.com")
+        if(env('APP_NAME') == 'MAJESTIC EDUCATION'){
+            $from = 'registro.pagos@majesticeducation-registers.com';
+            $cc = "rp.majesticeducacion@gmail.com";
+        } else {
+            $from = 'registro.pagos@omegabook-registers.com';
+            $cc = "rp.omegabook@gmail.com";
+        }
+
+        return $this->from($from)->cc($cc)
         ->subject(__("Status Preregister"))
         ->markdown('mails.error-preresgister') //Template
         ->with('error', $this->error);
