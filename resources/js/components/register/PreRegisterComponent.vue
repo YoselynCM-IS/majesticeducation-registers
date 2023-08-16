@@ -441,7 +441,7 @@ import banksMixin from '../../mixins/banksMixin';
 import booksMixin from '../../mixins/booksMixin';
 import typesMixin from '../../mixins/typesMixin';
 export default {
-    props: ['registers', 'tipo'],
+    props: ['registers', 'tipo', 'sistema'],
     mixins: [banksMixin,booksMixin,typesMixin],
     data(){
         return {
@@ -490,7 +490,7 @@ export default {
     filters: {
         
     },
-    created: function(){
+    created: function () {
         this.schools.push({
             value: null,
             text: 'Selecciona una opción',
@@ -670,21 +670,19 @@ export default {
         deleteFile(i){
             this.form.files.splice(i, 1);
         },
-        checkCuenta(){
-            // 0172427206
-            if(this.cuenta === this.bancomer1 || this.cuenta === this.bancomer2 || 
-                this.cuenta === this.banamex1 || this.cuenta === this.banamex2 ||
-                this.cuenta === this.bancoppel1 || this.cuenta === this.banco_azteca1 ||
-                this.cuenta === this.bancoppel2 || this.cuenta === this.banco_azteca2 || this.cuenta === this.nctame) {
-                    this.statusCuenta = true;
-            } 
-            else {
+        checkCuenta() {
+            if ((this.sistema == 'MAJESTIC EDUCATION' && this.cuenta == this.nctame) ||
+                (this.sistema == 'OMEGA BOOK' && (this.cuenta === this.bancomer1 || this.cuenta === this.bancomer2 ||
+                        this.cuenta === this.banamex1 || this.cuenta === this.banamex2 ||
+                        this.cuenta === this.bancoppel1 || this.cuenta === this.banco_azteca1 ||
+                        this.cuenta === this.bancoppel2 || this.cuenta === this.banco_azteca2))) {
+                this.statusCuenta = true;
+                 if (this.cuenta === this.bancoppel1 || this.cuenta === this.bancoppel2) this.set_comprobante1('BANCOPPEL');
+                // if(this.cuenta === this.banco_azteca1 || this.cuenta === this.banco_azteca2) this.set_comprobante1('BANCOAZTECA');
+            } else {
                 this.statusCuenta = false;
                 swal("Numero de cuenta incorrecto", "El numero de cuenta que ingresaste no corresponde al nuestro.", "error");
             }
-
-            if(this.cuenta === this.bancoppel1 || this.cuenta === this.bancoppel2) this.set_comprobante1('BANCOPPEL');
-            // if(this.cuenta === this.banco_azteca1 || this.cuenta === this.banco_azteca2) this.set_comprobante1('BANCOAZTECA');
         },
         set_comprobante1(type_bank){
             this.form.comprobantes[0].type = type_bank;

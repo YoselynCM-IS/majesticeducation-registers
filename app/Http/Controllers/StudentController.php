@@ -39,7 +39,8 @@ class StudentController extends Controller
     // VISTA AL REGISTRO DEL ALUMNO
     public function register(){
         $schools = \DB::table('schools')->orderBy('name', 'asc')->get();
-        return view('student.register', compact('schools'));
+        $sistema = env('APP_NAME');
+        return view('student.register', compact('schools', 'sistema'));
     }
 
     // GUARDAR ESTUDIANTE
