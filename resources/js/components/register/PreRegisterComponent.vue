@@ -6,7 +6,7 @@
             <h6>
                 <b>
                     Si necesitas ayuda para realizar tu pre-registro, puedes descargar este 
-                    <a href="https://dl.dropbox.com/s/s5q75816hzmxbb2/PRE-REGISTRO-DE-BAUCHERS.pdf">tutorial</a> para poder guiarte.
+                    <a :href="sistema == 'MAJESTIC EDUCATION' ? 'https://www.dropbox.com/scl/fi/vipojpvxgbrbaed5jk0sw/TUTORIAL-PRE-REGISTRO-MAJESTICEDUCATION.pdf?rlkey=smkwzss2rrtp36r91wu91g0ho&dl=1':'https://www.dropbox.com/scl/fi/xikn90xnyjv8hoi5zzpcn/TUTORIAL-PRE-REGISTRO-OMEGABOOK.pdf?rlkey=edic0dlugbqj6aemxmimo188n&dl=1'">tutorial</a> para poder guiarte.
                 </b>
             </h6>
             <hr>
