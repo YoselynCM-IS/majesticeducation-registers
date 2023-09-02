@@ -146,15 +146,13 @@ class RegistroController extends Controller
                     ->where('abono','like','%'.$registro->total.'%')
                     ->where('occupied', 0);
 
-            if($registro->student->numcuenta == '0189525114'){
-                $auto = ltrim($registro->auto,0);
-                if(strlen($invoice) > 3 && strlen($auto) > 3){
-                    $folio = $fpart1->where('concepto','like','%DEPOSITO EN EFECTIVO/000'.$invoice.''.$auto.'%')->first();
-                }
-            } else {
-                if(strlen($invoice) > 3){
+            if(strlen($invoice) > 3){
+                if($registro->student->numcuenta == '0189525114'){
+                    // $auto = ltrim($registro->auto,0);
+                    $folio = $fpart1->where('concepto','like','%DEPOSITO EN EFECTIVO/000'.$invoice.'%')->first();
+                } else {
                     // if($registro->invoice !== 'deposito' && $registro->invoice !== 'deposito en efectivo'){
-                        $folio = $fpart1->where('concepto','like','%DEPOSITO EN EFECTIVO/0'.$invoice.'%')->first();
+                    $folio = $fpart1->where('concepto','like','%DEPOSITO EN EFECTIVO/0'.$invoice.'%')->first();
                         // ->where(function($query){
                         //     $query->where('concepto','like','%DEPOSITO EN EFECTIVO/0%')
                         //             ->orWhere('concepto','like','%DEPOSITO POR CORRECCION/%');
@@ -177,46 +175,43 @@ class RegistroController extends Controller
                     ->where('abono','like','%'.$registro->total.'%')
                     ->where('occupied', 0)
                     ->first();
-            } else { // LOS DEMAS INCLUSO OTROS
-                if($this->banks_equal($bank)){
-                    $folio = $this->search_folio($bank, $registro);
-                }
-                if($this->banks_not_equal($bank)){
-                    $invoice = $registro->invoice;
-                    $auto = substr($registro->auto,0,15);
+            } 
+            // else { // LOS DEMAS INCLUSO OTROS
+            //     if($this->banks_equal($bank)){
+            //         $folio = $this->search_folio($bank, $registro);
+            //     }
+            //     if($this->banks_not_equal($bank)){
+            //         $invoice = $registro->invoice;
+            //         $auto = substr($registro->auto,0,15);
 
-                    $folio = Folio::where('concepto','NOT LIKE','%DEPOSITO EFECTIVO PRACTIC%')
-                                ->where('concepto','NOT LIKE','%DEPOSITO EN EFECTIVO/0%')
-                                ->where('concepto','NOT LIKE','%DEPOSITO POR CORRECCION/%')
-                                ->where('concepto','NOT LIKE','%PAGO CUENTA DE TERCERO%')
-                                ->where('concepto','NOT LIKE','%BANAMEX%')->where('concepto','NOT LIKE','%AZTECA%')
-                                ->where('concepto','NOT LIKE','%BANCOPPEL%')->where('concepto','NOT LIKE','%BAJIO%')
-                                ->where('concepto','NOT LIKE','%BANORTE%')->where('concepto','NOT LIKE','%BANREGIO%')
-                                ->where('concepto','NOT LIKE','%CAJA POP MEX%')->where('concepto','NOT LIKE','%COMPARTAMOS%')
-                                ->where('concepto','NOT LIKE','%HSBC%')->where('concepto','NOT LIKE','%INBURSA%')
-                                ->where('concepto','NOT LIKE','%SANTANDER%')->where('concepto','NOT LIKE','%SCOTIABANK%')
-                                ->where('fecha',$registro->date)
-                                ->where(function($query) use ($invoice, $auto){
-                                    $query->where('concepto','like','%'.$invoice.'%')
-                                        ->orWhere('concepto','like','%'.$auto.'%');
-                                })
-                                ->where('abono','like','%'.$registro->total.'%')
-                                ->where('occupied', 0)
-                                ->first();
-                }
-            }
+            //         $folio = Folio::where('concepto','NOT LIKE','%DEPOSITO EFECTIVO PRACTIC%')
+            //                     ->where('concepto','NOT LIKE','%DEPOSITO EN EFECTIVO/0%')
+            //                     ->where('concepto','NOT LIKE','%DEPOSITO POR CORRECCION/%')
+            //                     ->where('concepto','NOT LIKE','%PAGO CUENTA DE TERCERO%')
+            //                     ->where('concepto','NOT LIKE','%BANAMEX%')->where('concepto','NOT LIKE','%AZTECA%')
+            //                     ->where('concepto','NOT LIKE','%BANCOPPEL%')->where('concepto','NOT LIKE','%BAJIO%')
+            //                     ->where('concepto','NOT LIKE','%BANORTE%')->where('concepto','NOT LIKE','%BANREGIO%')
+            //                     ->where('concepto','NOT LIKE','%CAJA POP MEX%')->where('concepto','NOT LIKE','%COMPARTAMOS%')
+            //                     ->where('concepto','NOT LIKE','%HSBC%')->where('concepto','NOT LIKE','%INBURSA%')
+            //                     ->where('concepto','NOT LIKE','%SANTANDER%')->where('concepto','NOT LIKE','%SCOTIABANK%')
+            //                     ->where('fecha',$registro->date)
+            //                     ->where(function($query) use ($invoice, $auto){
+            //                         $query->where('concepto','like','%'.$invoice.'%')
+            //                             ->orWhere('concepto','like','%'.$auto.'%');
+            //                     })
+            //                     ->where('abono','like','%'.$registro->total.'%')
+            //                     ->where('occupied', 0)
+            //                     ->first();
+            //     }
+            // }
         }
         // BANCO AZTECA
         if($registro->type === 'BANCO AZTECA'){
-            // $folio = Folio::where('fecha',$registro->date)
-            //     ->where('abono','like','%'.$registro->total.'%')
-            //     ->where('occupied', 0)
-            //     ->where('concepto','like','%DEPOSITO DE EFECTIVO/'.$registro->auto.'%')
-            //     // ->where(function($query){
-            //     //     $query->where('concepto','like','%DEPOSITO EN EFECTIVO/%')
-            //     //             ->orWhere('concepto','like','%DEPOSITO DE EFECTIVO/%');
-            //     // })
-            //     ->first();
+            $folio = Folio::where('fecha',$registro->date)
+                ->where('abono','like','%'.$registro->total.'%')
+                ->where('occupied', 0)
+                ->where('concepto','like','%DEPOSITO DE EFECTIVO/ '.$registro->auto.' AUT: '.$registro->invoice.'%')
+                ->first();
         }
         return $folio;
     }
