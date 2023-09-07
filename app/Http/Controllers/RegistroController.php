@@ -269,10 +269,7 @@ class RegistroController extends Controller
     }
 
     public function update_rejected(Request $request){
-        $students = Student::where('check', 'rejected')
-                    ->where('created_at', 'like', '%'.$request->number_rejected.'%')
-                    ->with('registros')->orderBy('name', 'desc')
-                    ->get();
+        $students = Student::where('check', 'rejected')->with('registros')->limit(50)->get();
         \DB::beginTransaction();
         try {
             $estudiantes = array();
@@ -282,11 +279,7 @@ class RegistroController extends Controller
                     $pago = new Carbon($registro->date);
                     $hoy = Carbon::now()->format('Y-m-d');
 
-                    $folio = $this->validar_folio($registro);
-
-                    // if($folio == null){
-                    //     $folio = $this->validar_folio_2($registro);
-                    // }   
+                    $folio = $this->validar_folio($registro);  
 
                     if($folio !== null){
                         $registro->update(['status' => 'accepted', 'folio_id' => $folio->id]);
@@ -387,57 +380,57 @@ class RegistroController extends Controller
     }
 
     public function validar_folio_2($registro){
-        $folio = null;
+        // $folio = null;
 
-        $fecha_pago = $registro->date;
-        $fecha_menos_dos = strtotime ( '-2 day' , strtotime ( $fecha_pago ) ) ;
-        $fecha_menos_dos = date ( 'Y-m-d' , $fecha_menos_dos );
+        // $fecha_pago = $registro->date;
+        // $fecha_menos_dos = strtotime ( '-2 day' , strtotime ( $fecha_pago ) ) ;
+        // $fecha_menos_dos = date ( 'Y-m-d' , $fecha_menos_dos );
 
-        $fecha_mas_dos = strtotime ( '+2 day' , strtotime ( $fecha_pago ) ) ;
-        $fecha_mas_dos = date ( 'Y-m-d' , $fecha_mas_dos );
+        // $fecha_mas_dos = strtotime ( '+2 day' , strtotime ( $fecha_pago ) ) ;
+        // $fecha_mas_dos = date ( 'Y-m-d' , $fecha_mas_dos );
 
-        // BANCOMER
-        if($registro->bank == 'BANCOMER'){
-            $numero_referencia = strlen($registro->invoice);
-            // PRACTICAJA
-            if($numero_referencia == 4){
-                $folio = Folio::where('concepto','like','%DEPOSITO EFECTIVO PRACTIC%')
-                    ->where('concepto','like','%FOLIO:'.$registro->invoice.'%')
-                    ->where('abono','like','%'.$registro->total.'%')
-                    ->where('occupied', 0)
-                    ->whereBetween('fecha', [$fecha_menos_dos,$fecha_mas_dos])
-                    ->first();
-            }
-            // VENTANILLA
-            if($numero_referencia > 4 && $numero_referencia < 10){
-                $invoice = ltrim($registro->invoice,0);
-                $folio = Folio::where('concepto','like','%'.$invoice.'%')
-                        ->where('abono','like','%'.$registro->total.'%')
-                        ->where('occupied', 0)
-                        ->where(function($query){
-                            $query->where('concepto','like','%DEPOSITO EN EFECTIVO/0%')
-                                    ->orWhere('concepto','like','%DEPOSITO POR CORRECCION/%');
-                        })
-                        ->whereBetween('fecha', [$fecha_menos_dos,$fecha_mas_dos])
-                        ->first();
-            }
-            // TRANFERENCIA
-            if($numero_referencia == 10){
-                $folio = Folio::where(function($query){
-                        $query->where('concepto','like','%PAGO CUENTA DE TERCERO%')
-                                ->orWhere('concepto','like','%TRASPASO ENTRE CUENTAS%');
-                    })
-                    ->where('concepto','like','%'.$registro->invoice.'%')
-                    ->where('abono','like','%'.$registro->total.'%')
-                    ->where('occupied', 0)
-                    ->whereBetween('fecha', [$fecha_menos_dos,$fecha_mas_dos])
-                    ->first();
-            }
-        } else {
-            $folio = $this->search_folio_2($registro->bank, $registro, $fecha_menos_dos, $fecha_mas_dos);
-        }
+        // // BANCOMER
+        // if($registro->bank == 'BANCOMER'){
+        //     $numero_referencia = strlen($registro->invoice);
+        //     // PRACTICAJA
+        //     if($numero_referencia == 4){
+        //         $folio = Folio::where('concepto','like','%DEPOSITO EFECTIVO PRACTIC%')
+        //             ->where('concepto','like','%FOLIO:'.$registro->invoice.'%')
+        //             ->where('abono','like','%'.$registro->total.'%')
+        //             ->where('occupied', 0)
+        //             ->whereBetween('fecha', [$fecha_menos_dos,$fecha_mas_dos])
+        //             ->first();
+        //     }
+        //     // VENTANILLA
+        //     if($numero_referencia > 4 && $numero_referencia < 10){
+        //         $invoice = ltrim($registro->invoice,0);
+        //         $folio = Folio::where('concepto','like','%'.$invoice.'%')
+        //                 ->where('abono','like','%'.$registro->total.'%')
+        //                 ->where('occupied', 0)
+        //                 ->where(function($query){
+        //                     $query->where('concepto','like','%DEPOSITO EN EFECTIVO/0%')
+        //                             ->orWhere('concepto','like','%DEPOSITO POR CORRECCION/%');
+        //                 })
+        //                 ->whereBetween('fecha', [$fecha_menos_dos,$fecha_mas_dos])
+        //                 ->first();
+        //     }
+        //     // TRANFERENCIA
+        //     if($numero_referencia == 10){
+        //         $folio = Folio::where(function($query){
+        //                 $query->where('concepto','like','%PAGO CUENTA DE TERCERO%')
+        //                         ->orWhere('concepto','like','%TRASPASO ENTRE CUENTAS%');
+        //             })
+        //             ->where('concepto','like','%'.$registro->invoice.'%')
+        //             ->where('abono','like','%'.$registro->total.'%')
+        //             ->where('occupied', 0)
+        //             ->whereBetween('fecha', [$fecha_menos_dos,$fecha_mas_dos])
+        //             ->first();
+        //     }
+        // } else {
+        //     $folio = $this->search_folio_2($registro->bank, $registro, $fecha_menos_dos, $fecha_mas_dos);
+        // }
         
-        return $folio;
+        // return $folio;
     }
 
     public function search_folio_2($bank, $registro, $fecha_menos_dos,$fecha_mas_dos){

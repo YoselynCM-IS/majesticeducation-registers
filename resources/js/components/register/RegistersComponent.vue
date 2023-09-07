@@ -26,23 +26,16 @@
             </b-col>
         </b-row>
         <b-row class="mt-3">
-            <b-col sm="6">
+            <b-col sm="9">
                 <b-pagination class="mt-1" v-model="currentPage" pills v-if="registros.length > 0"
                     :per-page="perPage" :total-rows="registros.length" :disabled="load">
                 </b-pagination>
             </b-col>
-            <b-col sm="6">
-                <b-row>
-                    <b-col>
-                        <b-form-datepicker v-model="number_rejected"></b-form-datepicker>
-                    </b-col>
-                    <b-col>
-                        <b-button class="mt-1" :disabled="load || number_rejected == null" block
-                            variant="danger" pill @click="updateRejected()">
-                            <b-icon-arrow-clockwise></b-icon-arrow-clockwise> Revisar rechazados
-                        </b-button>
-                    </b-col>
-                </b-row>
+            <b-col sm="3">
+                <b-button class="mt-1" :disabled="load" block
+                    variant="danger" pill @click="updateRejected()">
+                    <b-icon-arrow-clockwise></b-icon-arrow-clockwise> Revisar rechazados
+                </b-button>
             </b-col>
         </b-row>
         <b-table v-if="registros.length > 0" class="mt-3" responsive 
@@ -116,11 +109,7 @@
                         <b-icon-arrow-clockwise></b-icon-arrow-clockwise> Aceptar
                     </b-button>
                 </div>
-                <b-button v-if="role === 'reviewer' && data.item.check === 'accepted' && data.item.validate == 'NO ENVIADO'" 
-                    variant="outline-dark" pill size="sm" @click="resend_mail(data.item)" block>
-                    <i class="fa fa-share"></i> Reenviar correo
-                </b-button>
-                <b-button v-if="role === 'manager' && data.item.check === 'accepted'" 
+                <b-button v-if="(role === 'manager' || role === 'reviewer') && data.item.check === 'accepted'" 
                     variant="outline-dark" pill size="sm" @click="resend_mail(data.item)" block>
                     <i class="fa fa-share"></i> Reenviar correo
                 </b-button>
@@ -472,7 +461,6 @@ export default {
                 id: null, name: null, email: null, telephone: null, school: null,
                 book: null, quantity: null, price: null, a_depositar: null
             },
-            number_rejected: null,
             modalDownload: false,
             f_inicio: null,
             f_final: null
@@ -622,8 +610,7 @@ export default {
         },
         updateRejected(){
             this.load = true;
-            let form = { number_rejected: this.number_rejected };
-            axios.put('/registros/update_rejected', form).then(response => {
+            axios.put('/registros/update_rejected').then(response => {
                 this.registros = response.data;
                 this.load = false;
                 swal("OK", "Revisión de rechazados, terminada correctamente.", "success");

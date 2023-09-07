@@ -89,19 +89,12 @@ export default {
                 { key: 'concepto', label: 'Concepto' },
                 { key: 'abono', label: 'Abono' },
                 { key: 'saldo', label: 'Saldo' },
-                { key: 'occupied', label: 'Registrado' }
+                // { key: 'occupied', label: 'Registrado' }
             ],
             banks: [
                 { value: null, text: 'Selecciona una opción', disabled: true },
-                { value: 'BANAMEX', text: 'BANAMEX'},
                 { value: 'AZTECA', text: 'BANCO AZTECA'},
                 { value: 'BANCOMER', text: 'BANCOMER'},
-                { value: 'BANCOPPEL', text: 'BANCOPPEL'},
-                { value: 'BAJIO', text: 'BANBAJIO'},
-                { value: 'BANORTE', text: 'BANORTE'},
-                { value: 'HSBC', text: 'HSBC'},
-                { value: 'SANTANDER', text: 'SANTANDER'},
-                { value: 'SCOTIABANK', text: 'SCOTIABANK'},
                 { value: 'OTRO', text: 'OTRO'},
             ],
             bank: null,
