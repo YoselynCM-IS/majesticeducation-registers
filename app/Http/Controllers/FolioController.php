@@ -14,7 +14,7 @@ class FolioController extends Controller
     // MOSTRAR TODOS LOS FOLIOS
     public function by_month(){
         $mes_actual = Carbon::now()->format('Y-m');
-        $folios = Folio::where('fecha', 'like', '%'.$mes_actual.'%')->orderBy('created_at', 'desc')->paginate(50);
+        $folios = Folio::where('fecha', 'like', '%'.$mes_actual.'%')->with('registro.student')->orderBy('created_at', 'desc')->paginate(50);
         return response()->json($folios);
     }
 
@@ -104,14 +104,14 @@ class FolioController extends Controller
     }
 
     public function by_date(Request $request){
-        $folios = Folio::where('fecha', $request->fecha)
+        $folios = Folio::where('fecha', $request->fecha)->with('registro.student')
             ->orderBy('created_at', 'desc')->paginate(50);
         return response()->json($folios);
     }
 
     public function by_date_abono(Request $request){
         $folios = Folio::where('fecha', $request->fecha)
-                        ->where('abono', $request->abono)
+                        ->where('abono', $request->abono)->with('registro.student')
                         ->orderBy('created_at', 'desc')->paginate(50);
         return response()->json($folios);
     }
@@ -120,19 +120,21 @@ class FolioController extends Controller
         $folios = Folio::where('fecha', $request->fecha)
                         ->where('abono', $request->abono)
                         ->where('concepto', 'like', '%'.$request->referencia.'%')
+                        ->with('registro.student')
                         ->orderBy('created_at', 'desc')->paginate(50);
         return response()->json($folios);
     }
 
     public function by_bank(Request $request){
         if($request->bank !== 'BANCOMER' && $request->bank !== 'OTRO'){
-            $folios = Folio::where('concepto','like','%'.$request->bank.'%')->paginate(50);
+            $folios = Folio::where('concepto','like','%'.$request->bank.'%')->with('registro.student')->paginate(50);
         } 
         if($request->bank === 'BANCOMER'){
             $folios = Folio::where('concepto', 'like', '%DEPOSITO EFECTIVO PRACTIC%')
             ->orWhere('concepto', 'like', '%DEPOSITO EN EFECTIVO/%')
             ->orWhere('concepto', 'like', '%DEPOSITO POR CORRECCION/%')
             ->orWhere('concepto', 'like', '%PAGO CUENTA DE TERCERO%')
+            ->with('registro.student')
             ->paginate(50);
         }
         if($request->bank === 'OTRO'){
@@ -146,6 +148,7 @@ class FolioController extends Controller
             ->where('concepto','NOT LIKE','%CAJA POP MEX%')->where('concepto','NOT LIKE','%COMPARTAMOS%')
             ->where('concepto','NOT LIKE','%HSBC%')->where('concepto','NOT LIKE','%INBURSA%')
             ->where('concepto','NOT LIKE','%SANTANDER%')->where('concepto','NOT LIKE','%SCOTIABANK%')
+            ->with('registro.student')
             ->paginate(50);
         }
         return response()->json($folios);

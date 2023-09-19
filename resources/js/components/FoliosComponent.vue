@@ -13,19 +13,19 @@
                 </pagination>
             </b-col>
             <b-col sm="2" class="text-right">
-                <b-button pill id="btnPre" @click="modalSearch = true">
+                <b-button pill id="btnPre" @click="modalSearch = true" block>
                     <b-icon-search></b-icon-search> Busquedas
                 </b-button>
             </b-col>
-            <b-col sm="3" class="text-right">
+            <b-col sm="2" class="text-right">
                 <b-button v-if="role == 'manager' || role == 'administrator' || (userid == 7 || userid == 17)" id="btnPre" pill 
-                    @click="modalShow = !modalShow">
-                    <b-icon-plus-circle></b-icon-plus-circle> Subir depósitos
+                    @click="modalShow = !modalShow" block>
+                    <b-icon-plus-circle></b-icon-plus-circle> Subir
                 </b-button>
             </b-col>
         </b-row>
         <b-table :items="foliosData.data" :fields="fields"
-            :busy="load">
+            :busy="load" responsive :tbody-tr-class="rowClass">
             <template v-slot:cell(index)="data">
                 {{ data.index + 1 }}
             </template>
@@ -45,7 +45,12 @@
             </template>
             <template v-slot:cell(marcado_por)="data">
                 <div v-if="data.item.occupied">
-                    <label>{{ data.item.marcado_por == null ? 'Sistema':data.item.marcado_por }}</label>
+                    <label v-if="data.item.marcado_por == null && data.item.registro.student">
+                        <b-button variant="link" class="text-left" @click="showInfo(data.item.registro.student_id)">
+                            {{ data.item.registro.student.name }}
+                        </b-button>
+                    </label>
+                    <label v-if="data.item.marcado_por != null">{{ data.item.marcado_por }}</label>
                 </div>
                 <b-button v-else pill @click="marcarFolio(data.item, data.index)"
                     id="btnPre" size="sm" :disabled="load">
@@ -115,7 +120,7 @@
                 </b-col>
             </b-row>
             <b-row class="mb-2">
-                <b-col>Folio / Concepto / Referencia</b-col>
+                <b-col>Concepto</b-col>
                 <b-col>
                     <b-input v-model="referencia"></b-input>
                 </b-col>
@@ -148,6 +153,9 @@
                 <b-button @click="saveOcupado()" variant="success" pill>Si</b-button>
             </div>
         </b-modal>
+        <b-modal v-model="modalInfo" hide-footer :title="student.name" size="xl">
+            <information-student :student="student"></information-student>
+        </b-modal>
     </div>
 </template>
 
@@ -160,11 +168,10 @@ export default {
         return {
             foliosData: {},
             fields: [
-                {key: 'index', label: 'N.'}, 
+                { key: 'index', label: 'N.' }, 
+                { key: 'created_at', label: 'Se subio el:' },
                 'fecha', 'concepto', 'abono', 'saldo',
-                {key: 'occupied', label: 'Registrado'},
-                {key: 'marcado_por', label: 'Marcado por'},
-                {key: 'created_at', label: 'Se subio el:'}
+                {key: 'marcado_por', label: 'Ocupado por'}
             ],
             load:false,
             file: null,
@@ -181,7 +188,9 @@ export default {
             sBank: false,
             modalMarcar: false,
             folio: { id: null },
-            position: null
+            position: null,
+            student: {},
+            modalInfo: false,
         }
     },
     created: function(){
@@ -320,7 +329,19 @@ export default {
                 // PENDIENTE
                 this.load = false;
             });
-        }
+        },
+        rowClass(item, type) {
+            if (!item) return
+            if (item.occupied) return 'table-success'
+        },
+        showInfo(student_id) {
+            axios.get('/student/show_registers', { params: { student_id: student_id } }).then(response => {
+                this.student = response.data;
+                this.modalInfo = !this.modalInfo;
+            }).catch(error => {
+                // PENDIENTE
+            });
+        },
     }
 }
 </script>
