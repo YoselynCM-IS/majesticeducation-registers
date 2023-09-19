@@ -210,7 +210,7 @@ class RegistroController extends Controller
             $folio = Folio::where('fecha',$registro->date)
                 ->where('abono','like','%'.$registro->total.'%')
                 ->where('occupied', 0)
-                ->where('concepto','like','%DEPOSITO DE EFECTIVO/ '.$registro->auto.' AUT: '.$registro->invoice.'%')
+                ->where('concepto','like','%DEPOSITO DE EFECTIVO/ '.$registro->invoice.' AUT: '.$registro->auto.'%')
                 ->first();
         }
         return $folio;
@@ -269,7 +269,7 @@ class RegistroController extends Controller
     }
 
     public function update_rejected(Request $request){
-        $students = Student::where('check', 'rejected')->with('registros')->limit(50)->get();
+        $students = Student::where('check', 'rejected')->with('registros')->get();
         \DB::beginTransaction();
         try {
             $estudiantes = array();
