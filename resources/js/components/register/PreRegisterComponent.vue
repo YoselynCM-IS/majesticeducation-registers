@@ -9,17 +9,16 @@
                     <a :href="sistema == 'MAJESTIC EDUCATION' ? 'https://www.dropbox.com/scl/fi/vipojpvxgbrbaed5jk0sw/TUTORIAL-PRE-REGISTRO-MAJESTICEDUCATION.pdf?rlkey=smkwzss2rrtp36r91wu91g0ho&dl=1':'https://www.dropbox.com/scl/fi/xikn90xnyjv8hoi5zzpcn/TUTORIAL-PRE-REGISTRO-OMEGABOOK.pdf?rlkey=edic0dlugbqj6aemxmimo188n&dl=1'">tutorial</a> para poder guiarte.
                 </b>
             </h6>
-            <hr>
-            <p>Acceder con alguno de los siguientes exploradores:</p>
+            <h6><b>Requisitos</b></h6>
             <ul>
-                <li><b>Firefox</b></li>
-                <li><b>Chrome</b></li>
+                <li>Acceder desde una computadora para realizar tu pre-registro</li>
+                <li>Acceder con alguno de los siguientes exploradores: <b>Firefox</b> o <b>Chrome</b></li>
             </ul>
             <hr>
-            <p>Al comprar tu libro con nosotros te ofrecemos la garantía y seguridad de que te será entregado. </p>
-            <p>
+            <label>Al comprar tu libro con nosotros te ofrecemos la garantía y seguridad de que te será entregado. </label><br>
+            <label>
                 Te invitamos a <b>NO</b> realizar la compra de tu libro en línea (Amazon, Mercado Libre, entre otras).
-            </p>
+            </label>
         </b-card>
         <!-- NUMERO DE CUENTA AL CUAL SE DEPOSITO -->
         <b-row>
@@ -505,8 +504,6 @@ export default {
     },
     methods: {
         fileChange(e){
-            // this.acum_total();
-            
             var fileInput = document.getElementById('archivoType');
             var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.pdf)$/i;
             
@@ -567,7 +564,10 @@ export default {
         save_all(){
             let fd = this.attributes();
             axios.post('/student/preregister', fd).then(response => {
-                if(response.data === 3){
+                if(response.data === 4) {
+                    swal("Revisar pago(s)", "Por favor revisa que el total de los datos de pago que registraste sea igual o mayor al total de tu compra.", "warning");
+                }
+                if(response.data === 3) {
                     swal("Guardado", "Tus datos han sido guardados correctamente. Aproximadamente en un lapso de 48 a 72 horas hábiles te haremos llegar un correo electrónico donde te notificaremos si tu pre-registro ha sido validado. Gracias.", "success")
                         .then((value) => {
                             location.href = '/student/register';
@@ -618,6 +618,7 @@ export default {
             formData.append('quantity', this.form.quantity);
             formData.append('price', this.form.price);
             formData.append('a_depositar', this.form.a_depositar);
+            formData.append('depositado', this.a_depositar);
             formData.append('file', this.form.file);
             formData.append('teacher', this.form.teacher);
             formData.append('group', this.form.group);

@@ -54,6 +54,8 @@ class StudentController extends Controller
             'telephone' => ['required', 'numeric', 'min:1000000000'],
             'file' => ['required', 'mimes:jpg,png,jpeg,pdf', 'max:5072']
         ]);
+
+        if((float)$request->depositado < (float)$request->a_depositar) return response()->json(4);
         
         // BUSCAR SI EXISTE EL ALUMNO
         $name = Str::of(trim($request->name).' '.trim($request->lastname))->upper();
