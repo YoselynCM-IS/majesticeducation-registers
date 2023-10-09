@@ -124,14 +124,12 @@
         <b-alert v-else show variant="dark" class="text-center mt-5">
             <b-icon-info-circle></b-icon-info-circle> Aun no hay registros el dia de hoy. Ve a Busquedas.
         </b-alert>
-        <b-modal v-model="modalShow" hide-footer :title="student.name" size="xl">
-            <b-row class="mb-2">
-                <b-col>
-                    
-                </b-col>
+        <b-modal v-model="modalShow" hide-footer hide-header size="xl">
+            <b-row class="mt-2">
+                <b-col><b>{{ student.name }}</b></b-col>
                 <b-col sm="2" class="text-right">
                     <b-button v-if="!viewEdit && student.codes == 0 && student.delivery == 0" 
-                        variant="warning" pill @click="editRegister()">
+                        variant="warning" pill block @click="editRegister()">
                         <b-icon-pencil></b-icon-pencil> Editar
                     </b-button>
                     <b-button v-if="viewEdit" variant="secondary" pill :disabled="load"
@@ -139,7 +137,7 @@
                         <b-icon-arrow-left-circle-fill></b-icon-arrow-left-circle-fill> Regresar
                     </b-button>
                 </b-col>
-            </b-row>
+            </b-row><hr>
             <div v-if="!viewEdit">
                 <information-student :student="student"></information-student>
             </div>

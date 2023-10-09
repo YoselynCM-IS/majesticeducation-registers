@@ -1,6 +1,14 @@
 <template>
     <div>
-        <p><b>Fecha de registro:</b> {{ student.created_at | moment("YYYY-MM-DD hh:mm:ss") }}</p>
+        <b-row>
+            <b-col><p><b>Fecha de registro:</b> {{ student.created_at | moment("YYYY-MM-DD hh:mm:ss") }}</p></b-col>
+            <b-col sm="2">
+                <b-button v-if="student.check === 'accepted' && student.reviewed" 
+                    variant="dark" pill size="sm" block @click="resend_mail()" :disabled="load">
+                    <i class="fa fa-share"></i> Reenviar correo
+                </b-button>
+            </b-col>
+        </b-row>
         <b-row>
             <b-col>
                 <table class="table">
@@ -157,7 +165,32 @@
 
 <script>
 export default {
-    props: ['student']
+    props: ['student'],
+    data() {
+        return {
+            load: false
+        }
+    },
+    methods: {
+        resend_mail() {
+            this.load = true;
+            axios.put('/registros/resend_mail', this.student).then(response => {
+                this.load = false;
+                this.makeToast("El correo se reenvió correctamente.");
+            }).catch(error => {
+                this.load = false;
+                this.makeToast("Ocurrió un problema al reenviar el correo, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.");
+            });
+        },
+        makeToast(message) {
+            this.$bvToast.toast(message, {
+                title: 'Mensaje',
+                toaster: 'b-toaster-top-center',
+                solid: true,
+                appendToast: false
+            });
+        },
+    }
 }
 </script>
 

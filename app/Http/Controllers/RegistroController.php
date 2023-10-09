@@ -344,7 +344,7 @@ class RegistroController extends Controller
     }
 
     public function resend_mail(Request $request){
-        $student = Student::find($request->id);
+        $student = Student::whereId($request->id)->withTrashed()->first();
 
         $message = 'Tu registro se ha completado. Los datos que ingresaste en tu pre-registro han sido verificados correctamente.';
 
