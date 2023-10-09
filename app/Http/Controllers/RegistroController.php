@@ -64,21 +64,20 @@ class RegistroController extends Controller
         try {
             $estudiantes = array();
             foreach($students as $student){
-                
                 foreach ($student->registros as $registro) {
-                    $pago = new Carbon($registro->date);
-                    $hoy = Carbon::now()->format('Y-m-d');
-                    $difference = $pago->diff($hoy)->days;
-
                     $folio = $this->validar_folio($registro);
                     
                     if($folio !== null){
                         $registro->update(['status' => 'accepted', 'folio_id' => $folio->id]);
-                    } else {
-                        if($difference > 0){
-                            $registro->update(['status' => 'rejected']);
-                        }
-                    }
+                    } 
+                    // else {
+                    // $hoy = Carbon::now()->format('Y-m-d');
+                    // $pago = new Carbon($registro->date);
+                    // $difference = $pago->diff($hoy)->days;
+                    //     if($difference > 0){
+                    //         $registro->update(['status' => 'rejected']);
+                    //     }
+                    // }
                     
                 }
 
@@ -274,10 +273,9 @@ class RegistroController extends Controller
         try {
             $estudiantes = array();
             foreach($students as $student){
-                
                 foreach ($student->registros as $registro) {
-                    $pago = new Carbon($registro->date);
-                    $hoy = Carbon::now()->format('Y-m-d');
+                    // $pago = new Carbon($registro->date);
+                    // $hoy = Carbon::now()->format('Y-m-d');
 
                     $folio = $this->validar_folio($registro);  
 
@@ -306,10 +304,10 @@ class RegistroController extends Controller
                             ->where('status', 'process')->count();
                     if($count_process === 0){
                         $student->update(['check' => 'rejected']);
-                        // $message = 'Tu pre-registro no pudo ser aceptado, te pedimos verifiques tus datos y vuelvas a registrarte ingresando correctamente tus datos.';
-                        // if($student->validate == 'NO ENVIADO' && $student->school_id != 76){
-                        //     array_push($estudiantes, ['student' => $student, 'message' => $message]);
-                        // }
+                        $message = 'Tu pre-registro no pudo ser aceptado, te pedimos verifiques tus datos y vuelvas a registrarte ingresando correctamente tus datos.';
+                        if($student->validate == 'NO ENVIADO' && $student->school_id != 76){ //NO AGREGAR A JESUS CARRANZA
+                            array_push($estudiantes, ['student' => $student, 'message' => $message]);
+                        }
                     }
                 }
 
