@@ -69,15 +69,15 @@ class RegistroController extends Controller
                     
                     if($folio !== null){
                         $registro->update(['status' => 'accepted', 'folio_id' => $folio->id]);
-                    } 
-                    // else {
-                    // $hoy = Carbon::now()->format('Y-m-d');
-                    // $pago = new Carbon($registro->date);
-                    // $difference = $pago->diff($hoy)->days;
-                    //     if($difference > 0){
-                    //         $registro->update(['status' => 'rejected']);
-                    //     }
-                    // }
+                    } else {
+                        $registro->update(['status' => 'rejected']);
+                        // $hoy = Carbon::now()->format('Y-m-d');
+                        // $pago = new Carbon($registro->date);
+                        // $difference = $pago->diff($hoy)->days;
+                        //     if($difference > 0){
+                                
+                        //     }
+                    }
                     
                 }
 
