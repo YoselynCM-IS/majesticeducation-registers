@@ -46,7 +46,7 @@ class SendRegisters extends Mailable
         }
 
         return $this->from($from)
-            // ->cc($cc)
+            ->cc($from)
             ->subject(__($fecha))
             ->attachData($this->lista, $nombre)
             ->markdown('mails.send-registers')

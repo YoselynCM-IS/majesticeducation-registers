@@ -49,7 +49,7 @@ class SendCodes extends Mailable implements ShouldQueue
         }
 
         return $this->from($from)
-            // ->cc($cc)
+            ->cc($from)
             ->subject(__("Código"))
             ->markdown('mails.send-code')
             ->with('name', $this->name)

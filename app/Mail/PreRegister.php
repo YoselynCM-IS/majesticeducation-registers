@@ -40,7 +40,7 @@ class PreRegister extends Mailable implements ShouldQueue
         }
 
         return $this->from($from)
-            // ->cc($cc)
+            ->cc($from)
             ->subject(__("Respuesta de pre-registro"))
             ->markdown('mails.save-pre-register') //Template
             ->with('student', $this->student)
