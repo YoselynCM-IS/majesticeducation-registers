@@ -38,14 +38,15 @@ class SendRegisters extends Mailable
         $nombre = $fecha.'-registros'.'.xlsx';
 
         if(env('APP_NAME') == 'MAJESTIC EDUCATION'){
-            $from = 'registro.pagos@majesticeducation-registers.com';
-            $cc = "rp.majesticeducacion@gmail.com";
+            $cc = 'registro.pagos@majesticeducation-registers.com';
+            $from = "rp.majesticeducacion@gmail.com";
         } else {
-            $from = 'registro.pagos@omegabook-registers.com';
-            $cc = "rp.omegabook@gmail.com";
+            $cc = 'registro.pagos@omegabook-registers.com';
+            $from = "rp.omegabook@gmail.com";
         }
 
-        return $this->from($from)->cc($cc)
+        return $this->from($from)
+            // ->cc($cc)
             ->subject(__($fecha))
             ->attachData($this->lista, $nombre)
             ->markdown('mails.send-registers')
