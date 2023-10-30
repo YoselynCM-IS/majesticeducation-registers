@@ -107,6 +107,7 @@ Route::name('registros.')->prefix('registros')->group(function () {
     Route::put('update_status', 'RegistroController@update_status')->name('update_status');
     Route::put('update_rejected', 'RegistroController@update_rejected')->name('update_rejected');
     Route::put('resend_mail', 'RegistroController@resend_mail')->name('resend_mail');
+    Route::put('resend_codigo', 'RegistroController@resend_codigo')->name('resend_codigo');
 
     Route::get('down_banxico/{inicio}/{final}', 'RegistroController@down_banxico' )->name('down_banxico');
 

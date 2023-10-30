@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Comprobante;
 use App\Registro;
 use App\School;
+use App\Code;
 
 class Student extends Model
 {
@@ -31,5 +32,9 @@ class Student extends Model
 
     public function comprobantes(){
         return $this->hasMany(Comprobante::class);
+    }
+
+    public function codigos(){
+        return $this->hasMany(Code::class);
     }
 }

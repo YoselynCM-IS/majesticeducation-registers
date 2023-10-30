@@ -2,7 +2,7 @@
     <div>
         <h4 class="text-center"><b>Pre-registro</b></h4>
         <!-- TUTORIAL -->
-        <b-card class="mb-3 mt-2">
+        <b-alert class="mb-3 mt-2" variant="dark" show>
             <h6>
                 <b>
                     Si necesitas ayuda para realizar tu pre-registro, puedes descargar este 
@@ -15,11 +15,8 @@
                 <li>Acceder con alguno de los siguientes exploradores: <b>Firefox</b> o <b>Chrome</b></li>
             </ul>
             <hr>
-            <label>Al comprar tu libro con nosotros te ofrecemos la garantía y seguridad de que te será entregado. </label><br>
-            <label>
-                Te invitamos a <b>NO</b> realizar la compra de tu libro en línea (Amazon, Mercado Libre, entre otras).
-            </label>
-        </b-card>
+            <label>Al comprar tu libro con nosotros te ofrecemos la garantía y seguridad de que te será entregado. Te invitamos a <b>NO</b> realizar la compra de tu libro en línea (Amazon, Mercado Libre, entre otras).</label>
+        </b-alert>
         <!-- NUMERO DE CUENTA AL CUAL SE DEPOSITO -->
         <b-row>
             <b-col sm="9">
@@ -362,28 +359,30 @@
                 <hr>
             </div>
             <!-- Comprobante(s) -->
-            <div>
-                <h5><b>Comprobante(s)</b></h5>
-                <p>Si realizaste mas de un pago, sube la foto donde aparezcan los comprobantes.</p>
-                <b-form-group label="">
-                    <input 
+            <b-row>
+                <b-col sm="9">
+                    <h5><b>Comprobante(s)</b></h5>
+                    <ul>
+                        <li>Si realizaste más de un pago, sube la foto o archivo donde aparezcan los comprobantes.</li>
+                        <li>Solo formato: <b>.jpg</b> / <b>.png</b> / <b>.jpeg</b> / <b>.pdf</b></li>
+                        <li>Tamaño máximo: <b>3 MB</b></li>
+                    </ul>
+                </b-col>
+                <b-col>
+                    <input
                         :disabled="load || selBook" type="file" id="archivoType" 
                         v-on:change="fileChange" required>
                         <!-- multiple="multiple"  -->
                     <label for="archivoType"><b-icon-upload></b-icon-upload> Seleccionar archivo</label>
-                    <ol>
-                        <li>Solo formato imagen: <b>.jpg</b> / <b>.png</b> / <b>.jpeg</b> / <b>.pdf</b></li>
-                        <li>Tamaño máximo: <b>3 MB</b></li>
-                    </ol>
                     <p v-if="form.file">
                         Comprobante: <b>{{ form.file.name }}</b>
                     </p>
                     <div v-if="errors && errors.file" class="text-danger">
                         El comprobante es obligatorio con un tamaño máximo de 3MB y solo formato jpg, png, jpeg ó pdf
                     </div>
-                </b-form-group>
-                <hr>
-            </div>
+                </b-col>
+            </b-row>
+            <hr>
             <!-- GUARDAR -->
             <div>
                 <b-alert class="mt-2" v-if="load" show variant="warning">
@@ -399,7 +398,7 @@
                             </p>
                         </b-alert>
                     </b-col>
-                    <b-col class="text-right" sm="3">
+                    <b-col class="text-right mt-5" sm="3">
                         <b-button pill block :disabled="load || selBook" type="submit" id="btnPre">
                             <i class="fa fa-check-circle"></i> Guardar
                         </b-button>
@@ -407,28 +406,42 @@
                 </b-row>
             </div>
         </form>
-        <!-- CONTACTO -->
-        <b-card class="mb-5">
-            <strong>Horario de atención</strong><br>
+        <!-- CONTACTO /INFORMACIÓN -->
+        <b-alert variant="dark" show class="mt-5">
             <ul>
-                <li>Lunes a Viernes de 10:00 am - 5:00 pm</li>
-                <li>Sábado de 10:00 am - 1:00 pm </li>
+                <li>Verifica que tu correo electrónico este escrito correctamente ya que en el te notificaremos si tu registro fue aceptado o rechazado.</li>
+                <li>A veces los correos electrónicos pueden llegar como spam, es importante que revises en la sección de <b>SPAM</b> de tu correo electrónico en caso de que no lo visualices en <b>Recibidos</b>. </li>
+                <li>Aproximadamente de <b>48 a 72 hábiles</b> recibirás respuesta de tu registro.</li>
+                <li>Si tienes alguna duda o aclaración puedes comunicarte a los números que vienen abajo.</li>
             </ul>
-            <h6><strong>Contacto</strong></h6>
-            <ul>
-                <li>
-                    <b-icon-telephone></b-icon-telephone> 56 2741 1481 <br>
-                    <a target="_blank" href="https://wa.me/525627411481">
-                        <b-icon-chat></b-icon-chat> Ir a WhatsApp
-                    </a>
-                </li>
-                <li>
-                    <b-icon-telephone></b-icon-telephone> 56 2741 0930 <br>
-                    <a target="_blank" href="https://wa.me/525627410930">
-                        <b-icon-chat></b-icon-chat> Ir a WhatsApp
-                    </a>
-                </li>
-            </ul>
+        </b-alert>
+        <b-card bg-variant="dark" text-variant="white">
+            <b-row>
+                <b-col sm="8">
+                    <h6><strong>Horario de atención</strong></h6>
+                    <ul>
+                        <li>Lunes a Viernes de 10:00 am - 5:00 pm</li>
+                        <li>Sábado de 10:00 am - 1:00 pm </li>
+                    </ul>
+                </b-col>
+                <b-col>
+                    <h6><strong>Contacto</strong></h6>
+                    <ul>
+                        <li>
+                            <b-icon-telephone></b-icon-telephone> 56 2741 1481 <br>
+                            <a target="_blank" href="https://wa.me/525627411481">
+                                <b-icon-chat></b-icon-chat> Ir a WhatsApp
+                            </a>
+                        </li>
+                        <li>
+                            <b-icon-telephone></b-icon-telephone> 56 2741 0930 <br>
+                            <a target="_blank" href="https://wa.me/525627410930">
+                                <b-icon-chat></b-icon-chat> Ir a WhatsApp
+                            </a>
+                        </li>
+                    </ul>
+                </b-col>
+            </b-row>
         </b-card>
     </div>
 </template>

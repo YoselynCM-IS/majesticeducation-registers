@@ -10,6 +10,7 @@ use App\Exports\DayExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Mail\PreRegister;
+use App\Mail\SendCodes;
 use Carbon\Carbon;
 use App\Registro;
 use App\Student;
@@ -357,6 +358,15 @@ class RegistroController extends Controller
                     ->with('school')->orderBy('created_at', 'desc')->get();
 
         return response()->json($students);
+    }
+
+    public function resend_codigo(Request $request){
+        $student = Student::whereId($request->id)->withTrashed()->with('codigos')->first();
+        $student->codigos->map(function($code) use (&$prueba){
+            // $name, $code, $code2, $code3, $book, $editorial
+            Mail::to($code->student->email)->send(new SendCodes($code->student->name, $code->code1, $code->code2, $code->code3, $code->student->book, $code->editorial));
+        });
+        return response()->json(true);
     }
 
     public function by_bank(Request $request){

@@ -3,6 +3,12 @@
         <b-row>
             <b-col><p><b>Fecha de registro:</b> {{ student.created_at | moment("YYYY-MM-DD hh:mm:ss") }}</p></b-col>
             <b-col sm="2">
+                <b-button v-if="student.check === 'accepted' && student.codes" 
+                    variant="dark" pill size="sm" block @click="resend_codigo()" :disabled="load">
+                    <i class="fa fa-share"></i> Reenviar código
+                </b-button>
+            </b-col>
+            <b-col sm="2">
                 <b-button v-if="student.check === 'accepted' && student.reviewed" 
                     variant="dark" pill size="sm" block @click="resend_mail()" :disabled="load">
                     <i class="fa fa-share"></i> Reenviar correo
@@ -182,12 +188,23 @@ export default {
                 this.makeToast("Ocurrió un problema al reenviar el correo, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.");
             });
         },
+        resend_codigo() {
+            this.load = true;
+            axios.put('/registros/resend_codigo', this.student).then(response => {
+                this.load = false;
+                this.makeToast("El código se reenvió correctamente.");
+            }).catch(error => {
+                this.load = false;
+                this.makeToast("Ocurrió un problema al reenviar el código, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.");
+            });
+        },
         makeToast(message) {
             this.$bvToast.toast(message, {
                 title: 'Mensaje',
                 toaster: 'b-toaster-top-center',
                 solid: true,
-                appendToast: false
+                appendToast: false,
+                variant: 'info'
             });
         },
     }
