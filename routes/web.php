@@ -34,6 +34,10 @@ Route::name('folios.')->prefix('folios')->group(function () {
     Route::get('by_referencia', 'FolioController@by_referencia' )->name('by_referencia');
     Route::get('by_bank', 'FolioController@by_bank' )->name('by_bank');
     Route::put('marcar_ocupado', 'FolioController@marcar_ocupado')->name('marcar_ocupado');
+
+    Route::name('banks.')->prefix('banks')->group(function () {
+        Route::get('show', 'FolioController@check_cta' )->name('show');
+    });
 });
 
 Route::name('student.')->prefix('student')->group(function () {

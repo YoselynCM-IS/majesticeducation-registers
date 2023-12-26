@@ -9,7 +9,8 @@ use App\Folio;
 class Registro extends Model
 {
     protected $fillable = [
-        'student_id', 'folio_id', 'type', 'invoice', 'auto', 'clave',
+        'student_id', 'folio_id', 'type', 'invoice', 'auto', 
+        'guia', 'referencia', 'clave',
         'total', 'date', 'plaza', 'bank', 'status', 'cajero'
     ];
 

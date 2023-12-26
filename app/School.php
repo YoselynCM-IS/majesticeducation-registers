@@ -8,7 +8,7 @@ use App\Book;
 
 class School extends Model
 {
-    protected $fillable = [ 'id', 'name' ];
+    protected $fillable = [ 'id', 'name', 'referencia' ];
 
     public function students(){
         return $this->hasMany(Student::class);

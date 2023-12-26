@@ -25,7 +25,7 @@
                     </tbody>
                     <tbody>
                         <tr class="table-ligth">
-                            <th colspan="6"><h6><b>Número de cuenta al que se realizó el deposito:</b> {{ student.numcuenta }}</h6></th>
+                            <th colspan="6"><h6><b>Número al que se realizó el deposito:</b> {{ student.numcuenta }}</h6></th>
                         </tr>
                     </tbody>
                     <tbody v-for="(registro, i) in student.registros" v-bind:key="i">
@@ -43,6 +43,14 @@
                         <tr v-if="registro.bank !== null">
                             <th class="text-right" scope="row">Banco</th>
                             <td>{{ registro.bank }}</td>
+                        </tr>
+                        <tr v-if="registro.guia !== null">
+                            <th class="text-right" scope="row">GuÍa CIE</th>
+                            <td>{{ registro.guia }}</td>
+                        </tr>
+                        <tr v-if="registro.referencia !== null">
+                            <th class="text-right" scope="row">Referencia</th>
+                            <td>{{ registro.referencia }}</td>
                         </tr>
                         <tr>
                             <th class="text-right" scope="row">

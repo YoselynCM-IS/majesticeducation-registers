@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Folio;
+use App\Bank;
 
 class FolioController extends Controller
 {
@@ -167,5 +168,10 @@ class FolioController extends Controller
             \DB::rollBack();
         }
         return response()->json($folio);
+    }
+
+    public function check_cta(Request $request){
+        $bank = Bank::where('numero', $request->numero)->first();
+        return response()->json($bank);
     }
 }

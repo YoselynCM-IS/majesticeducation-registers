@@ -90,7 +90,7 @@
                             </b-form-group>
                             <b-form-group v-else label="Tipo de pago:">
                                 <b-form-select v-model="comprobante.type" :disabled="load"
-                                    :options="typesTamazunchale" required>
+                                    :options="typesCompleto" required>
                                 </b-form-select>
                             </b-form-group>
                         </b-col>

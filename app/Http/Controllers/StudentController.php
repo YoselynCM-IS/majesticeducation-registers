@@ -92,15 +92,13 @@ class StudentController extends Controller
                 foreach($comprobantes as $comprobante) {
                     $datos = $this->set_types($comprobante->type, $comprobante->bank, $comprobante->folio, $comprobante->auto);
 
-                    // if($c_type === 'ventanilla') $invoice = ltrim($comprobante->folio,0);
-                    // if($c_type === 'transferencia' && $bank === 'BANCOPPEL') $invoice = substr($comprobante->folio,17,7);
-                    // if($c_type !== 'ventanilla' && $bank !== 'BANCOPPEL') $invoice = $comprobante->folio;
-
                     $registro = Registro::create([
                         'student_id' => $student->id, 
                         'type' => $datos['type'], 
                         'invoice' => $datos['invoice'], 
                         'auto' => $datos['auto'], 
+                        'guia' => $comprobante->guia, 
+                        'referencia' => $comprobante->referencia,
                         'clave' => Str::of($comprobante->clave)->upper(),
                         'total' => (float)$comprobante->total, 
                         'date' => $comprobante->date, 
@@ -116,22 +114,6 @@ class StudentController extends Controller
                 $name_student = Str::slug($name, '-');
                 $extension = $file->getClientOriginalExtension();
                 $name_file = time()."_id".$student->id."_".$name_student.".".$extension;
-
-                // if($extension != 'pdf'){
-                //     $image = Image::make($request->file('file'));
-                //     $image->resize(1280, null, function ($constraint) {
-                //         $constraint->aspectRatio();
-                //         $constraint->upsize();
-                //     });
-
-                //     Storage::disk('dropbox')->putFileAs(
-                //         '/comprobantes/'.$name_file, (string) $image
-                //     );
-                // } else {
-                //     Storage::disk('dropbox')->putFileAs(
-                //         '/comprobantes/', $request->file('file'), $name_file
-                //     );
-                // }
 
                 if(env('APP_NAME') == 'MAJESTIC EDUCATION') $carpeta = 'majesticeducation';
                 else $carpeta = 'omegabook';
@@ -153,33 +135,6 @@ class StudentController extends Controller
                     'public_url' => $response['url']
                 ]);
                 
-                /**NO DESCOMENTAR */
-                // Storage::put('public/images/'.$name_file, (string) $image->encode('jpg', 30));
-                // $files = $request->file('files');
-
-                // foreach($files as $file) {
-                //     $name_student = Str::slug($name, '-');
-                //     $extension = $file->getClientOriginalExtension();
-                //     $name_file = Carbon::now()->format('Y-m-d h:m:s')."_id".$student->id."_".$name_student.".".$extension;
-
-                //     Storage::disk('dropbox')->putFileAs(
-                //         '/comprobantes', $file, $name_file
-                //     );
-        
-                //     $response = $this->dropbox->createSharedLinkWithSettings(
-                //         '/comprobantes/'.$name_file, 
-                //         ["requested_visibility" => "public"]
-                //     );
-
-                //     Comprobante::create([
-                //         'student_id' => $student->id,
-                //         'name' => $response['name'],
-                //         'extension' => $extension,
-                //         'size' => $response['size'],
-                //         'public_url' => $response['url']
-                //     ]);
-                // }
-                /**NO DESCOMENTAR */
                 \DB::commit();
 
             }  catch (Exception $e) {
@@ -194,8 +149,6 @@ class StudentController extends Controller
     public function set_types($type, $bank, $folio, $auto){
         $bank = $bank;
         
-        if($type === 'oxxo')
-            $bank = 'BANAMEX EXTERNA';
         if($type === 'practicaja' || $type === 'ventanilla') 
             $bank = 'BANCOMER';
         if($type === 'transferencia') 

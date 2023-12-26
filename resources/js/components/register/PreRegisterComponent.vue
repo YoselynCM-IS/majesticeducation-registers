@@ -20,7 +20,7 @@
         <!-- NUMERO DE CUENTA AL CUAL SE DEPOSITO -->
         <b-row>
             <b-col sm="9">
-                <b-form-group label="Numero de cuenta al que se realizó el deposito">
+                <b-form-group label="Numero de (convenio / cuenta / CLABE) al que se realizó el deposito">
                     <b-form-input v-model="cuenta" :disabled="load || statusCuenta"
                         type="number" required
                     ></b-form-input>
@@ -35,7 +35,6 @@
         </b-row>
         <!-- FORM -->
         <form @submit="onSubmit" enctype="multipart/form-data" method="POST">
-            <!-- <input type="hidden" name="_token" :value="csrf"> -->
             <!-- Datos del alumno -->
             <div>
                 <h5><b>Datos del alumno</b></h5>
@@ -165,7 +164,7 @@
                 <hr>
             </div>
             <!-- Datos del pago -->
-            <div v-if="statusCuenta && cuenta !== bancoppel1 && cuenta !== bancoppel2">
+            <div v-if="statusCuenta">
                 <b-row>
                     <b-col><h5><b>Datos del pago</b></h5></b-col>
                     <b-col class="text-right">
@@ -184,36 +183,36 @@
                         </b-button>
                     </div>
                     <b-row>
-                        <!-- TIPO DE PAGO -->
+                        <!-- TIPO DE PAGO - BANCO -->
                         <b-col>
-                            <div v-if="cuenta === bancomer1 || cuenta === bancomer2 || cuenta === nctame">
-                                <b-form-group v-if="form.school != 52"
-                                    label="Tipo de pago (BBVA BANCOMER):">
-                                    <b-form-select v-model="comprobante.type" :disabled="load || selBook"
+                            <!-- BANCOMER -->
+                            <div v-if="bank.bank == 'BANCOMER'">
+                                <b-form-group label="Tipo de pago:">
+                                    <b-form-select v-if="bank.tipo == 'CIE'"
+                                        v-model="comprobante.type" :disabled="load || selBook"
+                                        :options="typesBancomer" required>
+                                    </b-form-select>
+                                    <b-form-select v-else v-model="comprobante.type" :disabled="load || selBook"
                                         :options="tipo == 'externo' ? types:typesCompleto" required>
                                     </b-form-select>
                                 </b-form-group>
+                                <!--  v-if="form.school != 52"
                                 <b-form-group v-else label="Tipo de pago:">
                                     <b-form-select v-model="comprobante.type" :disabled="load || selBook"
-                                        :options="typesTamazunchale" required>
+                                        :options="typesCompleto" required>
                                     </b-form-select>
-                                </b-form-group>
+                                </b-form-group> -->
                             </div>
-                            <b-form-group v-if="cuenta === banamex1 || cuenta === banamex2"
-                                label="Tipo de pago (OXXO):">
-                                <b-form-select v-model="comprobante.type" :disabled="load || selBook"
-                                    :options="types_externa" required>
-                                </b-form-select>
-                            </b-form-group>
-                            <b-form-group v-if="cuenta === banco_azteca1 || cuenta === banco_azteca2"
+                            <!-- BANCO AZTECA -->
+                            <b-form-group v-if="bank.bank == 'BANCO AZTECA'"
                                 label="Tipo de pago (BANCO AZTECA):">
                                 <b-form-select v-model="comprobante.type" :disabled="load || selBook"
-                                    :options="typesChontalpa" required>
+                                    :options="typesBAzteca" required>
                                 </b-form-select>
                             </b-form-group>
                         </b-col>
-                        <!-- SELECCIONAR BANCO -->
-                        <b-col v-if="comprobante.type == 'transferencia'">
+                        <!-- TRANFERENCIA - SELECCIONAR BANCO -->
+                        <b-col v-if="comprobante.type == 'transferencia' && bank.tipo !== 'CIE'">
                             <b-form-group label="Banco:" v-b-tooltip.hover title="Desde el cual se realizó el pago">
                                 <b-form-select v-model="comprobante.bank" :disabled="load || selBook"
                                     :options="banks" required
@@ -225,110 +224,37 @@
                                 @keyup="posicion = i">
                             </b-input>
                         </b-col>
-                        <!-- FOLIO, REFERENCIA -->
-                        <b-col>
-                            <div v-if="comprobante.type !== 'transferencia'">
-                                <b-form-group v-if="comprobante.type == 'oxxo'" label="Folio de venta">
-                                    <b-form-input v-model="comprobante.folio" minlength="4"
-                                        :disabled="load || selBook" required
-                                    ></b-form-input>
-                                </b-form-group>
-                                <b-form-group v-if="comprobante.type == 'practicaja'" label="Folio" 
-                                    v-b-tooltip.hover title="Ingresar los cuatro números que aparecen en FOLIO en tu comprobante">
-                                    <b-form-input v-model="comprobante.folio" minlength="4" maxlength="4"
-                                        :disabled="load || selBook" required
-                                    ></b-form-input>
-                                </b-form-group>
-                                <b-form-group v-if="comprobante.type == 'ventanilla'" label="Movimiento" 
-                                    v-b-tooltip.hover title="Ingresar lo que aparece en MOVIMIENTO en tu comprobante de pago">
-                                    <b-form-input v-model="comprobante.folio" minlength="5"
-                                        :disabled="load || selBook" required
-                                    ></b-form-input>
-                                </b-form-group>
-                                <b-form-group v-if="comprobante.type == 'BANCO AZTECA'" label="Número de autorización" 
-                                    v-b-tooltip.hover title="Ingresar lo que aparece en Número de autorización en tu comprobante de pago">
-                                    <b-form-input v-model="comprobante.folio" minlength="5"
-                                        :disabled="load || selBook" required
-                                    ></b-form-input>
-                                </b-form-group>
-                            </div>
-                            <div v-if="comprobante.type === 'transferencia' && comprobante.bank !== null">
-                                <b-form-group v-if="comprobante.bank === 'BANCOMER'" label="Folio">
-                                    <b-form-input v-model="comprobante.folio" type="text" minlength="8" maxlength="10"
-                                        :disabled="load || selBook" required
-                                    ></b-form-input>
-                                </b-form-group>
-                                <b-form-group v-if="comprobante.bank === 'BANCOPPEL'" label="Folio de operación"
-                                    v-b-tooltip.hover title="En tu comprobante puede aparecer como Folio de operación o Clave de rastreo">
-                                    <b-form-input v-model="comprobante.folio" type="text" minlength="24" maxlength="24"
-                                        :disabled="load || selBook" required style="text-transform:uppercase;"
-                                    ></b-form-input>
-                                </b-form-group>
-                                <b-form-group v-if="comprobante.bank !== 'BANCOPPEL' && comprobante.bank !== 'BANCOMER'" 
-                                    label="Referencia" v-b-tooltip.hover title="En tu comprobante puede aparecer como Referencia, Referencia numérica o Numero de referencia">
-                                    <b-form-input v-model="comprobante.folio" minlength="4"
-                                        :disabled="load || selBook" required
-                                    ></b-form-input>
-                                </b-form-group>
-                            </div>
+                        <b-col v-if="comprobante.type == 'transferencia' && bank.tipo === 'CIE'">
+                            <b-form-group label="Banco:">
+                                <b-form-select v-model="comprobante.bank" :disabled="load || selBook"
+                                    :options="bankBBVA" required
+                                ></b-form-select>
+                            </b-form-group>
                         </b-col>
-                        <!-- CONCEPTO, AUTORIZACIÓN -->
+                        <!-- FECHA DEL PAGO -->
                         <b-col>
-                            <b-form-group v-if="comprobante.type == 'practicaja' || comprobante.type == 'oxxo'" label="Autorización">
-                                <b-form-input v-model="comprobante.auto" :disabled="load || selBook"
-                                    style="text-transform:uppercase;" required
-                                ></b-form-input>
+                            <b-form-group label="Fecha de pago"
+                                title="En tu comprobante puede aparecer como Fecha de pago, Fecha y Hora, Fecha de aplicación o Fecha de operación">
+                                <b-form-datepicker required :disabled="load || selBook" v-model="comprobante.date"></b-form-datepicker>
                             </b-form-group>
-                            <b-form-group v-if="cuenta === nctame && comprobante.type == 'ventanilla'" label="Referencia">
-                                <b-form-input v-model="comprobante.auto" :disabled="load || selBook"
-                                    style="text-transform:uppercase;" required  minlength="4"
-                                ></b-form-input>
-                            </b-form-group>
-                            <div v-if="comprobante.type === 'transferencia' && comprobante.bank !== null">
-                                <b-form-group v-if="comprobante.bank === 'BANCOMER'" label="Motivo de pago">
-                                    <b-form-input v-model="comprobante.auto" type="text" minlength="3"
-                                        :disabled="load || selBook" required
-                                    ></b-form-input>
-                                </b-form-group>
-                                <b-form-group v-if="comprobante.bank !== 'BANCOMER'" label="Concepto" 
-                                    v-b-tooltip.hover title="En tu comprobante puede aparecer como Concepto, Concepto de pago o Concepto de tranferencia. Te solicitamos escribirlo tal y como aparece (ya sean letras mayúsculas, minúsculas y/o números)">
-                                    <b-form-input v-model="comprobante.auto" type="text" minlength="3"
-                                        :disabled="load || selBook" required
-                                    ></b-form-input>
-                                </b-form-group>
-                            </div>
-                            <b-form-group v-if="comprobante.type == 'BANCO AZTECA'" label="No. Operación" 
-                                v-b-tooltip.hover title="Ingresar lo que aparece en No. Operación en tu comprobante de pago">
-                                <b-form-input v-model="comprobante.auto" minlength="5"
-                                    :disabled="load || selBook" required
+                        </b-col>
+                        <!-- IMPORTE DEPOSITADO -->
+                        <b-col>
+                            <b-form-group label="Importe"
+                                v-b-tooltip.hover title="En tu comprobante puede aparecer como Importe, Monto o Cantidad">
+                                <b-form-input v-model="comprobante.total" :disabled="load || selBook"
+                                    required type="number" step="0.01" min="1" 
                                 ></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
+                    <!-- OTROS DATOS -->
                     <b-row>
-                        <!-- CLAVE DE RASTREO -->
-                        <!-- <b-col>
-                            <b-form-group v-if="comprobante.type === 'transferencia' && comprobante.bank !== null && comprobante.bank !== 'BANCOMER'"
-                                label="Clave de rastreo">
-                                <b-form-input v-model="comprobante.clave" type="text" minlength="10" maxlength="30"
-                                    :disabled="load || selBook" required
-                                ></b-form-input>
-                            </b-form-group>
-                        </b-col> -->
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-form-group v-if="comprobante.type !== 'BANCO AZTECA' && comprobante.type !== 'transferencia' && comprobante.type !== null"
-                                label="Plaza o sucursal donde se realizo el pago:">
-                                <b-form-input v-model="comprobante.plaza" :disabled="load || selBook"
-                                    style="text-transform:uppercase;" required
-                                ></b-form-input>
-                            </b-form-group>
-                        </b-col>
+                        <!-- NUMERO DE CAJERO / SUCURSAL -->
                         <b-col>
                             <b-form-group v-if="comprobante.type == 'practicaja' || comprobante.type == 'ventanilla'" 
                                 id="tooltip-target-numero"
-                                :label="`Número de ${comprobante.type == 'practicaja' ? 'cajero':'sucursal'}`" >
+                                :label="`Número de ${comprobante.type == 'practicaja' ? 'cajero' : 'sucursal'}`" >
                                 <b-form-input v-model="comprobante.cajero" minlength="4" maxlength="4"
                                     :disabled="load || selBook" required
                                 ></b-form-input>
@@ -338,27 +264,120 @@
                                 </b-tooltip>
                             </b-form-group>
                         </b-col>
-                    </b-row>
-                    <b-row>
+                        <!-- LUGAR DE PAGO -->
                         <b-col>
-                            <b-form-group label="Importe"
-                                v-b-tooltip.hover title="En tu comprobante puede aparecer como Importe, Monto o Cantidad">
-                                <b-form-input v-model="comprobante.total" :disabled="load || selBook"
-                                    required type="number" step="0.01" min="1" 
+                            <b-form-group v-if="comprobante.type !== 'BANCO AZTECA' && comprobante.type !== 'transferencia' && comprobante.type !== null"
+                                label="Plaza o sucursal donde se realizo el pago:">
+                                <b-form-input v-model="comprobante.plaza" :disabled="load || selBook"
+                                    style="text-transform:uppercase;" required
                                 ></b-form-input>
                             </b-form-group>
                         </b-col>
+                    </b-row>
+                    <b-row>
+                        <!-- FOLIO, REFERENCIA -->
                         <b-col>
-                            <b-form-group label="Fecha de pago"
-                                title="En tu comprobante puede aparecer como Fecha de pago, Fecha y Hora, Fecha de aplicación o Fecha de operación">
-                                <b-form-datepicker required :disabled="load || selBook" v-model="comprobante.date"></b-form-datepicker>
+                            <!-- DEPOSITO PRACTICAJA / VENTANILLA / BANCO AZTECA -->
+                            <div v-if="comprobante.type !== 'transferencia'">
+                                <!-- PRACTICAJA -->
+                                <b-form-group v-if="comprobante.type == 'practicaja'" label="Folio" 
+                                    v-b-tooltip.hover title="Ingresar los cuatro números que aparecen en FOLIO en tu comprobante">
+                                    <b-form-input v-model="comprobante.folio" minlength="4" maxlength="4"
+                                        :disabled="load || selBook" required
+                                    ></b-form-input>
+                                </b-form-group>
+                                <!-- VENTANILLA -->
+                                <b-form-group v-if="comprobante.type == 'ventanilla'" label="Movimiento" 
+                                    v-b-tooltip.hover title="Ingresar lo que aparece en MOVIMIENTO en tu comprobante de pago">
+                                    <b-form-input v-model="comprobante.folio" minlength="5"
+                                        :disabled="load || selBook" required
+                                    ></b-form-input>
+                                </b-form-group>
+                                <!-- BANCO AZTECA -->
+                                <b-form-group v-if="comprobante.type == 'BANCO AZTECA'" label="Número de autorización" 
+                                    v-b-tooltip.hover title="Ingresar lo que aparece en Número de autorización en tu comprobante de pago">
+                                    <b-form-input v-model="comprobante.folio" minlength="5"
+                                        :disabled="load || selBook" required
+                                    ></b-form-input>
+                                </b-form-group>
+                            </div>
+                            <!-- TRANFERENCIA -->
+                            <div v-if="comprobante.type === 'transferencia' && comprobante.bank !== null">
+                                <b-form-group v-if="comprobante.bank === 'BANCOMER'" label="Folio">
+                                    <b-form-input v-model="comprobante.folio" type="text" minlength="8" maxlength="10"
+                                        :disabled="load || selBook" required
+                                    ></b-form-input>
+                                </b-form-group>
+                                <b-form-group v-if="comprobante.bank !== 'BANCOMER'" 
+                                    label="Referencia" v-b-tooltip.hover title="En tu comprobante puede aparecer como Referencia, Referencia numérica o Numero de referencia">
+                                    <b-form-input v-model="comprobante.folio" minlength="4"
+                                        :disabled="load || selBook" required
+                                    ></b-form-input>
+                                </b-form-group>
+                            </div>
+                        </b-col>
+                        <!-- CONCEPTO, AUTORIZACIÓN -->
+                        <b-col>
+                            <!-- PRACTICAJA -->
+                            <b-form-group v-if="comprobante.type == 'practicaja'" label="Autorización">
+                                <b-form-input v-model="comprobante.auto" :disabled="load || selBook"
+                                    style="text-transform:uppercase;" required
+                                ></b-form-input>
+                            </b-form-group>
+                            <!-- VENTANILLA -->
+                            <b-form-group v-if="comprobante.type == 'ventanilla'" label="Referencia">
+                                <b-form-input v-model="comprobante.auto" :disabled="load || selBook"
+                                    style="text-transform:uppercase;" required  minlength="4"
+                                ></b-form-input>
+                            </b-form-group>
+                            <!-- TRANSFERENCIA -->
+                            <div v-if="comprobante.type === 'transferencia' && comprobante.bank !== null">
+                                <!-- BANCOMER -->
+                                <b-form-group v-if="comprobante.bank === 'BANCOMER'" label="Motivo de pago">
+                                    <b-form-input v-model="comprobante.auto" type="text" minlength="3"
+                                        :disabled="load || selBook" required
+                                    ></b-form-input>
+                                </b-form-group>
+                                <!-- OTROS BANCOS -->
+                                <b-form-group v-if="comprobante.bank !== 'BANCOMER'" label="Concepto" 
+                                    v-b-tooltip.hover title="En tu comprobante puede aparecer como Concepto, Concepto de pago o Concepto de tranferencia. Te solicitamos escribirlo tal y como aparece (ya sean letras mayúsculas, minúsculas y/o números)">
+                                    <b-form-input v-model="comprobante.auto" type="text" minlength="3"
+                                        :disabled="load || selBook" required
+                                    ></b-form-input>
+                                </b-form-group>
+                            </div>
+                            <!-- BANCO AZTECA -->
+                            <b-form-group v-if="comprobante.type == 'BANCO AZTECA'" label="No. Operación" 
+                                v-b-tooltip.hover title="Ingresar lo que aparece en No. Operación en tu comprobante de pago">
+                                <b-form-input v-model="comprobante.auto" minlength="5"
+                                    :disabled="load || selBook" required
+                                ></b-form-input>
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <!-- PAGOS A TRAVES DE CIE -->
+                    <b-row v-if="bank.tipo == 'CIE'">
+                        <!-- GUIA CIE -->
+                        <b-col>
+                            <b-form-group label="GuÍa CIE">
+                                <b-form-input :disabled="load || selBook" v-model="comprobante.guia"
+                                    required style="text-transform:uppercase;" minlength="3"
+                                ></b-form-input>
+                            </b-form-group>
+                        </b-col>
+                        <!-- REFERENCIA -->
+                        <b-col>
+                            <b-form-group label="Referencia">
+                                <b-form-input :disabled="load || selBook" v-model="comprobante.referencia"
+                                    required style="text-transform:uppercase;" minlength="3"
+                                ></b-form-input>
                             </b-form-group>
                         </b-col>
                     </b-row>
                 </div>
                 <hr>
             </div>
-            <!-- Comprobante(s) -->
+            <!-- COMPROBANTE(S) -->
             <b-row>
                 <b-col sm="9">
                     <h5><b>Comprobante(s)</b></h5>
@@ -447,6 +466,14 @@
 </template>
 
 <script>
+// OMEGA BOOK
+// BANCOMER: 0172427206
+// BANCOMER: 012180001724272063
+// BANCO AZTECA: 09330153687444
+// BANCO AZTECA: 5343810206998814
+// MAJESTIC EDUCATION
+// BANCOMER: 0189525114
+
 // SWEETALERT
 import swal from 'sweetalert';
 import banksMixin from '../../mixins/banksMixin';
@@ -457,12 +484,7 @@ export default {
     mixins: [banksMixin,booksMixin,typesMixin],
     data(){
         return {
-            // csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             load: false,
-            types_externa: [
-                { value: null, text: 'Selecciona una opción', disabled: true },
-                { value: 'oxxo', text: 'OXXO'}
-            ],
             specifyBank: null,
             form: {
                 name: '', lastname: '', email: '',
@@ -471,36 +493,27 @@ export default {
                 file: null,
                 comprobantes: [{
                     type: null, folio: '', auto: '', clave: null, 
-                    bank: null, total: null, date: null, plaza: '', cajero: ''
+                    bank: null, total: null, date: null, plaza: '', cajero: '',
+                    guia: null, referencia: null
                 }],
                 teacher: null, group: null
             },
-            optSchools: this.registers,
             schools: [],
             errors: {},
             selSchool: true,
             books: [],
             selBook: true,
             valueBook: null,
-            position: null,
             a_depositar: null,
             cuenta: null,
             statusCuenta: false,
-            errors: {},
             posicion: null,
-            bancomer1: '0172427206',
-            bancomer2: '012180001724272063',
-            banamex1: '5204165073723995',
-            banamex2: '002180701156103586',
-            banco_azteca1: '09330153687444',
-            banco_azteca2: '5343810206998814',
-            bancoppel1: '19000207503',
-            bancoppel2: '4169160498193532',
-            nctame: '0189525114'
+            bank: {
+                bank: null,
+                tipo: null,
+                numero: null
+            }
         }
-    },
-    filters: {
-        
     },
     created: function () {
         this.schools.push({
@@ -508,7 +521,7 @@ export default {
             text: 'Selecciona una opción',
             disabled: true
         });
-        this.optSchools.forEach(school => {
+        this.registers.forEach(school => {
             this.schools.push({
                 value: school.id,
                 text: `${school.name}`
@@ -558,7 +571,7 @@ export default {
             this.load = true;
             this.acum_total();
             if(this.cuenta === this.bancomer1 || this.cuenta === this.bancomer2 || 
-                this.cuenta === this.banamex1 || this.cuenta === this.banamex2 || this.cuenta === this.nctame){
+                 this.cuenta === this.nctame){
                 if(this.a_depositar >= this.form.a_depositar && this.form.file){
                     this.save_all();
                 } else {
@@ -577,46 +590,32 @@ export default {
         save_all(){
             let fd = this.attributes();
             axios.post('/student/preregister', fd).then(response => {
-                if(response.data === 4) {
+                console.log(response.data);
+                if(response.data === 4)
                     swal("Revisar pago(s)", "Por favor revisa que el total de los datos de pago que registraste sea igual o mayor al total de tu compra.", "warning");
-                }
                 if(response.data === 3) {
                     swal("Guardado", "Tus datos han sido guardados correctamente. Aproximadamente en un lapso de 48 a 72 horas hábiles te haremos llegar un correo electrónico donde te notificaremos si tu pre-registro ha sido validado. Gracias.", "success")
                         .then((value) => {
                             location.href = '/student/register';
                         });
                 }
-                if(response.data === 1) {
+                if(response.data === 1)
                     swal("Pre-registro en proceso", "Tienes un pre-registro que continua en proceso para ser validado. Te haremos llegar un correo electrónico donde te notificaremos si tu pre-registro ha sido validado. Gracias.", "info");
-                } 
-                if(response.data === 2) {
+                if(response.data === 2)
                     swal("Pre-registro aceptado", "Tu pre-registro ya ha sido aceptado, si no te llego un correo electrónico de confirmación, por favor contáctanos al 56 2741 1481 o al 56 2741 0930", "info");
-                }
                 this.errors = {};
                 this.load = false;
             }).catch(error => {
                 if(error.response.status === 422) {
                     this.errors = error.response.data.errors || {};
                     swal("Revisa tus datos", "Por favor revisa que todos tus datos esten correctamente e intenta guardar de nuevo.", "warning");
-                    this.load = false;
                 } else {
-                    let f = { error: error };
-                    axios.put('/information/send_error', f).then(response => {
-                        this.load = false;
-                        this.function_swal();
-                    }).catch(error => {
-                        this.load = false;
-                        this.function_swal();
-                    });
+                    swal("Ocurrio un problema.", "Por favor intenta de nuevo guardar tu pre-registro.", "warning")
+                        .then((value) => {
+                            location.href = '/student/register';
+                        });
                 }
-                // if(error.response.status === 419) {
-                // swal("Ocurrió un problema", "Estamos teniendo problemas para guardar tu pre-registro, por favor no actualices la página y vuelve a presionar en Guardar. Si ya has intentando más de 3 veces por favor comunícate con nosotros. Gracias.", "warning")
-            });
-        },
-        function_swal(){
-            swal("Ocurrio un problema.", "Por favor intenta de nuevo guardar tu pre-registro.", "warning")
-            .then((value) => {
-                location.href = '/student/register';
+                this.load = false;
             });
         },
         attributes(){
@@ -664,7 +663,8 @@ export default {
         addComprobante(){
             this.form.comprobantes.push({
                 type: null, folio: '', auto: '', clave: null,
-                bank: null, total: null, date: null, plaza: '', file: null, cajero: ''
+                bank: null, total: null, date: null, plaza: '', file: null, cajero: '',
+                guia: null, referencia: null
             });
         },
         setQuantity(){
@@ -681,37 +681,23 @@ export default {
         deleteComprobante(i){
             this.form.comprobantes.splice(i, 1);
         },
-        deleteFile(i){
-            this.form.files.splice(i, 1);
-        },
         checkCuenta() {
-            if ((this.sistema == 'MAJESTIC EDUCATION' && this.cuenta == this.nctame) ||
-                (this.sistema == 'OMEGA BOOK' && (this.cuenta === this.bancomer1 || this.cuenta === this.bancomer2 ||
-                        this.cuenta === this.banamex1 || this.cuenta === this.banamex2 ||
-                        this.cuenta === this.bancoppel1 || this.cuenta === this.banco_azteca1 ||
-                        this.cuenta === this.bancoppel2 || this.cuenta === this.banco_azteca2))) {
-                this.statusCuenta = true;
-                 if (this.cuenta === this.bancoppel1 || this.cuenta === this.bancoppel2) this.set_comprobante1('BANCOPPEL');
-                // if(this.cuenta === this.banco_azteca1 || this.cuenta === this.banco_azteca2) this.set_comprobante1('BANCOAZTECA');
-            } else {
-                this.statusCuenta = false;
-                swal("Numero de cuenta incorrecto", "El numero de cuenta que ingresaste no corresponde al nuestro.", "error");
-            }
-        },
-        set_comprobante1(type_bank){
-            this.form.comprobantes[0].type = type_bank;
-            this.form.comprobantes[0].bank = type_bank;
-            this.form.comprobantes[0].folio = 'REV. MANUAL ME';
-            this.form.comprobantes[0].auto = 'REV. MANUAL ME';
-            this.form.comprobantes[0].clave = 'REV. MANUAL ME';
-            this.form.comprobantes[0].total = 0;
-            this.form.comprobantes[0].date = '2021-09-09';
-            this.form.comprobantes[0].plaza = 'REV. MANUAL ME';
-            this.form.comprobantes[0].file = null;
-        },
-        validate_cta(){
-            if(this.cuenta === this.banamex1 || this.cuenta === this.banamex2) return false
-            return true;
+            this.load = true;
+            axios.get('/folios/banks/show', { params: { numero: this.cuenta } }).then(response => {
+                if ((this.sistema == 'MAJESTIC EDUCATION' && response.data.id) ||
+                    (this.sistema == 'OMEGA BOOK' && response.data.id)) {
+                    this.statusCuenta = true;
+                    this.bank.bank = response.data.bank;
+                    this.bank.tipo = response.data.tipo;
+                    this.bank.numero = response.data.numero;
+                } else {
+                    this.statusCuenta = false;
+                    swal("Numero de (convenio / cuenta / CLABE) incorrecto", "", "error");
+                }
+                this.load = false;
+            }).catch(error => {
+                this.load = false;
+            });
         }
     }
 }

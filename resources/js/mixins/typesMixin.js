@@ -12,16 +12,15 @@ export default {
                 { value: 'ventanilla', text: 'DEPOSITO EN VENTANILLA'},
                 { value: 'practicaja', text: 'DEPOSITO EN PRACTICAJA'}
             ],
-            typesTamazunchale: [
-                { value: null, text: 'Selecciona una opción', disabled: true },
-                { value: 'ventanilla', text: 'DEPOSITO EN VENTANILLA'},
-                { value: 'practicaja', text: 'DEPOSITO EN PRACTICAJA'},
-                { value: 'transferencia', text: 'TRANSFERENCIA'}
-            ],
-            typesChontalpa: [
+            typesBAzteca: [
                 { value: null, text: 'Selecciona una opción', disabled: true },
                 { value: 'BANCO AZTECA', text: 'BANCO AZTECA'}
             ],
+            typesBancomer: [
+                { value: null, text: 'Selecciona una opción', disabled: true },
+                { value: 'practicaja', text: 'DEPOSITO EN PRACTICAJA'},
+                { value: 'transferencia', text: 'TRANSFERENCIA'}
+            ]
         }
     }
 }
