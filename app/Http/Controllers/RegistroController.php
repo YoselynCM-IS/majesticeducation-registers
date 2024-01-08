@@ -125,8 +125,23 @@ class RegistroController extends Controller
 
     public function validar_folio($registro){
         $folio = null;
+        // PRACTICAJA / TRANFERENCIA - CIE
+        if($registro->guia !== null){
+            if($registro->type === 'practicaja'){
+                $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$registro->guia.' '.$registro->referencia.'%');
+            }
+            if($registro->type === 'transferencia'){
+                $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$registro->guia.'%');
+            }
+            $nc = ltrim($registro->student->numcuenta,0);
+            $folio = $fpart1->where('concepto','like','%'.$nc.'%')
+                        ->where('fecha',$registro->date)
+                        ->where('abono','like','%'.$registro->total.'%')
+                        ->where('occupied', 0)
+                        ->first();
+        }
         // PRACTICAJA
-        if($registro->type === 'practicaja'){
+        if($registro->type === 'practicaja' && $registro->guia == null){
             $fpart1 = Folio::where('concepto','like','%DEPOSITO EFECTIVO PRACTIC%')
                     ->where('fecha',$registro->date)
                     ->where('concepto','like','%FOLIO:'.$registro->invoice.'%')
@@ -162,7 +177,7 @@ class RegistroController extends Controller
             }
         }
         // TRANFERENCIA
-        if($registro->type === 'transferencia'){
+        if($registro->type === 'transferencia' && $registro->guia == null){
             $bank = $registro->bank;
             // BANCOMER
             if($bank === 'BANCOMER') {
