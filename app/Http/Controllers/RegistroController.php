@@ -128,7 +128,8 @@ class RegistroController extends Controller
         // PRACTICAJA / TRANFERENCIA - CIE
         if($registro->guia !== null){
             if($registro->type === 'practicaja'){
-                $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$registro->guia.' '.$registro->referencia.'%');
+                // $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$registro->guia.' '.$registro->referencia.'%');
+                $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$registro->guia.'%');
             }
             if($registro->type === 'transferencia'){
                 $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$registro->guia.'%');
