@@ -127,12 +127,13 @@ class RegistroController extends Controller
         $folio = null;
         // PRACTICAJA / TRANFERENCIA - CIE
         if($registro->guia !== null){
+            $guia = ltrim($registro->guia,0);
             if($registro->type === 'practicaja'){
-                // $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$registro->guia.' '.$registro->referencia.'%');
-                $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$registro->guia.'%');
+                $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.' '.$registro->referencia.'%');
+                // $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.'%');
             }
             if($registro->type === 'transferencia'){
-                $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$registro->guia.'%');
+                $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.'%');
             }
             $nc = ltrim($registro->student->numcuenta,0);
             $folio = $fpart1->where('concepto','like','%'.$nc.'%')
