@@ -45,7 +45,8 @@
                         </b-form-group>
                     </b-col>
                     <b-col sm="3" class="text-right">
-                        <b-button variant="warning" pill size="sm" :disabled="categorie_id == null"
+                        <b-button v-if="role == 'manager' || role == 'reviewer'"
+                            variant="warning" pill size="sm" :disabled="categorie_id == null"
                             @click="editCorte()">
                             <i class="fa fa-pencil"></i>
                         </b-button>

@@ -142,6 +142,13 @@ Route::name('manager.')->prefix('manager')
     });
 });
 
+Route::name('sorter.')->prefix('sorter')
+->middleware(['auth', 'role:sorter'])->group(function () {
+    Route::name('categories.')->prefix('categories')->group(function () {
+        Route::get('/list', 'SorterController@list_categories' )->name('list');
+    });
+});
+
 Route::name('reviewer.')->prefix('reviewer')
 ->middleware(['auth', 'role:reviewer'])->group(function () {
     Route::get('/home', 'ReviewerController@home' )->name('home');

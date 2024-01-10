@@ -30,5 +30,8 @@ class RoleMiddleware
         if(auth()->user()->role == 'capturist'){
             return redirect()->route('capturist.home');
         }
+        if(auth()->user()->role == 'sorter'){
+            return redirect()->route('sorter.categories.list');
+        }
     }
 }

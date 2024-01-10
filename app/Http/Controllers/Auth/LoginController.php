@@ -51,6 +51,9 @@ class LoginController extends Controller
         if(auth()->user()->role == 'capturist'){
             return 'capturist/home';
         }
+        if(auth()->user()->role == 'sorter'){
+            return 'sorter/categories/list';
+        }
     } 
 
     //METODOS SOBREESCRITOS
