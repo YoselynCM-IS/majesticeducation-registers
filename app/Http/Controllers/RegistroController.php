@@ -110,7 +110,7 @@ class RegistroController extends Controller
         foreach ($estudiantes as $estudiante) {
             $s = Student::whereId($estudiante['student']['id'])->first();
             if($s->check == 'accepted'){
-                if($student->school_id != 1){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE
+                if($student->school_id != 1 && $student->school_id != 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
                     Mail::to($s->email)->send(new PreRegister($estudiante['message'], $s));
                     $s->update(['validate' => 'ENVIADO']);
                 }
@@ -339,7 +339,7 @@ class RegistroController extends Controller
         foreach ($estudiantes as $estudiante) {
             $s = Student::whereId($estudiante['student']['id'])->first();
             if($s->check !== 'process'){
-                if($student->school_id != 1){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE
+                if($student->school_id != 1 && $student->school_id != 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
                     Mail::to($s->email)->send(new PreRegister($estudiante['message'], $s));
                     $s->update(['validate' => 'ENVIADO']);
                 }
