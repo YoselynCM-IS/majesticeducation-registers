@@ -110,7 +110,8 @@ class RegistroController extends Controller
         foreach ($estudiantes as $estudiante) {
             $s = Student::whereId($estudiante['student']['id'])->first();
             if($s->check == 'accepted'){
-                if($student->school_id != 1 && $student->school_id != 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
+                if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
+                } else {
                     Mail::to($s->email)->send(new PreRegister($estudiante['message'], $s));
                     $s->update(['validate' => 'ENVIADO']);
                 }
@@ -339,7 +340,8 @@ class RegistroController extends Controller
         foreach ($estudiantes as $estudiante) {
             $s = Student::whereId($estudiante['student']['id'])->first();
             if($s->check !== 'process'){
-                if($student->school_id != 1 && $student->school_id != 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
+                if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
+                } else {
                     Mail::to($s->email)->send(new PreRegister($estudiante['message'], $s));
                     $s->update(['validate' => 'ENVIADO']);
                 }
@@ -366,8 +368,11 @@ class RegistroController extends Controller
 
         $message = 'Tu registro se ha completado. Los datos que ingresaste en tu pre-registro han sido verificados correctamente.';
 
-        Mail::to($student->email)->send(new PreRegister($message, $student));
-        $student->update(['validate' => 'ENVIADO']);
+        if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
+        } else {
+            Mail::to($student->email)->send(new PreRegister($message, $student));
+            $student->update(['validate' => 'ENVIADO']);
+        }
 
         $hoy = Carbon::now()->format('Y-m-d');
         $students = Student::where('check', 'accepted')
