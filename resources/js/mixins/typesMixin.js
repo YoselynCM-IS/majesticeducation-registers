@@ -19,7 +19,7 @@ export default {
             typesBancomer: [
                 { value: null, text: 'Selecciona una opción', disabled: true },
                 { value: 'practicaja', text: 'DEPOSITO EN PRACTICAJA'},
-                { value: 'transferencia', text: 'TRANSFERENCIA'}
+                { value: 'transferencia', text: 'PAGO DE SERVICIO (APP BBVA)'}
             ]
         }
     }
