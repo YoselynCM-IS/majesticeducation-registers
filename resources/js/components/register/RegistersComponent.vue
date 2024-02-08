@@ -444,10 +444,12 @@ export default {
                 { key: 'date', label: 'Fecha' },
                 { key: 'type', label: 'Tipo' },
                 { key: 'bank', label: 'Banco' },
-                { key: 'invoice', label: 'Folio / Referencia' },
-                { key: 'auto', label: 'Concepto / Autorización' },
+                { key: 'invoice', label: 'Invoice' },
+                { key: 'auto', label: 'Auto' },
+                { key: 'guia', label: 'Guia' },
+                { key: 'referenica', label: 'Referencia' },
                 { key: 'total', label: 'Total' },
-                { key: 'selected', label: 'Asignar folio' }
+                { key: 'selected', label: 'Asignar' }
             ],
             form_std: {},
             std_registros: [],
