@@ -127,7 +127,7 @@ class RegistroController extends Controller
     public function validar_folio($registro){
         $folio = null;
         // PRACTICAJA / TRANFERENCIA - CIE
-        if($registro->guia !== null){
+        if($registro->guia !== null && strlen($registro->guia) >= 7){
             $guia = ltrim($registro->guia,0);
             $tamanio = strlen($guia);
             // if($registro->type === 'practicaja'){
