@@ -129,13 +129,19 @@ class RegistroController extends Controller
         // PRACTICAJA / TRANFERENCIA - CIE
         if($registro->guia !== null){
             $guia = ltrim($registro->guia,0);
-            if($registro->type === 'practicaja'){
-                // $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.' '.$registro->referencia.'%');
-                $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.'%');
-            }
-            if($registro->type === 'transferencia'){
-                $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.'%');
-            }
+            $tamanio = strlen($guia);
+            // if($registro->type === 'practicaja'){
+            //     // $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.' '.$registro->referencia.'%');
+            // }
+            // if($registro->type === 'transferencia'){
+            //     $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.'%');
+            // }
+            if($tamanio == 3) $fpart1 = $this->set_zeros('0000', $registro, $guia);
+            if($tamanio == 4) $fpart1 = $this->set_zeros('000', $registro, $guia);
+            if($tamanio == 5) $fpart1 = $this->set_zeros('00', $registro, $guia);
+            if($tamanio == 6) $fpart1 = $this->set_zeros('0', $registro, $guia);
+            if($tamanio >= 7) $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.'%');
+                        
             $nc = ltrim($registro->student->numcuenta,0);
             $folio = $fpart1->where('concepto','like','%'.$nc.'%')
                         ->where('fecha',$registro->date)
@@ -232,6 +238,10 @@ class RegistroController extends Controller
                 ->first();
         }
         return $folio;
+    }
+
+    public function set_zeros($ceros, $registro, $guia){
+        return Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$ceros.$guia.'%');
     }
 
     public function search_folio($bank, $registro){
