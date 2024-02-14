@@ -12,7 +12,7 @@
             <h6><b>Requisitos</b></h6>
             <ul>
                 <li>Acceder desde una computadora para realizar tu pre-registro</li>
-                <li>Acceder con alguno de los siguientes exploradores: <b>Firefox</b> o <b>Chrome</b></li>
+                <li>Acceder con alguno de los siguientes exploradores: <b>Firefox</b></li>
             </ul>
             <hr>
             <label>Al comprar tu libro con nosotros te ofrecemos la garantía y seguridad de que te será entregado. Te invitamos a <b>NO</b> realizar la compra de tu libro en línea (Amazon, Mercado Libre, entre otras).</label>
