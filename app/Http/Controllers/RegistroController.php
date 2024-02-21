@@ -142,12 +142,14 @@ class RegistroController extends Controller
             if($tamanio == 6) $fpart1 = $this->set_zeros('0', $registro, $guia);
             if($tamanio >= 7) $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.'%');
                         
-            $nc = ltrim($registro->student->numcuenta,0);
-            $folio = $fpart1->where('concepto','like','%'.$nc.'%')
-                        ->where('fecha',$registro->date)
-                        ->where('abono','like','%'.$registro->total.'%')
-                        ->where('occupied', 0)
-                        ->first();
+            if($fpart1 != null){
+                $nc = ltrim($registro->student->numcuenta,0);
+                $folio = $fpart1->where('concepto','like','%'.$nc.'%')
+                            ->where('fecha',$registro->date)
+                            ->where('abono','like','%'.$registro->total.'%')
+                            ->where('occupied', 0)
+                            ->first();
+            }
         }
         // PRACTICAJA
         if($registro->type === 'practicaja' && $registro->guia == null){
