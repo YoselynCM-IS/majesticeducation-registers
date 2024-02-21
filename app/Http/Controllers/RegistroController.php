@@ -128,6 +128,7 @@ class RegistroController extends Controller
         $folio = null;
         // PRACTICAJA / TRANFERENCIA - CIE
         if($registro->guia !== null && strlen($registro->guia) >= 7){
+            $fpart1 = null;
             $guia = ltrim($registro->guia,0);
             $tamanio = strlen($guia);
             // if($registro->type === 'practicaja'){
