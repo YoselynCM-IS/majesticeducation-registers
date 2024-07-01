@@ -204,7 +204,7 @@
                     </b-button>
                 </b-col>
             </b-row><hr>
-            <label><b>Banco:</b></label>
+            <!-- <label><b>Banco:</b></label>
             <b-row>
                 <b-col>
                     <b-form-select v-model="sBank" :options="banks"></b-form-select>
@@ -214,15 +214,18 @@
                         <b-icon-search></b-icon-search> Buscar
                     </b-button>
                 </b-col>
-            </b-row><hr>
-            <label><b>Folio / Movimiento</b></label>
+            </b-row><hr> -->
+            <label><b>Número de referencia</b></label>
             <b-row>
                 <b-col>
                     <b-form-input v-model="sFolio"></b-form-input>
                 </b-col>
                 <b-col sm="4">
-                    <b-button pill id="btnPre" @click="searchFolio()">
-                        <b-icon-search></b-icon-search> Buscar
+                    <b-button pill id="btnPre" block @click="searchFolio('guia')">
+                        <b-icon-search></b-icon-search> Guía CIE
+                    </b-button>
+                    <b-button pill id="btnPre" block @click="searchFolio('invoice')">
+                        <b-icon-search></b-icon-search> N. Folio
                     </b-button>
                 </b-col>
             </b-row><hr>
@@ -406,8 +409,8 @@ export default {
                 { value: 'practicaja', text: 'DEPOSITO EN PRACTICAJA'},
                 { value: 'ventanilla', text: 'DEPOSITO EN VENTILLA'},
                 { value: 'transferencia', text: 'TRANSFERENCIA'},
-                { value: 'oxxo', text: 'DEPOSITO EN OXXO'},
-                { value: 'BANCOPPEL', text: 'DEPOSITO EN BANCOPPEL'},
+                // { value: 'oxxo', text: 'DEPOSITO EN OXXO'},
+                // { value: 'BANCOPPEL', text: 'DEPOSITO EN BANCOPPEL'},
                 { value: 'BANCOAZTECA', text: 'DEPOSITO EN BANCO AZTECA'},
             ],
             sLibro: '',
@@ -543,8 +546,8 @@ export default {
                 // PENDIENTE
             });
         },
-        searchFolio(){
-            axios.get('/registros/by_folio', {params: {folio: this.sFolio}}).then(response => {
+        searchFolio(tipo){
+            axios.get('/registros/by_folio', {params: {folio: this.sFolio, tipo: tipo}}).then(response => {
                 if(response.data.length > 0){
                     this.modalShow2 = false;
                     this.sFolio = null;

@@ -32,7 +32,7 @@ class RegistroController extends Controller
     }
 
     public function by_folio(Request $request){
-        $registros = Registro::select('student_id')->where('invoice', $request->folio)->groupBy('student_id')->get();
+        $registros = Registro::select('student_id')->where($request->tipo, 'LIKE', '%'.$request->folio.'%')->groupBy('student_id')->get();
         $students = Student::whereIn('id',$registros)->with('school')->orderBy('created_at', 'desc')->get();
         return response()->json($students);
     }
