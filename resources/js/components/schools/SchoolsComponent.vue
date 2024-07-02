@@ -27,8 +27,8 @@
                     @click="editSchool(data.index, data.item)">
                     <b-icon-pencil-square></b-icon-pencil-square>
                 </b-button>
-                <b-button :disabled="data.item.students_count > 0 || data.item.books_count > 0"
-                    pill variant="danger" class="text-white"
+                <!-- :disabled="data.item.students_count > 0 || data.item.books_count > 0" -->
+                <b-button pill variant="danger" class="text-white"
                     @click="deleteSchool(data.index, data.item)">
                     <b-icon-x></b-icon-x>
                 </b-button>
