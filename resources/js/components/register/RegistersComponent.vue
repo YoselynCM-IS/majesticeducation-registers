@@ -159,18 +159,6 @@
                     </b-button>
                 </b-col>
             </b-row><hr>
-            <label><b>Fecha de pago</b></label>
-            <b-row>
-                <b-col>
-                    <b-form-datepicker v-model="fecha">
-                    </b-form-datepicker>
-                </b-col>
-                <b-col sm="4">
-                    <b-button pill id="btnPre" @click="searchDate()">
-                        <b-icon-search></b-icon-search> Buscar
-                    </b-button>
-                </b-col>
-            </b-row><hr>
             <b>Escuela</b>
             <b-row>
                 <b-col>
@@ -189,54 +177,6 @@
                 </b-col>
                 <b-col sm="4">
                     <b-button pill id="btnPre" @click="searchSchool()">
-                        <b-icon-search></b-icon-search> Buscar
-                    </b-button>
-                </b-col>
-            </b-row><hr>
-            <label><b>Tipo de pago:</b></label>
-            <b-row>
-                <b-col>
-                    <b-form-select v-model="sType" :options="types"></b-form-select>
-                </b-col>
-                <b-col sm="4">
-                    <b-button pill id="btnPre" @click="searchType()">
-                        <b-icon-search></b-icon-search> Buscar
-                    </b-button>
-                </b-col>
-            </b-row><hr>
-            <!-- <label><b>Banco:</b></label>
-            <b-row>
-                <b-col>
-                    <b-form-select v-model="sBank" :options="banks"></b-form-select>
-                </b-col>
-                <b-col sm="4">
-                    <b-button pill id="btnPre" @click="searchBank()">
-                        <b-icon-search></b-icon-search> Buscar
-                    </b-button>
-                </b-col>
-            </b-row><hr> -->
-            <label><b>Número de referencia</b></label>
-            <b-row>
-                <b-col>
-                    <b-form-input v-model="sFolio"></b-form-input>
-                </b-col>
-                <b-col sm="4">
-                    <b-button pill id="btnPre" block @click="searchFolio('guia')">
-                        <b-icon-search></b-icon-search> Guía CIE
-                    </b-button>
-                    <b-button pill id="btnPre" block @click="searchFolio('invoice')">
-                        <b-icon-search></b-icon-search> N. Folio
-                    </b-button>
-                </b-col>
-            </b-row><hr>
-            <label><b>Total depositado</b></label>
-            <b-row>
-                <b-col>
-                    <b-form-input v-model="sTotal" type="number">
-                    </b-form-input>
-                </b-col>
-                <b-col sm="4">
-                    <b-button pill id="btnPre" @click="searchTotal()">
                         <b-icon-search></b-icon-search> Buscar
                     </b-button>
                 </b-col>
@@ -282,6 +222,69 @@
                 <b-col sm="4">
                     <b-button pill id="btnPre" @click="searchStudent()">
                         <b-icon-search></b-icon-search> Buscar
+                    </b-button>
+                </b-col>
+            </b-row><hr>
+            <label><b>Tipo de pago:</b></label>
+            <b-row>
+                <b-col>
+                    <b-form-select v-model="sType" :options="types"></b-form-select>
+                </b-col>
+                <b-col sm="4">
+                    <b-button pill id="btnPre" @click="searchType()">
+                        <b-icon-search></b-icon-search> Buscar
+                    </b-button>
+                </b-col>
+            </b-row><hr>
+            <!-- <label><b>Banco:</b></label>
+            <b-row>
+                <b-col>
+                    <b-form-select v-model="sBank" :options="banks"></b-form-select>
+                </b-col>
+                <b-col sm="4">
+                    <b-button pill id="btnPre" @click="searchBank()">
+                        <b-icon-search></b-icon-search> Buscar
+                    </b-button>
+                </b-col>
+            </b-row><hr> -->
+            <label><b>Fecha de pago</b></label>
+            <b-row>
+                <b-col>
+                    <b-form-datepicker v-model="fecha">
+                    </b-form-datepicker>
+                </b-col>
+                <b-col sm="4">
+                    <b-button pill id="btnPre" @click="searchDate()">
+                        <b-icon-search></b-icon-search> Buscar
+                    </b-button>
+                </b-col>
+            </b-row><hr>
+            <label><b>Total depositado</b></label>
+            <b-row>
+                <b-col>
+                    <b-form-input v-model="sTotal" type="number">
+                    </b-form-input>
+                </b-col>
+                <b-col sm="4">
+                    <b-button pill id="btnPre" @click="searchTotal()">
+                        <b-icon-search></b-icon-search> Buscar
+                    </b-button>
+                </b-col>
+            </b-row><hr>
+            <label><b>Número de busqueda</b></label>
+            <b-row>
+                <b-col>
+                    <b-form-input v-model="sFolio"></b-form-input>
+                </b-col>
+                <b-col sm="4">
+                    <b-button pill id="btnPre" block @click="searchFolio('referencia')">
+                        <b-icon-search></b-icon-search> Referencia
+                    </b-button>
+                    <b-button pill id="btnPre" block @click="searchFolio('guia')">
+                        <b-icon-search></b-icon-search> Guía CIE
+                    </b-button>
+                    <b-button pill id="btnPre" block @click="searchFolio('invoice')">
+                        <b-icon-search></b-icon-search> N. Folio
                     </b-button>
                 </b-col>
             </b-row>
