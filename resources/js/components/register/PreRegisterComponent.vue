@@ -83,6 +83,13 @@
                             </b-form-group>
                         </b-col>
                     </b-row>
+                    <b-alert v-if="form.email.length > 0" show variant="info">
+                        <b-icon-info-circle></b-icon-info-circle> <b>Importante</b> <br>
+                        <p>
+                            Ingresa un correo electrónico que utilices habitualmente, en él te haremos llegar un correo donde te informaremos si tu pre-registro ha sido aceptado o rechazado. Y por favor verifica que este bien escrito.
+                        </p>
+                    </b-alert>
+                    <hr>
                     <b-row>
                         <b-col>
                             <b-form-group label="Plantel:">
@@ -93,16 +100,17 @@
                             </b-form-group>
                         </b-col>
                     </b-row>
-                    <b-alert v-if="form.email.length > 0" show variant="info">
-                        <b-icon-info-circle></b-icon-info-circle> <b>Importante</b> <br>
-                        <p>
-                            Ingresa un correo electrónico que utilices habitualmente, en él te haremos llegar un correo donde te informaremos si tu pre-registro ha sido aceptado o rechazado. Y por favor verifica que este bien escrito.
-                        </p>
-                    </b-alert>
-                    <hr>
                 </div>
                 <!-- Datos del libro -->
                 <div>
+                    <b-alert v-if="sistema == 'OMEGA BOOK' && 
+                        (form.school == 19 || form.school == 27 || form.school == 34 || form.school == 45 || form.school == 76 || form.school == 96)" 
+                        show variant="warning">
+                        <b-icon-info-circle></b-icon-info-circle> <b>IMPORTANTE </b> <br>
+                        <p>
+                            A PARTIR DEL 11 DE JULIO EL LIBRO DIGITAL DE LA SERIE WORLD ENGLISH SE SURTIRÁ CON LA PLATAFORMA SPARK. SI TIENES ALGUNA DUDA FAVOR DE COMUNICARSE CON SU DOCENTE.
+                        </p>
+                    </b-alert>
                     <h5><b>Datos del libro</b></h5>
                     <b-row>
                         <b-col>
