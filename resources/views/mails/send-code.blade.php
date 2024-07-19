@@ -33,14 +33,8 @@
 			<p>Descarga la <a href="https://dl.dropbox.com/s/8lwce27hv6bc69s/ep-digibooks.pdf"><b>Guia</b></a> para poder acceder al libro</p>
 		@endif
 		@if($editorial === 'CENGAGE')
-			<b>TU CÓDIGO DE VITALSOURCE: {{ $code }}</b><br>
-			<b>TU CÓDIGO DE MyELT: {{ $code2 }}</b>
-			<p>Descarga los instructivos para poder acceder al libro</p>
-			<ol>
-				<li><a href="https://dl.dropbox.com/s/e267o0cll0auzz4/Carta%20de%20entrega%20ebook%20VitalSource.pdf">Carta de entrega ebook VitalSource</a></li>
-				<li><a href="https://dl.dropbox.com/s/0ulozdfblany6g1/myELT_template.pdf">MyELT</a></li>
-				<li><a href="https://dl.dropbox.com/s/7keq4kzef7kiz7h/VitalSource_template.pdf">VitalSource</a></li>
-			</ol>
+			<b>TU CÓDIGO ES: {{ $code }}</b>
+			<p>Descarga la <a href="https://www.dropbox.com/scl/fi/ll36bj04rl2wairj0fppe/Infograf-a-Spark.pdf?rlkey=7khpzr4v4979ebe9rn8p7dstb&st=7c6dxkcx&dl=1"><b>infografía</b></a> para poder acceder al libro.</p>
 		@endif
 		@if($editorial === 'RICHMOND')
 			<p>Revisa con tu profesor para poder acceder a tu libro.</p>
