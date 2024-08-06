@@ -1,5 +1,6 @@
 <template>
     <div>
+        <ad-packs-component></ad-packs-component>
         <h4 class="text-center"><b>Pre-registro</b></h4>
         <!-- TUTORIAL -->
         <b-alert class="mb-3 mt-2" variant="dark" show>
@@ -29,7 +30,7 @@
                 </b-col>
                 <b-col sm="3">
                     <b-button class="mt-4" @click="checkCuenta()" pill
-                        id="btnPre" block :disabled="load || statusCuenta">
+                        id="btnPre" :disabled="load || statusCuenta">
                         <b-icon-arrow-right-circle-fill></b-icon-arrow-right-circle-fill> Continuar
                     </b-button>
                 </b-col>
@@ -512,9 +513,11 @@ import swal from 'sweetalert';
 import banksMixin from '../../mixins/banksMixin';
 import booksMixin from '../../mixins/booksMixin';
 import typesMixin from '../../mixins/typesMixin';
+import AdPacksComponent from './ads/AdPacksComponent.vue';
 export default {
     props: ['registers', 'tipo', 'sistema'],
     mixins: [banksMixin,booksMixin,typesMixin],
+    components: {AdPacksComponent},
     data(){
         return {
             load: false,
