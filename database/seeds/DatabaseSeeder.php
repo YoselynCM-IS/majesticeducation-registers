@@ -260,13 +260,15 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         \DB::table('users')->insert([
-            0 => ['id' => 25, 'role'      => 'administrator', 'name'      => 'Genaro', 'user_name' => 'genaro-ra1-ob', 'email'     => 'genaro@ob-registers.com', 'password'  => bcrypt('$sI&645%') ],
-            1 => ['id' => 26, 'role'      => 'manager', 'name'      => 'Jenny', 'user_name' => 'jenny-ra2-ob', 'email'     => 'jenny@ob-registers.com', 'password'  => bcrypt('$cU#646$') ],
-            2 => ['id' => 27, 'role'      => 'manager', 'name'      => 'Yoselyn', 'user_name' => 'yoselyn-ra3-ob', 'email'     => 'yoselyn@ob-registers.com', 'password'  => bcrypt('#tY$597$') ],
-            3 => ['id' => 18, 'role'      => 'reviewer', 'name'      => 'Adriana', 'user_name' => 'adriana-ra4-ob', 'email'     => 'adriana@ob-registers.com', 'password'  => bcrypt('#hR%709#') ],
-            4 => ['id' => 12, 'role'      => 'reviewer', 'name'      => 'Gabriela', 'user_name' => 'gabriela-ra5-ob', 'email'     => 'gabriela@ob-registers.com', 'password'  => bcrypt('#yF$791#') ],
-            5 => ['id' => 7, 'role'      => 'reviewer', 'name'      => 'Mayra', 'user_name' => 'mayra-ra6-ob', 'email'     => 'mayra@ob-registers.com', 'password'  => bcrypt('$cZ$941#') ],
-            6 => ['id' => 17, 'role'      => 'reviewer', 'name'      => 'Ximena', 'user_name' => 'ximena-ra7-ob', 'email'     => 'ximena@ob-registers.com', 'password'  => bcrypt('%pP$574$') ]
+            // 0 => ['id' => 25, 'role'      => 'administrator', 'name'      => 'Genaro', 'user_name' => 'genaro-ra1-ob', 'email'     => 'genaro@ob-registers.com', 'password'  => bcrypt('$sI&645%') ],
+            // 1 => ['id' => 26, 'role'      => 'manager', 'name'      => 'Jenny', 'user_name' => 'jenny-ra2-ob', 'email'     => 'jenny@ob-registers.com', 'password'  => bcrypt('$cU#646$') ],
+            // 2 => ['id' => 27, 'role'      => 'manager', 'name'      => 'Yoselyn', 'user_name' => 'yoselyn-ra3-ob', 'email'     => 'yoselyn@ob-registers.com', 'password'  => bcrypt('#tY$597$') ],
+            // 3 => ['id' => 18, 'role'      => 'reviewer', 'name'      => 'Adriana', 'user_name' => 'adriana-ra4-ob', 'email'     => 'adriana@ob-registers.com', 'password'  => bcrypt('#hR%709#') ],
+            // 4 => ['id' => 12, 'role'      => 'reviewer', 'name'      => 'Gabriela', 'user_name' => 'gabriela-ra5-ob', 'email'     => 'gabriela@ob-registers.com', 'password'  => bcrypt('#yF$791#') ],
+            // 5 => ['id' => 7, 'role'      => 'reviewer', 'name'      => 'Mayra', 'user_name' => 'mayra-ra6-ob', 'email'     => 'mayra@ob-registers.com', 'password'  => bcrypt('$cZ$941#') ],
+            // 6 => ['id' => 17, 'role'      => 'reviewer', 'name'      => 'Ximena', 'user_name' => 'ximena-ra7-ob', 'email'     => 'ximena@ob-registers.com', 'password'  => bcrypt('%pP$574$') ]
+            // 11 => ['role'      => 'reviewer', 'name'      => 'Annete', 'user_name' => 'annete-ra12-ob', 'email'     => 'annete@ob-registers.com', 'password'  => bcrypt('$bQ&938&') ],
+            // 12 => ['role'      => 'reviewer', 'name'      => 'Annete', 'user_name' => 'annete-ra12-me', 'email'     => 'annete@me-registers.com', 'password'  => bcrypt('&sW%445#') ],
         ]);
     }
 }

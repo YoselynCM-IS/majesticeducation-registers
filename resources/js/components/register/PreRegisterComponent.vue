@@ -314,7 +314,7 @@
                                 <!-- TRANFERENCIA -->
                                 <div v-if="comprobante.type === 'transferencia' && comprobante.bank !== null">
                                     <b-form-group v-if="comprobante.bank === 'BANCOMER'" label="Folio">
-                                        <b-form-input v-model="comprobante.folio" type="text" minlength="8" maxlength="10"
+                                        <b-form-input v-model="comprobante.folio" type="text" minlength="7" maxlength="10"
                                             :disabled="load || selBook" required
                                         ></b-form-input>
                                     </b-form-group>
