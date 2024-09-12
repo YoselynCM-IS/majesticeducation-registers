@@ -636,7 +636,6 @@ export default {
         save_all(){
             let fd = this.attributes();
             axios.post('/student/preregister', fd).then(response => {
-                console.log(response.data);
                 if(response.data === 4)
                     swal("Revisar pago(s)", "Por favor revisa que el total de los datos de pago que registraste sea igual o mayor al total de tu compra.", "warning");
                 if(response.data === 3) {

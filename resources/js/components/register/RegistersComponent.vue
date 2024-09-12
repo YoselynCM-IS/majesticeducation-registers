@@ -8,7 +8,7 @@
                 </b-button>
             </b-col>
             <b-col sm="3" class="text-right">
-                <b-button variant="secondary" pill block @click="modalDownload = true">
+                <b-button v-if="role !== 'sorter'" variant="secondary" pill block @click="modalDownload = true">
                     <b-icon-download></b-icon-download> Descargas
                 </b-button>
             </b-col>
@@ -32,7 +32,7 @@
                 </b-pagination>
             </b-col>
             <b-col sm="3">
-                <b-button class="mt-1" :disabled="load" block
+                <b-button v-if="role !== 'sorter'" class="mt-1" :disabled="load" block
                     variant="danger" pill @click="updateRejected()">
                     <b-icon-arrow-clockwise></b-icon-arrow-clockwise> Revisar rechazados
                 </b-button>
@@ -128,7 +128,7 @@
             <b-row class="mt-2">
                 <b-col><b>{{ student.name }}</b></b-col>
                 <b-col sm="2" class="text-right">
-                    <b-button v-if="!viewEdit && student.codes == 0 && student.delivery == 0" 
+                    <b-button v-if="!viewEdit && student.codes == 0 && student.delivery == 0 && role !== 'sorter'" 
                         variant="warning" pill block @click="editRegister()">
                         <b-icon-pencil></b-icon-pencil> Editar
                     </b-button>

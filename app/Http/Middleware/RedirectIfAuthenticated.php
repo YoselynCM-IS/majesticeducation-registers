@@ -33,7 +33,7 @@ class RedirectIfAuthenticated
                 return redirect()->route('capturist.home');
             }
             if(auth()->user()->role == 'sorter'){
-                return redirect()->route('sorter.categories.list');
+                return redirect()->route('sorter.home');
             }
         }
 

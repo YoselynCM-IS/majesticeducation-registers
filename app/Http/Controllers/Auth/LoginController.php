@@ -52,7 +52,7 @@ class LoginController extends Controller
             return 'capturist/home';
         }
         if(auth()->user()->role == 'sorter'){
-            return 'sorter/categories/list';
+            return 'sorter/home';
         }
     } 
 

@@ -144,6 +144,7 @@ Route::name('manager.')->prefix('manager')
 
 Route::name('sorter.')->prefix('sorter')
 ->middleware(['auth', 'role:sorter'])->group(function () {
+    Route::get('/home', 'SorterController@home' )->name('home');
     Route::name('categories.')->prefix('categories')->group(function () {
         Route::get('/list', 'SorterController@list_categories' )->name('list');
     });
