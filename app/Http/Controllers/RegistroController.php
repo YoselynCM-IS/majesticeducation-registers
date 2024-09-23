@@ -338,7 +338,7 @@ class RegistroController extends Controller
                         $student->update(['check' => 'rejected']);
                         $message = 'Tu pre-registro no pudo ser aceptado, te pedimos verifiques tus datos y vuelvas a registrarte ingresando correctamente tus datos.';
                         if($student->validate == 'NO ENVIADO' && $student->school_id != 76){ //NO AGREGAR A JESUS CARRANZA
-                            array_push($estudiantes, ['student' => $student, 'message' => $message]);
+                            // array_push($estudiantes, ['student' => $student, 'message' => $message]);
                         }
                     }
                 }
