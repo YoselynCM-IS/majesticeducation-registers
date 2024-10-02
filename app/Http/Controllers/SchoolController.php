@@ -135,7 +135,7 @@ class SchoolController extends Controller
     }
 
     public function index(){
-        $schools = \DB::table('schools')->orderBy('name', 'asc')->get();
+        $schools = School::orderBy('name', 'asc')->get();
         return response()->json($schools);
     }
 

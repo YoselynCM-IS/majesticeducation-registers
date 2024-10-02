@@ -515,7 +515,7 @@ import booksMixin from '../../mixins/booksMixin';
 import typesMixin from '../../mixins/typesMixin';
 import AdPacksComponent from './ads/AdPacksComponent.vue';
 export default {
-    props: ['registers', 'tipo', 'sistema'],
+    props: ['tipo', 'sistema'],
     mixins: [banksMixin,booksMixin,typesMixin],
     components: {AdPacksComponent},
     data(){
@@ -560,20 +560,25 @@ export default {
     methods: {
         // METODO PARA ACEPTAR LAS CONDICIONES
         btnAccept(){
-            this.schools.push({
-                value: null,
-                text: 'Selecciona una opción',
-                disabled: true
-            });
-            this.registers.forEach(school => {
+            // OBTENER TODAS LAS ESCUELAS ACIVAS
+            axios.get('/schools/index').then(response => {
                 this.schools.push({
-                    value: school.id,
-                    text: `${school.name}`
+                    value: null,
+                    text: 'Selecciona una opción',
+                    disabled: true
                 });
+                response.data.forEach(school => {
+                    this.schools.push({
+                        value: school.id,
+                        text: `${school.name}`
+                    });
+                });
+                
+                this.consAccepted = true;
+                this.modalConsider = false;
+            }).catch(error => {
+                
             });
-            
-            this.consAccepted = true;
-            this.modalConsider = false;
         },
         fileChange(e){
             var fileInput = document.getElementById('archivoType');

@@ -60,8 +60,7 @@ class ReviewerController extends Controller
     }
 
     public function preregister(){
-        $schools = \DB::table('schools')->orderBy('name', 'asc')->get();
-        return view('reviewer.preregister', compact('schools'));
+        return view('reviewer.preregister');
     }
 
     public function pagos(){
