@@ -45,11 +45,12 @@
             </template>
             <template v-slot:cell(marcado_por)="data">
                 <div v-if="data.item.occupied">
-                    <label v-if="data.item.marcado_por == null && data.item.registro.student">
-                        <b-button variant="link" class="text-left" @click="showInfo(data.item.registro.student_id)">
-                            {{ data.item.registro.student.name }}
+                    <div v-if="data.item.marcado_por == null && data.item.registros.length > 0" type="circle">
+                        <b-button v-for="(registro, i) in data.item.registros" v-bind:key="i"
+                            variant="link" class="text-left" @click="showInfo(registro.student_id)">
+                            {{ registro.student.name }}
                         </b-button>
-                    </label>
+                    </div>
                     <label v-if="data.item.marcado_por != null">{{ data.item.marcado_por }}</label>
                 </div>
                 <b-button v-else pill @click="marcarFolio(data.item, data.index)"

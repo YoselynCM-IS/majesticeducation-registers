@@ -9,7 +9,7 @@ class Folio extends Model
 {
     protected $fillable = [ 'fecha', 'concepto', 'abono', 'saldo', 'occupied', 'marcado_por' ];
 
-    public function registro(){
-        return $this->hasOne(Registro::class);
+    public function registros(){
+        return $this->hasMany(Registro::class);
     }
 }
