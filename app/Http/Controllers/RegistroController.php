@@ -237,7 +237,8 @@ class RegistroController extends Controller
             $folio = Folio::where('fecha',$registro->date)
                 ->where('abono','like','%'.$registro->total.'%')
                 ->where('occupied', 0)
-                ->where('concepto','like','%DEPOSITO DE EFECTIVO/ '.$registro->invoice.' AUT: '.$registro->auto.'%')
+                ->where('concepto','like','%DEPOSITO DE EFECTIVO/ '.$registro->auto.'%')
+                ->where('concepto','like','%AUT: '.$registro->invoice.'%')
                 ->first();
         }
         return $folio;
