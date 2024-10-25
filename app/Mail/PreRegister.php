@@ -32,7 +32,7 @@ class PreRegister extends Mailable implements ShouldQueue
     public function build()
     {
         if(env('APP_NAME') == 'MAJESTIC EDUCATION'){
-            // $from = 'registro.pagos@majesticeducation-registers.com';
+            $from = 'pagos@majesticeducation-registers.com';
             $cc = "rp.majesticeducacion@gmail.com";
         } else {
             // $from = 'registro.pagos@omegabook-registers.com';
@@ -40,7 +40,7 @@ class PreRegister extends Mailable implements ShouldQueue
         }
 
         return $this->from($cc)
-            // ->cc($cc)
+            ->bcc($cc)
             ->subject(__("Respuesta de pre-registro"))
             ->markdown('mails.save-pre-register') //Template
             ->with('student', $this->student)
