@@ -38,7 +38,7 @@ class ErrorPreregister extends Mailable implements ShouldQueue
             $cc = "rp.omegabook@gmail.com";
         }
 
-        return $this->from($from)->cc($cc)
+        return $this->from($from)->bcc($cc)
         ->subject(__("Status Preregister"))
         ->markdown('mails.error-preresgister') //Template
         ->with('error', $this->error);
