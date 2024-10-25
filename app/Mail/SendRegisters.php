@@ -45,8 +45,8 @@ class SendRegisters extends Mailable
             $cc = "rp.omegabook@gmail.com";
         }
 
-        return $this->from($from)
-            ->cc($from)
+        return $this->from($cc)
+            // ->cc($from)
             ->subject(__($fecha))
             ->attachData($this->lista, $nombre)
             ->markdown('mails.send-registers')
