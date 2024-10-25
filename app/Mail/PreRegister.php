@@ -32,7 +32,7 @@ class PreRegister extends Mailable implements ShouldQueue
     public function build()
     {
         if(env('APP_NAME') == 'MAJESTIC EDUCATION'){
-            $from = 'pagos@majesticeducation-registers.com';
+            $from = 'registro.pagos@majesticeducation-registers.com';
             $cc = "rp.majesticeducacion@gmail.com";
         } else {
             // $from = 'registro.pagos@omegabook-registers.com';
