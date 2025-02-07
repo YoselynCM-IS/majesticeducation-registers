@@ -147,6 +147,10 @@
                     </b-button>
                 </b-col>
             </b-row>
+            <!-- ELIMINAR DESPUES -->
+            <br><b-button @click="btnDepurar()" pill>
+                Depurar
+            </b-button>
         </b-modal>
         <b-modal v-model="modalMarcar" hide-footer hide-header size="sm" centered>
             <div class="text-center">
@@ -261,6 +265,16 @@ export default {
                 this.foliosData = response.data;
                 this.load = false;
                 this.types_search(false, false, true, false);
+            }).catch(error => {
+                this.load = false;
+            });
+        },
+        // ELIMINAR DESPUES
+        btnDepurar(){
+            this.load = true;
+            axios.get(`/folios/depurar`, {params: {fecha: this.fecha}}).then(response => {
+                console.log(response.data);
+                this.load = false;
             }).catch(error => {
                 this.load = false;
             });
