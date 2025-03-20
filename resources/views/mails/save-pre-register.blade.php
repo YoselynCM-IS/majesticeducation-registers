@@ -14,7 +14,7 @@
 				@include('partials.messages.libro-fisico', ['libro' => $student->book])
 			@else
 				@if(str_contains($student->book,'DIGITAL'))
-					<p>Aproximadamente de 24 a 72 horas hábiles recibirás por correo tu código.</p>
+					<p>Aproximadamente de 24 a 72 horas hábiles recibirás por correo tu código del libro {{ $student->book }}.</p>
 				@else
 					@if($student->school_id == 13)
 						<p>Para recoger tu libro {{ $student->book }}, acudir al INSTITUTO TECNOLOGICO DE MINATITLAN.</p>
