@@ -38,9 +38,6 @@ Route::name('folios.')->prefix('folios')->group(function () {
     Route::name('banks.')->prefix('banks')->group(function () {
         Route::get('show', 'FolioController@check_cta' )->name('show');
     });
-
-    // ELIMINAR DESPUES
-    Route::get('depurar', 'FolioController@depurar' )->name('depurar');
 });
 
 Route::name('student.')->prefix('student')->group(function () {

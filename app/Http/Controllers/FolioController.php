@@ -71,18 +71,6 @@ class FolioController extends Controller
         return response()->json($folios);
     }
 
-    // ELIMINAR DESPUES
-    public function depurar(Request $request){
-        $mes = Carbon::create($request->fecha)->format('Y-m');
-        $folios = Folio::where('created_at', 'like', '%'.$mes.'%')->get();
-        $folios->map(function($folio){
-            $folio->update([
-                'concepto' => preg_replace('/\s+/', ' ', $folio->concepto)
-            ]);
-        });
-        return response()->json($folios->count());
-    }
-
     public function store(Request $request){
         $array = Excel::toArray(new FoliosImport, request()->file('file'));
         \DB::beginTransaction();
