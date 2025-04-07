@@ -7,7 +7,7 @@
             <h6>
                 <b>
                     Si necesitas ayuda para realizar tu pre-registro, puedes descargar este 
-                    <a :href="sistema == 'MAJESTIC EDUCATION' ? 'https://www.dropbox.com/scl/fi/vipojpvxgbrbaed5jk0sw/TUTORIAL-PRE-REGISTRO-MAJESTICEDUCATION.pdf?rlkey=smkwzss2rrtp36r91wu91g0ho&dl=1':'https://www.dropbox.com/scl/fi/xikn90xnyjv8hoi5zzpcn/TUTORIAL-PRE-REGISTRO-OMEGABOOK.pdf?rlkey=edic0dlugbqj6aemxmimo188n&dl=1'">tutorial</a> para poder guiarte.
+                    <a :href="sistema == 'MAJESTIC EDUCATION' ? 'https://www.dropbox.com/scl/fi/vipojpvxgbrbaed5jk0sw/TUTORIAL-PRE-REGISTRO-MAJESTICEDUCATION.pdf?rlkey=smkwzss2rrtp36r91wu91g0ho&dl=1':'https://www.dropbox.com/scl/fi/xikn90xnyjv8hoi5zzpcn/TUTORIAL-PRE-REGISTRO-OMEGABOOK.pdf?rlkey=edic0dlugbqj6aemxmimo188n&dl=1'">tutorial</a> que te guiará paso a paso.
                 </b>
             </h6>
             <h6><b>Requisitos</b></h6>
@@ -22,7 +22,7 @@
             <!-- NUMERO DE CUENTA AL CUAL SE DEPOSITO -->
             <b-row>
                 <b-col sm="9">
-                    <b-form-group label="Numero de (convenio / cuenta / CLABE) al que se realizó el deposito">
+                    <b-form-group label="Número de (convenio, cuenta o CLABE) al que se realizó el depósito.">
                         <b-form-input v-model="cuenta" :disabled="load || statusCuenta"
                             type="number" required
                         ></b-form-input>
@@ -47,50 +47,43 @@
                                     style="text-transform:uppercase;" required
                                 ></b-form-input>
                                 <div v-if="errors && errors.name" class="text-danger">
-                                    El campo Nombre es requerido y tiene que ser igual o mayor a 3 caracteres.
+                                    El campo 'Nombre' es obligatorio y debe tener al menos 3 caracteres.
                                 </div>
                             </b-form-group>
                         </b-col>
                         <b-col>
-                            <b-form-group label="Apellidos (Ambos y completos)">
-                                <b-form-input v-model="form.lastname" :disabled="load || !statusCuenta"
-                                    style="text-transform:uppercase;" required
+                            <b-form-group label="Correo electrónico:">
+                                <b-form-input v-model="form.email" onpaste="return false;" oncopy="return false;"
+                                    type="email" required :disabled="load || !statusCuenta"
                                 ></b-form-input>
-                                <div v-if="errors && errors.lastname" class="text-danger">
-                                    El campo Apellidos es requerido y tiene que ser igual o mayor a 5 caracteres.
+                                <div v-if="errors && errors.email" class="text-danger">
+                                    <b>El campo 'Correo electrónico' es obligatorio.</b>
                                 </div>
                             </b-form-group>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
-                            <b-form-group label="Correo electrónico:">
-                                <b-form-input v-model="form.email"
-                                    type="email" required :disabled="load || !statusCuenta"
+                            <b-form-group label="Apellidos (Completo)">
+                                <b-form-input v-model="form.lastname" :disabled="load || !statusCuenta"
+                                    style="text-transform:uppercase;" required
                                 ></b-form-input>
-                                <div v-if="errors && errors.email" class="text-danger">
-                                    <b>El campo Correo electrónico es requerido.</b>
+                                <div v-if="errors && errors.lastname" class="text-danger">
+                                    El campo 'Apellidos' es obligatorio y debe tener al menos 5 caracteres.
                                 </div>
                             </b-form-group>
                         </b-col>
                         <b-col>
-                            <b-form-group label="Numero de teléfono">
-                                <b-form-input v-model="form.telephone" :disabled="load || !statusCuenta" required
-                                    minlength="10" maxlength="10"
+                            <b-form-group label="Correo electrónico (CONFIRMAR):">
+                                <b-form-input v-model="form.email_confirmation" onpaste="return false;" oncopy="return false;"
+                                    type="email" required :disabled="load || !statusCuenta"
                                 ></b-form-input>
-                                <div v-if="errors && errors.telephone" class="text-danger">
-                                    El campo Numero de teléfono es requerido y tiene que ser igual a 10 digitos.
+                                <div v-if="errors && errors.email_confirmation" class="text-danger">
+                                    <b>Los campos 'Correo electrónico' deben ser idénticos.</b>
                                 </div>
                             </b-form-group>
                         </b-col>
                     </b-row>
-                    <b-alert v-if="form.email.length > 0" show variant="info">
-                        <b-icon-info-circle></b-icon-info-circle> <b>Importante</b> <br>
-                        <p>
-                            Ingresa un correo electrónico que utilices habitualmente, en él te haremos llegar un correo donde te informaremos si tu pre-registro ha sido aceptado o rechazado. Y por favor verifica que este bien escrito.
-                        </p>
-                    </b-alert>
-                    <hr>
                     <b-row>
                         <b-col>
                             <b-form-group label="Plantel:">
@@ -100,7 +93,23 @@
                                 ></b-form-select>
                             </b-form-group>
                         </b-col>
+                        <b-col>
+                            <b-form-group label="Numero de teléfono">
+                                <b-form-input v-model="form.telephone" :disabled="load || !statusCuenta" required
+                                    minlength="10" maxlength="10"
+                                ></b-form-input>
+                                <div v-if="errors && errors.telephone" class="text-danger">
+                                    El campo 'Número de teléfono' es obligatorio y debe tener 10 dígitos.
+                                </div>
+                            </b-form-group>
+                        </b-col>
                     </b-row>
+                    <b-alert v-if="form.email.length > 0" show variant="info">
+                        <b-icon-info-circle></b-icon-info-circle> <b>Importante</b> <br>
+                        <p>
+                            Ingresa un correo electrónico que utilices con frecuencia, ya que en él te enviaremos la notificación sobre la aceptación de tu pre-registro. Por favor, asegúrate de que esté escrito correctamente
+                        </p>
+                    </b-alert>
                 </div>
                 <!-- Datos del libro -->
                 <div>
@@ -109,7 +118,7 @@
                         show variant="warning">
                         <b-icon-info-circle></b-icon-info-circle> <b>IMPORTANTE </b> <br>
                         <p>
-                            A PARTIR DEL 11 DE JULIO EL LIBRO DIGITAL DE LA SERIE WORLD ENGLISH SE SURTIRÁ CON LA PLATAFORMA SPARK. SI TIENES ALGUNA DUDA FAVOR DE COMUNICARSE CON SU DOCENTE.
+                            A PARTIR DEL 11 DE JULIO DEL 2024 EL LIBRO DIGITAL DE LA SERIE WORLD ENGLISH SE SURTIRÁ CON LA PLATAFORMA SPARK. SI TIENES ALGUNA DUDA FAVOR DE COMUNICARSE CON SU DOCENTE.
                         </p>
                     </b-alert>
                     <h5><b>Datos del libro</b></h5>
@@ -142,13 +151,13 @@
                     <b-alert v-if="valueBook !== null" show variant="info">
                         <b-icon-info-circle></b-icon-info-circle> <b>Importante</b> 
                         <label>
-                            Verifica que el libro que seleccionaste es el correcto, una vez que tu pre-registro sea guardado no se podrá modificar y no habrá cambio de libro.
+                            Asegúrate de que el libro seleccionado sea el correcto, ya que una vez guardado tu pre-registro, no podrás modificarlo ni cambiar el libro.
                         </label><br>
                         <label v-if="valueBook.name.includes('DIGITAL')">
-                            Verifica que tu correo electrónico este bien escrito ya que si tu pre-registro es aceptado, en el te haremos llegar el código para acceder a tu libro. 
+                            Verifica que tu correo electrónico esté escrito correctamente, ya que, si tu pre-registro es aceptado, te enviaremos el código para acceder a tu libro
                         </label>
                         <label v-if="form.school == 13">
-                            Si requieres el libro físico comunícate al <b>56 2741 1481</b> o al <b>56 2741 0930</b>.
+                            Si requieres el libro físico, comunícate al <b>56 2741 1481</b> o al <b>56 2741 0930</b>.
                         </label>
                     </b-alert>
                     <hr>
@@ -157,7 +166,7 @@
                 <div v-if="form.school == 29 && valueBook !== null && valueBook.name.includes('HORIZONTES')">
                     <b-row>
                         <b-col>
-                            <b-form-group label="Nombre del maestro">
+                            <b-form-group label="Nombre del profesor">
                                 <b-form-input v-model="form.teacher" :disabled="load || selSchool"
                                     style="text-transform:uppercase;" required
                                 ></b-form-input>
@@ -184,7 +193,7 @@
                         </b-col>
                     </b-row>
                     <b-alert v-if="!selBook" variant="primary" show>
-                        Los datos que ingresaras a continuación debes obtenerlos de tu comprobante de pago.
+                        Los datos que ingresarás a continuación deben ser obtenidos de tu comprobante de pago.
                     </b-alert>
                     <div v-for="(comprobante, i) in form.comprobantes" v-bind:key="i">
                         <div class="text-right" v-if="i > 0">
@@ -206,12 +215,6 @@
                                             :options="tipo == 'externo' ? types:typesCompleto" required>
                                         </b-form-select>
                                     </b-form-group>
-                                    <!--  v-if="form.school != 52"
-                                    <b-form-group v-else label="Tipo de pago:">
-                                        <b-form-select v-model="comprobante.type" :disabled="load || selBook"
-                                            :options="typesCompleto" required>
-                                        </b-form-select>
-                                    </b-form-group> -->
                                 </div>
                                 <!-- BANCO AZTECA -->
                                 <b-form-group v-if="bank.bank == 'BANCO AZTECA'"
@@ -223,13 +226,13 @@
                             </b-col>
                             <!-- TRANFERENCIA - SELECCIONAR BANCO -->
                             <b-col v-if="comprobante.type == 'transferencia' && bank.tipo !== 'CIE'">
-                                <b-form-group label="Banco:" v-b-tooltip.hover title="Desde el cual se realizó el pago">
+                                <b-form-group label="Banco:" v-b-tooltip.hover title="Donde se realizó el pago">
                                     <b-form-select v-model="comprobante.bank" :disabled="load || selBook"
                                         :options="banks" required
                                     ></b-form-select>
                                 </b-form-group>
                                 <b-input v-if="comprobante.bank === 'OTRO'" v-model="specifyBank" 
-                                    v-b-tooltip.hover title="Por favor escribe el nombre del banco"
+                                    v-b-tooltip.hover title="Por favor, escribe el nombre del banco"
                                     placeholder="Nombre del banco" required style="text-transform:uppercase;"
                                     @keyup="posicion = i">
                                 </b-input>
@@ -265,7 +268,7 @@
                                 <b-form-group v-if="comprobante.type == 'practicaja' || comprobante.type == 'ventanilla'" 
                                     id="tooltip-target-numero"
                                     :label="`Número de ${comprobante.type == 'practicaja' ? 'cajero' : 'sucursal'}`" >
-                                    <b-form-input v-model="comprobante.cajero" minlength="4" maxlength="4"
+                                    <b-form-input v-model="comprobante.cajero" minlength="4" maxlength="8"
                                         :disabled="load || selBook" required
                                     ></b-form-input>
                                     <b-tooltip target="tooltip-target-numero" triggers="hover">
@@ -291,21 +294,21 @@
                                 <div v-if="comprobante.type !== 'transferencia'">
                                     <!-- PRACTICAJA -->
                                     <b-form-group v-if="comprobante.type == 'practicaja'" label="Folio" 
-                                        v-b-tooltip.hover title="Ingresar los cuatro números que aparecen en FOLIO en tu comprobante">
+                                        v-b-tooltip.hover title="Ingresar los cuatro números que aparecen en FOLIO de tu comprobante de pago">
                                         <b-form-input v-model="comprobante.folio" minlength="4" maxlength="4"
                                             :disabled="load || selBook" required
                                         ></b-form-input>
                                     </b-form-group>
                                     <!-- VENTANILLA -->
                                     <b-form-group v-if="comprobante.type == 'ventanilla'" label="Movimiento" 
-                                        v-b-tooltip.hover title="Ingresar lo que aparece en MOVIMIENTO en tu comprobante de pago">
+                                        v-b-tooltip.hover title="Ingresar lo que aparece en MOVIMIENTO de tu comprobante de pago">
                                         <b-form-input v-model="comprobante.folio" minlength="5"
                                             :disabled="load || selBook" required
                                         ></b-form-input>
                                     </b-form-group>
                                     <!-- BANCO AZTECA -->
                                     <b-form-group v-if="comprobante.type == 'BANCO AZTECA'" label="Número de autorización" 
-                                        v-b-tooltip.hover title="Ingresar lo que aparece en Número de autorización en tu comprobante de pago">
+                                        v-b-tooltip.hover title="Ingresar lo que aparece en Número de autorización de tu comprobante de pago">
                                         <b-form-input v-model="comprobante.folio" minlength="5"
                                             :disabled="load || selBook" required
                                         ></b-form-input>
@@ -358,7 +361,7 @@
                                 </div>
                                 <!-- BANCO AZTECA -->
                                 <b-form-group v-if="comprobante.type == 'BANCO AZTECA'" label="No. Operación" 
-                                    v-b-tooltip.hover title="Ingresar lo que aparece en No. Operación en tu comprobante de pago">
+                                    v-b-tooltip.hover title="Ingresar lo que aparece en No. Operación de tu comprobante de pago">
                                     <b-form-input v-model="comprobante.auto" minlength="5"
                                         :disabled="load || selBook" required
                                     ></b-form-input>
@@ -393,7 +396,7 @@
                         <h5><b>Comprobante(s)</b></h5>
                         <ul>
                             <li>Si realizaste más de un pago, sube la foto o archivo donde aparezcan los comprobantes.</li>
-                            <li>Solo formato: <b>.jpg</b> / <b>.png</b> / <b>.jpeg</b> / <b>.pdf</b></li>
+                            <li>Solo formato: <b>JPG</b>, <b>PNG</b>, <b>JPEG</b> o <b>PDF</b></li>
                             <li>Tamaño máximo: <b>3 MB</b></li>
                         </ul>
                     </b-col>
@@ -407,7 +410,7 @@
                             Comprobante: <b>{{ form.file.name }}</b>
                         </p>
                         <div v-if="errors && errors.file" class="text-danger">
-                            El comprobante es obligatorio con un tamaño máximo de 3MB y solo formato jpg, png, jpeg ó pdf
+                            El comprobante es obligatorio, con un tamaño máximo de 3 MB y debe estar en uno de los siguientes formatos: JPG, PNG, JPEG o PDF.
                         </div>
                     </b-col>
                 </b-row>
@@ -416,14 +419,14 @@
                 <div>
                     <b-alert class="mt-2" v-if="load" show variant="warning">
                         <b-spinner small type="grow"></b-spinner> Guardando...<br>
-                        Estamos guardando tus datos, por favor no cierres esta pagina hasta que terminemos.
+                        Estamos guardando tus datos. Por favor, no cierres esta página hasta que hayamos terminado.
                     </b-alert>
                     <b-row class="mt-3">
                         <b-col>
                             <b-alert show variant="info">
                                 <b-icon-info-circle></b-icon-info-circle> <b>Importante</b> <br>
                                 <p>
-                                    Antes de guardar tu pre-registro, verifica que tus datos sean correctos, ya que de lo contrario será rechazado.
+                                    Antes de guardar tu pre-registro, verifica que todos tus datos sean correctos, ya que, en caso contrario, será rechazado.
                                 </p>
                             </b-alert>
                         </b-col>
@@ -438,7 +441,7 @@
             <!-- CONTACTO /INFORMACIÓN -->
             <b-alert variant="dark" show class="mt-5">
                 <ul>
-                    <li>Verifica que tu correo electrónico este escrito correctamente ya que en el te notificaremos si tu registro fue aceptado o rechazado.</li>
+                    <li>Verifica que tu correo electrónico este escrito correctamente, ya que en el te notificaremos si tu registro fue aceptado o rechazado.</li>
                     <li>A veces los correos electrónicos pueden llegar como spam, es importante que revises en la sección de <b>SPAM</b> de tu correo electrónico en caso de que no lo visualices en <b>Recibidos</b>. </li>
                     <li>Aproximadamente de <b>48 a 72 hábiles</b> recibirás respuesta de tu registro.</li>
                     <li>Si tienes alguna duda o aclaración puedes comunicarte a los números que vienen abajo.</li>
@@ -523,7 +526,7 @@ export default {
             load: false,
             specifyBank: null,
             form: {
-                name: '', lastname: '', email: '',
+                name: '', lastname: '', email: '', email_confirmation: '',
                 telephone: null, school: null, book: null,
                 quantity: 1, price: 0, a_depositar: 0,
                 file: null,
@@ -587,7 +590,7 @@ export default {
             if(allowedExtensions.exec(fileInput.value)){
                 this.form.file = e.target.files[0];  
             } else {
-                swal("Revisar formato de archivo", "Formato de archivo no permitido, solo puede ser en formato imagen (jpg, jpeg, png)", "warning");
+                swal("Revisar formato de archivo", "Formato de archivo no permitido. Solo se aceptan los formatos JPG, JPEG, PNG o PDF.", "warning");
             }
 
             // this.acum_total();
@@ -626,7 +629,7 @@ export default {
                 if(this.a_depositar >= this.form.a_depositar && this.form.file){
                     this.save_all();
                 } else {
-                    swal("Revisar pago(s)", "Por favor revisa que el total de los datos de pago que registraste sea igual o mayor al total de tu compra.", "warning");
+                    swal("Revisar pago(s)", "Por favor, verifica que el total de los datos de pago que registraste sea igual o superior al total de tu compra.", "warning");
                     this.load = false;
                 }
             } else {
@@ -642,25 +645,25 @@ export default {
             let fd = this.attributes();
             axios.post('/student/preregister', fd).then(response => {
                 if(response.data === 4)
-                    swal("Revisar pago(s)", "Por favor revisa que el total de los datos de pago que registraste sea igual o mayor al total de tu compra.", "warning");
+                    swal("Revisar pago(s)", "Por favor, verifica que el total de los datos de pago que registraste sea igual o superior al total de tu compra.", "warning");
                 if(response.data === 3) {
-                    swal("Guardado", "Tus datos han sido guardados correctamente. Aproximadamente en un lapso de 48 a 72 horas hábiles te haremos llegar un correo electrónico donde te notificaremos si tu pre-registro ha sido validado. Gracias.", "success")
+                    swal("Guardado", "Tus datos han sido guardados correctamente. En un plazo aproximado de 48 a 72 horas hábiles, recibirás un correo electrónico notificándote si tu pre-registro ha sido validado. Gracias.", "success")
                         .then((value) => {
                             location.href = '/student/register';
                         });
                 }
                 if(response.data === 1)
-                    swal("Pre-registro en proceso", "Tienes un pre-registro que continua en proceso para ser validado. Te haremos llegar un correo electrónico donde te notificaremos si tu pre-registro ha sido validado. Gracias.", "info");
+                    swal("Pre-registro en proceso", "Tienes un pre-registro en proceso de validación. Recibirás un correo electrónico notificándote si tu pre-registro ha sido validado. Gracias.", "info");
                 if(response.data === 2)
-                    swal("Pre-registro aceptado", "Tu pre-registro ya ha sido aceptado, si no te llego un correo electrónico de confirmación, por favor contáctanos al 56 2741 1481 o al 56 2741 0930", "info");
+                    swal("Pre-registro aceptado", "Tu pre-registro ha sido aceptado. Si no has recibido un correo electrónico de confirmación, por favor contáctanos al 56 2741 1481 o al 56 2741 0930", "info");
                 this.errors = {};
                 this.load = false;
             }).catch(error => {
                 if(error.response.status === 422) {
                     this.errors = error.response.data.errors || {};
-                    swal("Revisa tus datos", "Por favor revisa que todos tus datos esten correctamente e intenta guardar de nuevo.", "warning");
+                    swal("Revisa tus datos", "Por favor, revisa que todos tus datos estén correctos e intenta guardar de nuevo.", "warning");
                 } else {
-                    swal("Ocurrio un problema.", "Por favor intenta de nuevo guardar tu pre-registro.", "warning")
+                    swal("Ocurrio un problema.", "Por favor, intenta nuevamente guardar tu pre-registro.", "warning")
                         .then((value) => {
                             location.href = '/student/register';
                         });
@@ -674,6 +677,7 @@ export default {
             formData.append('name', this.form.name);
             formData.append('lastname', this.form.lastname);
             formData.append('email', this.form.email);
+            formData.append('email_confirmation', this.form.email_confirmation); 
             formData.append('telephone', this.form.telephone);
             formData.append('school', this.form.school); 
             formData.append('book', this.form.book);
@@ -742,7 +746,7 @@ export default {
                     this.bank.numero = response.data.numero;
                 } else {
                     this.statusCuenta = false;
-                    swal("Numero de (convenio / cuenta / CLABE) incorrecto", "", "error");
+                    swal("Número de (convenio, cuenta o CLABE) incorrecto", "", "error");
                 }
                 this.load = false;
             }).catch(error => {

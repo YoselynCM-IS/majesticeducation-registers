@@ -49,6 +49,7 @@ class StudentController extends Controller
             'name' => ['required', 'string', 'min:3'],
             'lastname' => ['required', 'string', 'min:5'],
             'email' => ['required', 'email', 'max:60'],
+            'email_confirmation' => ['required', 'email', 'max:60', 'same:email'],
             'quantity' => ['required', 'numeric', 'min:1'],
             'telephone' => ['required', 'numeric', 'min:1000000000'],
             'file' => ['required', 'mimes:jpg,png,jpeg,pdf', 'max:5072']
