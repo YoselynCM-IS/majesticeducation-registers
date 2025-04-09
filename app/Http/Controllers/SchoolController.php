@@ -34,20 +34,11 @@ class SchoolController extends Controller
     }
 
     public function schools_to_email(Request $request){
-        if($request->school_id == 86){
-            $digitales = Student::where('school_id', $request->school_id)
-                ->where('check', 'accepted')->with('school')
-                ->where(function($query) {
-                        $query->where('book', 'like', '%DIGITAL%')
-                                ->orWhere('book', 'like', '%PACK%');
-                })->orderBy('created_at', 'asc')->get();
-        } else {
-            $digitales = Student::where('school_id', $request->school_id)
+        $digitales = Student::where('school_id', $request->school_id)
                     ->where('check', 'accepted')->with('school')
                     ->where('book', 'like', '%DIGITAL%')
                     ->where('book', 'NOT LIKE', '%PACK%')
                     ->orderBy('created_at', 'asc')->get();
-        }
 
         $fisicos = Student::where('school_id', $request->school_id)
                     ->where('check', 'accepted')->with('school')
