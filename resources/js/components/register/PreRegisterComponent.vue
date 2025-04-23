@@ -393,9 +393,9 @@
                 <!-- COMPROBANTE(S) -->
                 <b-row>
                     <b-col sm="9">
-                        <h5><b>Comprobante(s)</b></h5>
+                        <h5><b>ADJUNTA UN ARCHIVO CON TU(S) COMPROBANTE(S) DE PAGO</b></h5>
                         <ul>
-                            <li>Si realizaste más de un pago, sube la foto o archivo donde aparezcan los comprobantes.</li>
+                            <!-- <li>Si realizaste más de un pago, sube la foto o archivo donde aparezcan los comprobantes.</li> -->
                             <li>Solo formato: <b>JPG</b>, <b>PNG</b>, <b>JPEG</b> o <b>PDF</b></li>
                             <li>Tamaño máximo: <b>3 MB</b></li>
                         </ul>
