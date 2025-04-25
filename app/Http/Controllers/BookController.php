@@ -66,7 +66,7 @@ class BookController extends Controller
     }
 
     public function show_books(Request $request){
-        $books = Book::where('name','like', '%'.$request->book.'%')->get();
+        $books = Book::where('name','like', '%'.$request->book.'%')->withCount('schools')->orderBy('name', 'asc')->get();
         return response()->json($books);
     }
 
