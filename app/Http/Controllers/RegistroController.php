@@ -60,45 +60,49 @@ class RegistroController extends Controller
 
     public function update_status(){
         $students = Student::where('check', 'process')->with('registros')->limit(25)->get();
-        
+
         \DB::beginTransaction();
         try {
             $estudiantes = array();
             foreach($students as $student){
-                foreach ($student->registros as $registro) {
-                    $folio = $this->validar_folio($registro);
-                    
-                    if($folio !== null){
-                        $registro->update(['status' => 'accepted', 'folio_id' => $folio->id]);
-                    } else {
-                        $registro->update(['status' => 'rejected']);
-                        // $hoy = Carbon::now()->format('Y-m-d');
-                        // $pago = new Carbon($registro->date);
-                        // $difference = $pago->diff($hoy)->days;
-                        //     if($difference > 0){
-                                
-                        //     }
-                    }
-                    
-                }
-
-                $count_registros = Registro::where('student_id', $student->id)
-                                            ->where('status', 'accepted')->count();
-                
-                if($count_registros === $student->registros->count()){
+                if($student->total === $student->registros->sum('total')){
                     foreach ($student->registros as $registro) {
-                        Folio::whereId($registro->folio_id)->update(['occupied' => 1]);
+                        $folio = $this->validar_folio($registro);
+                        
+                        if($folio !== null){
+                            $registro->update(['status' => 'accepted', 'folio_id' => $folio->id]);
+                        } else {
+                            $registro->update(['status' => 'rejected']);
+                            // $hoy = Carbon::now()->format('Y-m-d');
+                            // $pago = new Carbon($registro->date);
+                            // $difference = $pago->diff($hoy)->days;
+                            //     if($difference > 0){
+                                    
+                            //     }
+                        }
+                        
                     }
-                    $student->update(['check' => 'accepted', 'validate' => 'NO ENVIADO']);
 
-                    $message = 'Tu registro se ha completado. Los datos que ingresaste en tu pre-registro han sido verificados correctamente.';
-                    array_push($estudiantes, ['student' => $student, 'message' => $message]);
-                } else {
-                    $count_process = Registro::where('student_id', $student->id)
-                            ->where('status', 'process')->count();
-                    if($count_process === 0){
-                        $student->update(['check' => 'rejected', 'validate' => 'NO ENVIADO']);
+                    $count_registros = Registro::where('student_id', $student->id)
+                                                ->where('status', 'accepted')->count();
+                    
+                    if($count_registros === $student->registros->count()){
+                        foreach ($student->registros as $registro) {
+                            Folio::whereId($registro->folio_id)->update(['occupied' => 1]);
+                        }
+                        $student->update(['check' => 'accepted', 'validate' => 'NO ENVIADO']);
+
+                        $message = 'Tu registro se ha completado. Los datos que ingresaste en tu pre-registro han sido verificados correctamente.';
+                        array_push($estudiantes, ['student' => $student, 'message' => $message]);
+                    } else {
+                        $count_process = Registro::where('student_id', $student->id)
+                                ->where('status', 'process')->count();
+                        if($count_process === 0){
+                            $student->update(['check' => 'rejected', 'validate' => 'NO ENVIADO']);
+                        }
                     }
+                } else {
+                    $student->update(['check' => 'rejected', 'validate' => 'NO ENVIADO']);
                 }
 
             }
@@ -306,42 +310,46 @@ class RegistroController extends Controller
         try {
             $estudiantes = array();
             foreach($students as $student){
-                foreach ($student->registros as $registro) {
-                    // $pago = new Carbon($registro->date);
-                    // $hoy = Carbon::now()->format('Y-m-d');
-
-                    $folio = $this->validar_folio($registro);  
-
-                    if($folio !== null){
-                        $registro->update(['status' => 'accepted', 'folio_id' => $folio->id]);
-                    } else {
-                        $registro->update(['status' => 'rejected']);
-                    }
-                        
-                }
-
-                $count_registros = Registro::where('student_id', $student->id)
-                            ->where('status', 'accepted')->count();
-                
-                if($count_registros === $student->registros->count()){
+                if($student->total === $student->registros->sum('total')){
                     foreach ($student->registros as $registro) {
-                        Folio::whereId($registro->folio_id)->update(['occupied' => 1]);
+                        // $pago = new Carbon($registro->date);
+                        // $hoy = Carbon::now()->format('Y-m-d');
+
+                        $folio = $this->validar_folio($registro);  
+
+                        if($folio !== null){
+                            $registro->update(['status' => 'accepted', 'folio_id' => $folio->id]);
+                        } else {
+                            $registro->update(['status' => 'rejected']);
+                        }
+                            
                     }
-                    $student->update(['check' => 'accepted', 'validate' => 'NO ENVIADO']);
 
-                    $message = 'Tu registro se ha completado. Los datos que ingresaste en tu pre-registro han sido verificados correctamente.';
+                    $count_registros = Registro::where('student_id', $student->id)
+                                ->where('status', 'accepted')->count();
+                    
+                    if($count_registros === $student->registros->count()){
+                        foreach ($student->registros as $registro) {
+                            Folio::whereId($registro->folio_id)->update(['occupied' => 1]);
+                        }
+                        $student->update(['check' => 'accepted', 'validate' => 'NO ENVIADO']);
 
-                    array_push($estudiantes, ['student' => $student, 'message' => $message]);
-                } else {
-                    $count_process = Registro::where('student_id', $student->id)
-                            ->where('status', 'process')->count();
-                    if($count_process === 0){
-                        $student->update(['check' => 'rejected']);
-                        $message = 'Tu pre-registro no pudo ser aceptado, te pedimos verifiques tus datos y vuelvas a registrarte ingresando correctamente tus datos.';
-                        if($student->validate == 'NO ENVIADO' && $student->school_id != 76){ //NO AGREGAR A JESUS CARRANZA
-                            // array_push($estudiantes, ['student' => $student, 'message' => $message]);
+                        $message = 'Tu registro se ha completado. Los datos que ingresaste en tu pre-registro han sido verificados correctamente.';
+
+                        array_push($estudiantes, ['student' => $student, 'message' => $message]);
+                    } else {
+                        $count_process = Registro::where('student_id', $student->id)
+                                ->where('status', 'process')->count();
+                        if($count_process === 0){
+                            $student->update(['check' => 'rejected']);
+                            $message = 'Tu pre-registro no pudo ser aceptado, te pedimos verifiques tus datos y vuelvas a registrarte ingresando correctamente tus datos.';
+                            if($student->validate == 'NO ENVIADO' && $student->school_id != 76){ //NO AGREGAR A JESUS CARRANZA
+                                // array_push($estudiantes, ['student' => $student, 'message' => $message]);
+                            }
                         }
                     }
+                } else {
+                    $student->update(['check' => 'rejected']);
                 }
 
             }
