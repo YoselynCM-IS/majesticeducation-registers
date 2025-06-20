@@ -84,6 +84,7 @@ Route::name('schools.')->prefix('schools')->group(function () {
     Route::get('index', 'SchoolController@index' )->name('index');
     Route::get('schools_to_email', 'SchoolController@schools_to_email' )->name('schools_to_email');
     Route::get('show_schools', 'SchoolController@show_schools' )->name('show_schools');
+    Route::get('show_all_schools', 'SchoolController@show_all_schools' )->name('show_all_schools');
     Route::get('show_school', 'SchoolController@show' )->name('show_school');
     Route::get('get_schools', 'SchoolController@get_schools' )->name('get_schools');
     Route::post('new_school', 'SchoolController@store')->name('new_school');

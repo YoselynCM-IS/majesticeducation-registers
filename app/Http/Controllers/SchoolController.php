@@ -18,6 +18,11 @@ class SchoolController extends Controller
         return response()->json($schools);
     }
 
+    public function show_all_schools(Request $request){
+        $schools = School::where('name','like', '%'.$request->escuela.'%')->withTrashed()->get();
+        return response()->json($schools);
+    }
+
     public function show(Request $request){
         if(auth()->user()->role == 'capturist'){
             $students = Student::where('school_id', $request->school_id)

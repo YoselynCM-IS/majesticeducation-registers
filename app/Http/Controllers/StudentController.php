@@ -187,8 +187,10 @@ class StudentController extends Controller
     // CONSULTAR REGISTROS DE STUDENT
     public function show_registers(Request $request){
         $student = Student::whereId($request->student_id)
-                ->with('registros.folio', 'comprobantes', 'school')
-                ->withTrashed()
+                ->with('registros.folio', 'comprobantes')
+                ->with(['school' => function ($query) {
+                        $query->withTrashed();
+                }])->withTrashed()
                 ->first();
         return response()->json($student);
     }

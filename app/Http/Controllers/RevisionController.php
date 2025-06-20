@@ -142,7 +142,9 @@ class RevisionController extends Controller
 
     public function by_categorie(Request $request){
         $students = Student::where('categorie_id', $request->categorie_id)
-                    ->with('school')->withTrashed()
+                    ->with(['school' => function ($query) {
+                        $query->withTrashed();
+                    }])->withTrashed()
                     ->orderBy('created_at', 'desc')->paginate(20);
         return response()->json($students);
     }

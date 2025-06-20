@@ -30,10 +30,10 @@
 </template>
 
 <script>
-import searchSchoolMixin from '../../../mixins/searchSchoolMixin';
+import searchAllSchoolMixin from '../../../mixins/searchAllSchoolMixin';
 export default {
     props: ['form', 'edit'],
-    mixins: [searchSchoolMixin],
+    mixins: [searchAllSchoolMixin],
     data(){
         return {
             load: false

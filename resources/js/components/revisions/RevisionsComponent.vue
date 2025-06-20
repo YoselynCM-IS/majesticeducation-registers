@@ -110,9 +110,9 @@
 </template>
 
 <script>
-import searchSchoolMixin from '../../mixins/searchSchoolMixin';
+import searchAllSchoolMixin from '../../mixins/searchAllSchoolMixin';
 export default {
-    mixins: [searchSchoolMixin],
+    mixins: [searchAllSchoolMixin],
     data(){
         return {
             studentsData: {},

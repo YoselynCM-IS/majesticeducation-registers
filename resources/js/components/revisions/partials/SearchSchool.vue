@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import searchSchoolMixin from '../../../mixins/searchSchoolMixin';
+import searchAllSchoolMixin from '../../../mixins/searchAllSchoolMixin';
 export default {
     props: ['load'],
-    mixins: [searchSchoolMixin],
+    mixins: [searchAllSchoolMixin],
     methods: {
         selectSchool(school){
             axios.get('/revisions/categories_byschool', {params: {school_id: school.id}})
