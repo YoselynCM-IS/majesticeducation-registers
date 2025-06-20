@@ -25,6 +25,7 @@ use App\School;
 use App\Folio;
 use App\Book;
 use App\Code;
+use App\Bank;
 
 class StudentController extends Controller
 {
@@ -56,6 +57,16 @@ class StudentController extends Controller
         ]);
 
         if((float)$request->depositado < (float)$request->a_depositar) return response()->json(4);
+
+        // *** VERIFICACIÓN DE REFERENCIA
+        $comprobantes = json_decode($request->comprobantes);
+        $bank = Bank::where('numero', $request->numcuenta)->first();
+        if($bank->tipo == 'CIE'){
+            foreach($comprobantes as $comprobante){
+                if($comprobante->referencia !== $request->referencia)
+                    return response()->json(5);
+            }
+        }
         
         // BUSCAR SI EXISTE EL ALUMNO
         $name = Str::of(trim($request->name).' '.trim($request->lastname))->upper();
@@ -88,7 +99,6 @@ class StudentController extends Controller
                 ]);
                 
                 // COMPROBANTES DE PAGO
-                $comprobantes = json_decode($request->comprobantes);
                 foreach($comprobantes as $comprobante) {
                     $datos = $this->set_types($comprobante->type, $comprobante->bank, $comprobante->folio, $comprobante->auto);
 

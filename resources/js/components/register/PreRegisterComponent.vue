@@ -535,7 +535,8 @@ export default {
                     bank: null, total: null, date: null, plaza: '', cajero: '',
                     guia: null, referencia: null
                 }],
-                teacher: null, group: null
+                teacher: null, group: null,
+                referencia: null
             },
             schools: [],
             errors: {},
@@ -644,6 +645,8 @@ export default {
         save_all(){
             let fd = this.attributes();
             axios.post('/student/preregister', fd).then(response => {
+                if(response.data === 5)
+                    swal("Referencia", "Por favor, verifica que la referencia ingresada coincida con la de tu comprobante.", "warning");
                 if(response.data === 4)
                     swal("Revisar pago(s)", "Por favor, verifica que el total de los datos de pago que registraste sea igual o superior al total de tu compra.", "warning");
                 if(response.data === 3) {
@@ -688,6 +691,7 @@ export default {
             formData.append('file', this.form.file);
             formData.append('teacher', this.form.teacher);
             formData.append('group', this.form.group);
+            formData.append('referencia', this.form.referencia);
             formData.append('numcuenta', this.cuenta);
             formData.append('comprobantes', JSON.stringify(this.form.comprobantes));
             // for (var i = 0; i < this.form.files.length; i++) {
@@ -699,9 +703,11 @@ export default {
         },
         selectPlantel(){
             this.selSchool = true;
+            this.referencia = null;
             axios.get('/schools/get_books', {params: {school_id: this.form.school}}).then(response => {
                 this.form.book = null;
-                this.school_select(response.data);
+                this.referencia = response.data.referencia;
+                this.school_select(response.data.books);
                 this.selSchool = false;
             }).catch(error => {
                 this.selSchool = false;

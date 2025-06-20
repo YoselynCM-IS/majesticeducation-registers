@@ -104,7 +104,7 @@ class SchoolController extends Controller
 
     public function get_books(Request $request){
         $school = School::whereId($request->school_id)->with('books')->first();
-        return response()->json($school->books);
+        return response()->json($school);
     }
 
     public function remove_book(Request $request){
