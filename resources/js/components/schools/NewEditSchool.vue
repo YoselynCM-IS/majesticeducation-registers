@@ -7,6 +7,11 @@
                 </b-form-input>
                 <div v-if="errors && errors.name" class="text-danger">La escuela ya se encuentra registrada.</div>
             </b-form-group>
+            <b-form-group label="Referencia CIE:">
+                <b-form-input v-model="school.referencia" :disabled="load"
+                    style="text-transform:uppercase;">
+                </b-form-input>
+            </b-form-group>
             <div class="text-right">
                 <b-button pill :disabled="load" id="btnPre" type="submit">
                     <b-icon-plus-circle></b-icon-plus-circle> Guardar

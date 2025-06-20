@@ -86,10 +86,11 @@ export default {
             fields: [
                 {key:'index', label:'N.'},
                 {key:'name', label:'Escuela'},
+                {key:'referencia', label:'Referencia'},
                 {key:'show', label:'Libros'},
                 {key:'actions', label:'Editar / Eliminar'}
             ],
-            school: { id: null, name: '' },
+            school: { id: null, name: '', referencia: null },
             position: null,
             edit: false,
             books: [],
@@ -107,7 +108,7 @@ export default {
     },
     methods: {
         newSchool(){
-            this.school = { id: null, name: '' };
+            this.school = { id: null, name: '', referencia: null };
             this.edit = false;
             this.$refs['my-modal'].show();
         },
@@ -117,12 +118,13 @@ export default {
                 swal("Guardado", "La escuela se guardo correctamente.", "success");
             } else {
                 this.schools[this.position].name = school.name;
+                this.schools[this.position].referencia = school.referencia;
                 swal("Actualizado", "La escuela se actualizo correctamente.", "success");
             }
             this.$refs['my-modal'].hide();
         },
         editSchool(position, school){
-            this.school = { id: school.id, name: school.name };
+            this.school = { id: school.id, name: school.name, referencia: school.referencia };
             this.position = position;
             this.edit = true;
             this.$refs['my-modal'].show();

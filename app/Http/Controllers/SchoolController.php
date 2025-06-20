@@ -59,8 +59,10 @@ class SchoolController extends Controller
         ]);
         \DB::beginTransaction();
         try {
-            $name = Str::of($request->name)->upper();
-            $s = School::create(['name' => $name]);
+            $s = School::create([
+                'name' => Str::of($request->name)->upper(),
+                'referencia' => Str::of($request->referencia)->upper()
+            ]);
             \DB::commit();
         }  catch (Exception $e) {
             \DB::rollBack();
@@ -73,9 +75,10 @@ class SchoolController extends Controller
     public function update(Request $request){
         \DB::beginTransaction();
         try {
-            $id = $request->id;
-            $name = Str::of($request->name)->upper();
-            School::whereId($id)->update(['name' => $name]);
+            School::whereId($request->id)->update([
+                'name' => Str::of($request->name)->upper(),
+                'referencia' => Str::of($request->referencia)->upper()
+            ]);
             \DB::commit();
         }  catch (Exception $e) {
             \DB::rollBack();
