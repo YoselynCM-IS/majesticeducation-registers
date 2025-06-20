@@ -145,13 +145,13 @@ class RegistroController extends Controller
             if($tamanio == 4) $fpart1 = $this->set_zeros('000', $registro, $guia);
             if($tamanio == 5) $fpart1 = $this->set_zeros('00', $registro, $guia);
             if($tamanio == 6) $fpart1 = $this->set_zeros('0', $registro, $guia);
-            if($tamanio >= 7) $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.'%');
+            if($tamanio >= 7) $fpart1 = Folio::where('concepto','like','%CE'.$registro->referencia.'/'.$guia.' %');
                         
             if($fpart1 != null){
                 $nc = ltrim($registro->student->numcuenta,0);
                 $folio = $fpart1->where('concepto','like','%'.$nc.'%')
                             ->where('fecha',$registro->date)
-                            ->where('abono','like','%'.$registro->total.'%')
+                            ->where('abono', $registro->total)
                             ->where('occupied', 0)
                             ->first();
             }
@@ -161,7 +161,7 @@ class RegistroController extends Controller
             $fpart1 = Folio::where('concepto','like','%DEPOSITO EFECTIVO PRACTIC%')
                     ->where('fecha',$registro->date)
                     ->where('concepto','like','%FOLIO:'.$registro->invoice.'%')
-                    ->where('abono','like','%'.$registro->total.'%')
+                    ->where('abono', $registro->total)
                     ->where('occupied', 0);
             if($registro->student->numcuenta == '0189525114'){
                 $folio = $fpart1->where('concepto','like','%**5114%')->first();
@@ -174,7 +174,7 @@ class RegistroController extends Controller
             $invoice = ltrim($registro->invoice,0);
 
             $fpart1 = Folio::where('fecha',$registro->date)
-                    ->where('abono','like','%'.$registro->total.'%')
+                    ->where('abono', $registro->total)
                     ->where('occupied', 0);
 
             if(strlen($invoice) > 3){
@@ -203,7 +203,7 @@ class RegistroController extends Controller
                                 ->orWhere('concepto','like','%TRASPASO ENTRE CUENTAS%');
                     })
                     ->where('concepto','like','%'.$registro->invoice.'%')
-                    ->where('abono','like','%'.$registro->total.'%')
+                    ->where('abono', $registro->total)
                     ->where('occupied', 0)
                     ->first();
             } 
@@ -239,7 +239,7 @@ class RegistroController extends Controller
         // BANCO AZTECA
         if($registro->type === 'BANCO AZTECA'){
             $folio = Folio::where('fecha',$registro->date)
-                ->where('abono','like','%'.$registro->total.'%')
+                ->where('abono', $registro->total)
                 ->where('occupied', 0)
                 ->where('concepto','like','%DEPOSITO DE EFECTIVO/ '.$registro->auto.'%')
                 ->where('concepto','like','%AUT: '.$registro->invoice.'%')
