@@ -92,6 +92,7 @@ Route::name('schools.')->prefix('schools')->group(function () {
     Route::get('get_books', 'SchoolController@get_books' )->name('get_books');
     Route::delete('remove_book', 'SchoolController@remove_book')->name('remove_book');
     Route::delete('delete', 'SchoolController@delete')->name('delete');
+    Route::get('search_ref', 'SchoolController@search_ref' )->name('search_ref');
 
     // DESCARGAR RELACIÓN DE LIBROS
     Route::get('download_relation', 'SchoolController@download_relation' )->name('download_relation');

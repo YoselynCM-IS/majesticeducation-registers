@@ -112,7 +112,7 @@ class SchoolController extends Controller
 
     public function get_books(Request $request){
         $school = School::whereId($request->school_id)->with('books')->first();
-        return response()->json($school);
+        return response()->json($school->books);
     }
 
     public function remove_book(Request $request){
@@ -141,5 +141,15 @@ class SchoolController extends Controller
     // DESCARGAR RELACION DE LIBROS
     public function download_relation(){
         return Excel::download(new RelationExport(), 'relacion-escuelas.xlsx');
+    }
+
+    // BUSCAR REFERENCIA DE LA ESCUELA
+    public function search_ref(Request $request){
+        if($request->referencia == 'NO CIE'){
+            $school = School::whereNull('referencia')->get();
+        } else {
+            $school = School::where('referencia', $request->referencia)->get();
+        }
+        return response()->json($school);
     }
 }

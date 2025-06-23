@@ -86,14 +86,6 @@
                     </b-row>
                     <b-row>
                         <b-col>
-                            <b-form-group label="Plantel:">
-                                <b-form-select v-model="form.school"
-                                    :options="schools" @change="selectPlantel()"
-                                    required :disabled="load || !statusCuenta || !selBook"
-                                ></b-form-select>
-                            </b-form-group>
-                        </b-col>
-                        <b-col>
                             <b-form-group label="Numero de teléfono">
                                 <b-form-input v-model="form.telephone" :disabled="load || !statusCuenta" required
                                     minlength="10" maxlength="10"
@@ -101,6 +93,30 @@
                                 <div v-if="errors && errors.telephone" class="text-danger">
                                     El campo 'Número de teléfono' es obligatorio y debe tener 10 dígitos.
                                 </div>
+                            </b-form-group>
+                        </b-col>
+                        <b-col></b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col sm="5" v-if="this.bank.tipo == 'CIE'">
+                            <b-form-group label="Referencia">
+                                <b-form-input v-model="form.referencia" :disabled="load || !statusCuenta || !selBook" required
+                                    style="text-transform:uppercase;"
+                                ></b-form-input>
+                            </b-form-group>
+                        </b-col>
+                        <b-col sm="1" v-if="this.bank.tipo == 'CIE'">
+                            <b-button pill size="sm" id="btnPre" class="mt-4" :disabled="load || !statusCuenta || !selBook"
+                                @click="searchReferencia()">
+                                <b-icon-search></b-icon-search>
+                            </b-button>
+                        </b-col>
+                        <b-col>
+                            <b-form-group label="Plantel:">
+                                <b-form-select v-model="form.school"
+                                    :options="schools" @change="selectPlantel()"
+                                    required :disabled="load || !statusCuenta || !selBook || !checkReferencia"
+                                ></b-form-select>
                             </b-form-group>
                         </b-col>
                     </b-row>
@@ -538,6 +554,7 @@ export default {
                 teacher: null, group: null,
                 referencia: null
             },
+            checkReferencia: false,
             schools: [],
             errors: {},
             selSchool: true,
@@ -562,27 +579,47 @@ export default {
         this.modalConsider = true;
     },
     methods: {
+        // BUSCAR REFERENCIA
+        searchReferencia(){
+            this.load = true;
+            axios.get('/schools/search_ref', {params: {referencia: this.form.referencia}}).then(response => {
+                if(response.data.length > 0){
+                    this.schools.push({
+                        value: null,
+                        text: 'Selecciona una opción',
+                        disabled: true
+                    });
+                    response.data.forEach(school => {
+                        this.schools.push({
+                            value: school.id,
+                            text: `${school.name}`
+                        });
+                    });
+                    this.checkReferencia = true;
+                }
+                this.load = false;
+            }).catch(error => {
+                this.load = false;
+            });
+        },
         // METODO PARA ACEPTAR LAS CONDICIONES
         btnAccept(){
-            // OBTENER TODAS LAS ESCUELAS ACIVAS
-            axios.get('/schools/index').then(response => {
-                this.schools.push({
-                    value: null,
-                    text: 'Selecciona una opción',
-                    disabled: true
-                });
-                response.data.forEach(school => {
-                    this.schools.push({
-                        value: school.id,
-                        text: `${school.name}`
-                    });
-                });
-                
-                this.consAccepted = true;
-                this.modalConsider = false;
-            }).catch(error => {
-                
-            });
+            this.consAccepted = true;
+            this.modalConsider = false;
+            // // OBTENER TODAS LAS ESCUELAS ACIVAS
+            // axios.get('/schools/index').then(response => {
+            //     this.schools.push({
+            //         value: null,
+            //         text: 'Selecciona una opción',
+            //         disabled: true
+            //     });
+            //     response.data.forEach(school => {
+            //         this.schools.push({
+            //             value: school.id,
+            //             text: `${school.name}`
+            //         });
+            //     });
+            // }).catch(error => { });
         },
         fileChange(e){
             var fileInput = document.getElementById('archivoType');
@@ -646,7 +683,7 @@ export default {
             let fd = this.attributes();
             axios.post('/student/preregister', fd).then(response => {
                 if(response.data === 5)
-                    swal("Referencia", "Por favor, verifica que la referencia ingresada coincida con la de tu comprobante.", "warning");
+                    swal("Referencia", "Por favor verifica que la referencia de los pagos que ingresaste, coincida con la de tu plantel.", "warning");
                 if(response.data === 4)
                     swal("Revisar pago(s)", "Por favor, verifica que el total de los datos de pago que registraste sea igual o superior al total de tu compra.", "warning");
                 if(response.data === 3) {
@@ -703,11 +740,9 @@ export default {
         },
         selectPlantel(){
             this.selSchool = true;
-            this.referencia = null;
             axios.get('/schools/get_books', {params: {school_id: this.form.school}}).then(response => {
                 this.form.book = null;
-                this.referencia = response.data.referencia;
-                this.school_select(response.data.books);
+                this.school_select(response.data);
                 this.selSchool = false;
             }).catch(error => {
                 this.selSchool = false;
@@ -750,6 +785,10 @@ export default {
                     this.bank.bank = response.data.bank;
                     this.bank.tipo = response.data.tipo;
                     this.bank.numero = response.data.numero;
+                    if(this.bank.tipo !== 'CIE'){
+                        this.form.referencia = 'NO CIE';
+                        this.searchReferencia();
+                    }
                 } else {
                     this.statusCuenta = false;
                     swal("Número de (convenio, cuenta o CLABE) incorrecto", "", "error");
