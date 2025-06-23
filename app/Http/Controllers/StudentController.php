@@ -60,13 +60,13 @@ class StudentController extends Controller
 
         // *** VERIFICACIÓN DE REFERENCIA
         $comprobantes = json_decode($request->comprobantes);
-        $bank = Bank::where('numero', $request->numcuenta)->first();
-        if($bank->tipo == 'CIE'){
-            foreach($comprobantes as $comprobante){
-                if($comprobante->referencia !== $request->referencia)
-                    return response()->json(5);
-            }
-        }
+        // $bank = Bank::where('numero', $request->numcuenta)->first();
+        // if($bank->tipo == 'CIE'){
+        //     foreach($comprobantes as $comprobante){
+        //         if($comprobante->referencia !== $request->referencia)
+        //             return response()->json(5);
+        //     }
+        // }
         
         // BUSCAR SI EXISTE EL ALUMNO
         $name = Str::of(trim($request->name).' '.trim($request->lastname))->upper();
