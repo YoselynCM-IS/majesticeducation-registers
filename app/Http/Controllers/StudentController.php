@@ -63,7 +63,7 @@ class StudentController extends Controller
         $bank = Bank::where('numero', $request->numcuenta)->first();
         if($bank->tipo == 'CIE'){
             foreach($comprobantes as $comprobante){
-                if(strval($comprobante->referencia) !== strval($request->referencia))
+                if(Str::of(trim($comprobante->referencia))->upper() !== Str::of(trim($request->referencia))->upper())
                     return response()->json(5);
             }
         }
