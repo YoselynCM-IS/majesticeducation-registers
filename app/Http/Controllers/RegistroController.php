@@ -145,7 +145,11 @@ class RegistroController extends Controller
             if($tamanio == 4) $fpart1 = $this->set_zeros('000', $registro, $guia);
             if($tamanio == 5) $fpart1 = $this->set_zeros('00', $registro, $guia);
             if($tamanio == 6) $fpart1 = $this->set_zeros('0', $registro, $guia);
-            if($tamanio >= 7) $fpart1 = Folio::where('concepto','like','%/'.$guia.' %');
+            if($tamanio >= 7) {
+                $modi = ltrim($guia, 0);
+                if(strlen($modi) >= 7) $fpart1 = Folio::where('concepto','like','%/'.$modi.' %');
+            }
+                
                         
             if($fpart1 != null){
                 $nc = ltrim($registro->student->numcuenta,0);
