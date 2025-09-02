@@ -310,7 +310,8 @@ class RegistroController extends Controller
         try {
             $estudiantes = array();
             foreach($students as $student){
-                if($student->total === $student->registros->sum('total')){
+                // if($student->total === $student->registros->sum('total'))
+                if(($student->total === $student->registros->sum('total')) || (auth()->user()->role === 'manager' && $student->registros->sum('total') >= $student->total)){
                     foreach ($student->registros as $registro) {
                         // $pago = new Carbon($registro->date);
                         // $hoy = Carbon::now()->format('Y-m-d');
