@@ -18,7 +18,7 @@ class CreateReferenciasTable extends Migration
             $table->unsignedBigInteger('school_id')->nullable();
             $table->foreign('school_id')->references('id')->on('schools');
             $table->string('referencia')->nullable();
-            $table->enum('tipo', ['CIE', 'normal']);
+            $table->enum('tipo', ['CIE', 'cuenta']);
             $table->timestamps();
         });
     }

@@ -31,12 +31,12 @@
                             </b-button>
                         </th>
                         <th>
-                            <b-form-input v-model="referencia.referencia" :disabled="load" required
+                            <b-form-input v-model="referencia.referencia" :disabled="load || state" required
                                 style="text-transform:uppercase;">
                             </b-form-input>
                         </th>
                         <th>
-                            <b-form-select v-model="referencia.tipo" :disabled="load" :options="tipos" required></b-form-select>
+                            <b-form-select v-model="referencia.tipo" :disabled="load" :options="tipos" required @change="set_referencia()"></b-form-select>
                         </th>
                         <th>
                             <b-button pill id="btnPre" size="sm" :disabled="load"
@@ -93,12 +93,13 @@ export default {
             tipos: [
                 { value: null, text: 'Selecciona una opción', disabled: true },
                 { value: 'CIE', text: 'CIE' },
-                { value: 'normal', text: 'NORMAL' }
+                { value: 'cuenta', text: 'CUENTA' }
             ],
             message: {
                 status: false,
                 message: null
-            }
+            },
+            state: false
         }
     },
     methods: {
@@ -142,6 +143,7 @@ export default {
             this.referencia.referencia = referencia.referencia;
             this.referencia.tipo = referencia.tipo;
             this.position = i;
+            this.set_referencia();
         },
         // ELIMINAR REFERENCIA
         deleteReferencia(i, referencia){
@@ -201,6 +203,15 @@ export default {
             this.referencia.referencia = null;
             this.referencia.tipo = null;
             this.position = null;
+            this.state = false;
+        },
+        // ASIGNAR REFERENCIA POR TIPO CUENTA
+        set_referencia(){
+            this.state = false;
+            if(this.referencia.tipo == 'cuenta'){
+                this.referencia.referencia = 'CUENTA';
+                this.state = true;
+            }
         }
     }
 }

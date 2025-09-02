@@ -582,7 +582,7 @@ export default {
         // BUSCAR REFERENCIA
         searchReferencia(){
             this.load = true;
-            axios.get('/schools/search_ref', {params: {referencia: this.form.referencia}}).then(response => {
+            axios.get('/schools/search_ref', {params: {referencia: this.form.referencia, tipo_bank: this.bank.tipo}}).then(response => {
                 if(response.data.length > 0){
                     this.schools.push({
                         value: null,
@@ -786,7 +786,7 @@ export default {
                     this.bank.tipo = response.data.tipo;
                     this.bank.numero = response.data.numero;
                     if(this.bank.tipo !== 'CIE'){
-                        this.form.referencia = 'NO CIE';
+                        this.form.referencia = response.data.tipo;
                         this.searchReferencia();
                     }
                 } else {

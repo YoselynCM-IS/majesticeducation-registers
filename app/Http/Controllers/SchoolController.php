@@ -193,11 +193,12 @@ class SchoolController extends Controller
 
     // BUSCAR REFERENCIA DE LA ESCUELA
     public function search_ref(Request $request){
-        if($request->referencia == 'NO CIE'){
-            $school = School::whereNull('referencia')->get();
+        if($request->referencia == 'cuenta' && $request->tipo_bank == 'cuenta'){
+            $referencias = Referencia::where('tipo', 'cuenta')->pluck('school_id');
         } else {
-            $school = School::where('referencia', $request->referencia)->get();
+            $referencias = Referencia::where('referencia', $request->referencia)->where('tipo', 'CIE')->pluck('school_id');
         }
-        return response()->json($school);
+        $schools = School::whereIn('id', $referencias)->get();
+        return response()->json($schools);
     }
 }
