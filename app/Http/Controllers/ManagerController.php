@@ -46,7 +46,7 @@ class ManagerController extends Controller
     }
 
     public function schools(){
-        $schools = School::withCount(['books', 'students'])->orderBy('name', 'asc')->get();
+        $schools = School::withCount(['books', 'students'])->with('referencias')->orderBy('name', 'asc')->get();
         return view('manager.schools', compact('schools'));
     }
 

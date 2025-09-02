@@ -22,6 +22,11 @@
             <template v-slot:cell(index)="data">
                 {{ data.index + 1 }}
             </template>
+            <template v-slot:cell(referencias)="data">
+                <ul>
+                    <li v-for="(referencia, i) in data.item.referencias" v-bind:key="i">{{ referencia.referencia }}</li>
+                </ul>
+            </template>
             <template v-slot:cell(actions)="data">
                 <b-button pill variant="warning" class="text-white"
                     @click="editSchool(data.index, data.item)">
@@ -86,11 +91,11 @@ export default {
             fields: [
                 {key:'index', label:'N.'},
                 {key:'name', label:'Escuela'},
-                {key:'referencia', label:'Referencia'},
+                {key:'referencias', label:'Referencias'},
                 {key:'show', label:'Libros'},
                 {key:'actions', label:'Editar / Eliminar'}
             ],
-            school: { id: null, name: '', referencia: null },
+            school: { id: null, name: '', referencias: [] },
             position: null,
             edit: false,
             books: [],
@@ -108,23 +113,22 @@ export default {
     },
     methods: {
         newSchool(){
-            this.school = { id: null, name: '', referencia: null };
+            this.school = { id: null, name: '', referencias: [] };
             this.edit = false;
             this.$refs['my-modal'].show();
         },
         updateSchools(school){
             if(!this.edit){
-                this.schools.unshift(school);
+                this.schools.unshift({ id: school.id, name: school.name, referencias: [] });
                 swal("Guardado", "La escuela se guardo correctamente.", "success");
             } else {
                 this.schools[this.position].name = school.name;
-                this.schools[this.position].referencia = school.referencia;
                 swal("Actualizado", "La escuela se actualizo correctamente.", "success");
             }
             this.$refs['my-modal'].hide();
         },
         editSchool(position, school){
-            this.school = { id: school.id, name: school.name, referencia: school.referencia };
+            this.school = { id: school.id, name: school.name, referencias: school.referencias };
             this.position = position;
             this.edit = true;
             this.$refs['my-modal'].show();

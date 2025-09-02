@@ -4,12 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use App\Referencia;
 use App\Student;
 use App\Book;
 
 class School extends Model
 {
-    protected $fillable = [ 'id', 'name', 'referencia' ];
+    protected $fillable = [ 'id', 'name' ];
     use SoftDeletes;
 
     public function students(){
@@ -18,5 +19,9 @@ class School extends Model
 
     public function books(){
         return $this->belongsToMany(Book::class)->withPivot('price');
+    }
+
+    public function referencias(){
+        return $this->hasMany(Referencia::class);
     }
 }

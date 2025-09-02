@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\RelationExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Referencia;
 use App\Registro;
 use App\Student;
 use App\School;
@@ -64,10 +65,7 @@ class SchoolController extends Controller
         ]);
         \DB::beginTransaction();
         try {
-            $s = School::create([
-                'name' => Str::of($request->name)->upper(),
-                'referencia' => Str::of($request->referencia)->upper()
-            ]);
+            $s = School::create([ 'name' => Str::of($request->name)->upper() ]);
             \DB::commit();
         }  catch (Exception $e) {
             \DB::rollBack();
@@ -80,10 +78,7 @@ class SchoolController extends Controller
     public function update(Request $request){
         \DB::beginTransaction();
         try {
-            School::whereId($request->id)->update([
-                'name' => Str::of($request->name)->upper(),
-                'referencia' => Str::of($request->referencia)->upper()
-            ]);
+            School::whereId($request->id)->update([ 'name' => Str::of($request->name)->upper() ]);
             \DB::commit();
         }  catch (Exception $e) {
             \DB::rollBack();
@@ -91,6 +86,59 @@ class SchoolController extends Controller
 
         $school = School::whereId($request->id)->first();
         return response()->json($school);
+    }
+
+    // REGISTRAR REFERENCIA
+    public function save_referencia(Request $request){
+        $this->validate($request, [
+            'referencia' => ['required', 'string', 'min:5', 'max:255'],
+            'tipo' => ['required']
+        ]);
+        \DB::beginTransaction();
+        try {
+            $new = Referencia::create([
+                'school_id' => $request->school_id, 
+                'referencia' => Str::of($request->referencia)->upper(), 
+                'tipo' => $request->tipo
+            ]);
+            \DB::commit();
+        }  catch (Exception $e) {
+            \DB::rollBack();
+        }
+        $referencia = Referencia::find($new->id);
+        return response()->json($referencia);
+    }
+
+    // ACTUALIZAR REFERENCIA
+    public function update_referencia(Request $request){
+        $this->validate($request, [
+            'referencia' => ['required', 'string', 'min:5', 'max:255'],
+            'tipo' => ['required']
+        ]);
+        \DB::beginTransaction();
+        try {
+            Referencia::whereId($request->id)->update([
+                'referencia' => Str::of($request->referencia)->upper(), 
+                'tipo' => $request->tipo
+            ]);
+            \DB::commit();
+        }  catch (Exception $e) {
+            \DB::rollBack();
+        }
+        $referencia = Referencia::find($request->id);
+        return response()->json($referencia);
+    }
+
+    // ELIMINAR REFERENCIA DE UNA ESCUELA
+    public function delete_referencia(Request $request){
+        \DB::beginTransaction();
+        try {
+            $referencia = Referencia::whereId($request->referencia_id)->delete();
+            \DB::commit();
+        }  catch (Exception $e) {
+            \DB::rollBack();
+        }
+        return response()->json($referencia);
     }
 
     public function get_schools(Request $request){
