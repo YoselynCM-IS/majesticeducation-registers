@@ -145,7 +145,7 @@ class RegistroController extends Controller
             if($tamanio == 4) $fpart1 = $this->set_zeros('000', $registro, $guia);
             if($tamanio == 5) $fpart1 = $this->set_zeros('00', $registro, $guia);
             if($tamanio == 6) $fpart1 = $this->set_zeros('0', $registro, $guia);
-            if($tamanio >= 7) $fpart1 = $this->set_zeros('', $registro, $guia);
+            if($tamanio >= 7) $fpart1 = Folio::where('concepto','like','%CE'.$registro->student->school->referencia.'/'.$guia.'%');
                         
             if($fpart1 != null){
                 $nc = ltrim($registro->student->numcuenta,0);
