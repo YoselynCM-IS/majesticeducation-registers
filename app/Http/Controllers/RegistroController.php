@@ -238,11 +238,12 @@ class RegistroController extends Controller
         }
         // BANCO AZTECA
         if($registro->type === 'BANCO AZTECA'){
+            $invoice = ltrim($registro->invoice,0);
             $folio = Folio::where('fecha',$registro->date)
                 ->where('abono', $registro->total)
                 ->where('occupied', 0)
                 ->where('concepto','like','%DEPOSITO DE EFECTIVO/ '.$registro->auto.'%')
-                ->where('concepto','like','%AUT: '.$registro->invoice.'%')
+                ->where('concepto','like','%AUT: '.$invoice.'%')
                 ->first();
         }
         return $folio;
