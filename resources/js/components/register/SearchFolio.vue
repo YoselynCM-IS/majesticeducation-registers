@@ -1,8 +1,8 @@
 <template>
     <div>
         <b-row>
-            <b-col>
-                <b-form-group label="Banco:">
+            <b-col sm="2">
+                <b-form-group label="Tipo:">
                     <b-form-select v-model="bank" :disabled="load"
                         :options="banks" required
                     ></b-form-select>
@@ -16,6 +16,11 @@
             <b-col sm="2">
                 <b-form-group label="Abono">
                     <b-form-input v-model="abono" :disabled="load" type="number"></b-form-input>
+                </b-form-group>
+            </b-col>
+            <b-col>
+                <b-form-group label="Concepto">
+                    <b-form-input v-model="concepto" :disabled="load"></b-form-input>
                 </b-form-group>
             </b-col>
             <b-col sm="2">
@@ -96,6 +101,7 @@ export default {
                 { value: 'AZTECA', text: 'BANCO AZTECA'},
                 { value: 'BANCOMER', text: 'BANCOMER'},
                 { value: 'OTRO', text: 'OTRO'},
+                { value: 'NOAPLICA', text: 'NO APLICA'},
             ],
             bank: null,
             selectMode: 'multi',
@@ -106,7 +112,7 @@ export default {
         searchFolio() {
             this.load = true;
             axios.get('/folios/search_folios', {
-                params: {fecha: this.fecha, abono: this.abono, bank: this.bank
+                params: {fecha: this.fecha, abono: this.abono, bank: this.bank, concepto: this.concepto
             }}).then(response => {
                 this.folios = response.data;
                 this.load = false;

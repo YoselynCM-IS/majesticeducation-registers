@@ -293,7 +293,14 @@
             <search-folio @foliosSelected="foliosSelected"></search-folio>
             <hr>
             <b-form @submit.prevent="updateRegister">
-                <h6><b>Asignar folios</b></h6>
+                <b-row>
+                    <b-col>
+                        <h6><b>Asignar folios</b></h6>
+                    </b-col>
+                    <b-col sm="4" class="text-right">
+                        <a v-if="form_std.comprobante" :href="form_std.comprobante.public_url" target="_blank">Comprobante</a>
+                    </b-col>
+                </b-row>
                 <b-table responsive :items="std_registros" :fields="fieldsReg">
                     <template v-slot:cell(index)="data">
                         {{ data.index + 1 }}
@@ -450,10 +457,10 @@ export default {
                 { key: 'date', label: 'Fecha' },
                 { key: 'type', label: 'Tipo' },
                 { key: 'bank', label: 'Banco' },
-                { key: 'invoice', label: 'Invoice' },
-                { key: 'auto', label: 'Auto' },
+                { key: 'invoice', label: 'Folio' },
+                { key: 'auto', label: 'Autorización' },
                 { key: 'guia', label: 'Guia' },
-                { key: 'referenica', label: 'Referencia' },
+                { key: 'referencia', label: 'Referencia' },
                 { key: 'total', label: 'Total' },
                 { key: 'selected', label: 'Asignar' }
             ],
@@ -701,6 +708,7 @@ export default {
             axios.get('/student/show_registers', {params: {student_id: student.id}}).then(response => {
                 this.form_std.student_id = student.id;
                 this.form_std.name = student.name;
+                this.form_std.comprobante = response.data.comprobantes[0];
                 this.std_registros = response.data.registros;
                 this.modalShow3 = true;
             }).catch(error => {

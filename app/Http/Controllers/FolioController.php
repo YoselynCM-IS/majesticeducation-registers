@@ -68,6 +68,9 @@ class FolioController extends Controller
                 ->where('occupied', 0)
                 ->get();
         }
+        if($request->bank === 'NOAPLICA'){
+            $folios = Folio::where('concepto','like','%'.$request->concepto.'%')->where('occupied', 0)->get();
+        }
         return response()->json($folios);
     }
 
