@@ -38,40 +38,41 @@ class FolioController extends Controller
     }
 
     public function search_folios(Request $request){
-        if($request->bank === 'AZTECA'){
-            $folios = Folio::where('fecha',$request->fecha)
-                ->where('abono','like','%'.$request->abono.'%')
-                ->where('concepto','like','%DEPOSITO DE EFECTIVO/%')
-                ->where('concepto','like','%AUT:%')
-                ->where('occupied', 0)
-                ->get();
-        }
-        if($request->bank === 'BANCOMER'){
-            $folios = Folio::where('fecha',$request->fecha)
-                ->where('abono','like','%'.$request->abono.'%')
-                ->where(function($query){
-                    $query->where('concepto', 'like', '%DEPOSITO EFECTIVO PRACTIC/*%')
-                        ->orWhere('concepto', 'like', '%DEPOSITO EN EFECTIVO/%')
-                        ->orWhere('concepto', 'like', '%DEPOSITO POR CORRECCION/%')
-                        ->orWhere('concepto', 'like', '%PAGO CUENTA DE TERCERO/%');
-            })->where('occupied', 0)->get();
-        }
-        if($request->bank === 'OTRO'){
-            $folios = Folio::where('concepto','NOT LIKE','%DEPOSITO DE EFECTIVO/%')
-                ->where('concepto','NOT LIKE','%AUT:%')
-                ->where('concepto', 'NOT LIKE', '%DEPOSITO EFECTIVO PRACTIC/*%')
-                ->where('concepto', 'NOT LIKE', '%DEPOSITO EN EFECTIVO/%')
-                ->where('concepto', 'NOT LIKE', '%DEPOSITO POR CORRECCION/%')
-                ->where('concepto', 'NOT LIKE', '%PAGO CUENTA DE TERCERO/%')
-                ->where('fecha',$request->fecha)
-                ->where('abono','like','%'.$request->abono.'%')
-                ->where('occupied', 0)
-                ->get();
-        }
-        if($request->bank === 'NOAPLICA'){
+        // if($request->bank === 'AZTECA'){
+        //     $folios = Folio::where('fecha',$request->fecha)
+        //         ->where('abono','like','%'.$request->abono.'%')
+        //         ->where('concepto','like','%DEPOSITO DE EFECTIVO/%')
+        //         ->where('concepto','like','%AUT:%')
+        //         ->where('occupied', 0)
+        //         ->get();
+        // }
+        // if($request->bank === 'BANCOMER'){
+        //     $folios = Folio::where('fecha',$request->fecha)
+        //         ->where('abono','like','%'.$request->abono.'%')
+        //         ->where(function($query){
+        //             $query->where('concepto', 'like', '%DEPOSITO EFECTIVO PRACTIC/*%')
+        //                 ->orWhere('concepto', 'like', '%DEPOSITO EN EFECTIVO/%')
+        //                 ->orWhere('concepto', 'like', '%DEPOSITO POR CORRECCION/%')
+        //                 ->orWhere('concepto', 'like', '%PAGO CUENTA DE TERCERO/%');
+        //     })->where('occupied', 0)->get();
+        // }
+        // if($request->bank === 'OTRO'){
+        //     $folios = Folio::where('concepto','NOT LIKE','%DEPOSITO DE EFECTIVO/%')
+        //         ->where('concepto','NOT LIKE','%AUT:%')
+        //         ->where('concepto', 'NOT LIKE', '%DEPOSITO EFECTIVO PRACTIC/*%')
+        //         ->where('concepto', 'NOT LIKE', '%DEPOSITO EN EFECTIVO/%')
+        //         ->where('concepto', 'NOT LIKE', '%DEPOSITO POR CORRECCION/%')
+        //         ->where('concepto', 'NOT LIKE', '%PAGO CUENTA DE TERCERO/%')
+        //         ->where('fecha',$request->fecha)
+        //         ->where('abono','like','%'.$request->abono.'%')
+        //         ->where('occupied', 0)
+        //         ->get();
+        // }
+        // if($request->bank === 'NOAPLICA'){
             $folios = Folio::where('concepto','like','%'.$request->concepto.'%')->where('occupied', 0)->get();
-        }
-        return response()->json($folios);
+            $ocupados = Folio::where('concepto','like','%'.$request->concepto.'%')->with('registros.student')->where('occupied', 1)->get();
+        // }
+        return response()->json(['desocupados' => $folios, 'ocupados' => $ocupados]);
     }
 
     public function store(Request $request){
