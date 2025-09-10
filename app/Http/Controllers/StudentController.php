@@ -437,20 +437,13 @@ class StudentController extends Controller
     public function debug_accepted(){
         \DB::beginTransaction();
         try {
-            $accepted = Student::select('name', 'book')->where('check', 'accepted')->get();
+            $rejected = Student::select('name', 'book')->where('check', 'rejected')->get();
+            $accepted = Student::whereIn('name', $rejected->pluck('name'))->whereIn('book', $rejected->pluck('book'))
+                    ->where('check', 'accepted')->withTrashed()->get();
+            $num_debug = $accepted->count();
             
-            $names = array();
-            $books = array();
-            foreach ($accepted as $accept) {
-                array_push($names, $accept->name);
-                array_push($books, $accept->book);
-            }
-
-            $num_debug = Student::whereIn('name', $names)
-                            ->whereIn('book', $books)
-                            ->where('check', 'rejected')->count();
-            Student::whereIn('name', $names)
-                    ->whereIn('book', $books)
+            Student::whereIn('name', $accepted->pluck('name'))
+                    ->whereIn('book', $accepted->pluck('book'))
                     ->where('check', 'rejected')->delete();
             \DB::commit();
         }  catch (Exception $e) {
