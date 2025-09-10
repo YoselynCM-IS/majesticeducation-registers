@@ -343,11 +343,7 @@ class StudentController extends Controller
             $student->update(['validate' => 'ENVIADO']);
         }
 
-        $hoy = Carbon::now()->format('Y-m-d');
-        $students = Student::with('school')
-                ->where('created_at', 'like', '%'.$hoy.'%')
-                ->orderBy('created_at', 'desc')->get();
-
+        $students = Student::where('check', 'rejected')->with('school')->orderBy('created_at', 'desc')->get();
         return response()->json($students);
     }
 
