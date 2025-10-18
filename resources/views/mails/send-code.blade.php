@@ -21,6 +21,9 @@
 			@else
 				<b>TU CÓDIGO DE BAE 2 ES: {{ $code }}</b><br>
 				<b>TU CÓDIGO DE BAE 4 ES: {{ $code2 }}</b>
+				@if($code3 !== 'NO')
+					<br><b>TU CÓDIGO DE MIND TWISTERS (LECTURA) ES: {{ $code3 }}</b>
+				@endif
 			@endif
 		@endif
 		@if($editorial === 'EXPRESS PUBLISHING')
