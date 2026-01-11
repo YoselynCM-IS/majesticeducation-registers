@@ -8,7 +8,7 @@ use App\Student;
 class Code extends Model
 {
     protected $fillable = [
-        'student_id', 'editorial', 'code1', 'code2', 'code3'
+        'student_id', 'editorial', 'code1', 'code2', 'code3', 'code4', 'code5'
     ];
 
     public function student(){

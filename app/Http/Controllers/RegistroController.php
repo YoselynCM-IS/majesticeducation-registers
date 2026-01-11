@@ -409,8 +409,8 @@ class RegistroController extends Controller
     public function resend_codigo(Request $request){
         $student = Student::whereId($request->id)->withTrashed()->with('codigos')->first();
         $student->codigos->map(function($code) use (&$prueba){
-            // $name, $code, $code2, $code3, $book, $editorial
-            Mail::to($code->student->email)->send(new SendCodes($code->student->name, $code->code1, $code->code2, $code->code3, $code->student->book, $code->editorial));
+            // $name, $code, $code2, $code3, $code4, $code5, $book, $editorial
+            Mail::to($code->student->email)->send(new SendCodes($code->student->name, $code->code1, $code->code2, $code->code3, $code->code4, $code->code5, $code->student->book, $code->editorial));
         });
         return response()->json(true);
     }

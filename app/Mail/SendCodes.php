@@ -22,12 +22,14 @@ class SendCodes extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($name, $code, $code2, $code3, $book, $editorial)
+    public function __construct($name, $code, $code2, $code3, $code4, $code5, $book, $editorial)
     {
         $this->name = $name;
         $this->code = $code;
         $this->code2 = $code2;
         $this->code3 = $code3;
+        $this->code4 = $code4;
+        $this->code5 = $code5;
         $this->book = $book;
         $this->editorial = $editorial;
     }
@@ -56,6 +58,8 @@ class SendCodes extends Mailable implements ShouldQueue
             ->with('code', $this->code)
             ->with('code2', $this->code2)
             ->with('code3', $this->code3)
+            ->with('code4', $this->code4)
+            ->with('code5', $this->code5)
             ->with('book', $this->book)
             ->with('editorial', $this->editorial);
     }

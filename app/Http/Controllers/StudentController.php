@@ -224,10 +224,12 @@ class StudentController extends Controller
                 $code1 = $row[5];
                 $code2 = $row[6];
                 $code3 = $row[7];
+                $code4 = $row[8];
+                $code5 = $row[9];
 
                 if($e === 'MAJESTIC EDUCATION' || $e === 'EXPRESS PUBLISHING' 
                     || $e === 'CENGAGE' || $e === 'RICHMOND' || $e === 'CLE'){
-                    if(strlen($code1) > 0 && strlen($code2) > 0 && strlen($code3) > 0){
+                    if(strlen($code1) > 0 && strlen($code2) > 0 && strlen($code3) > 0 && strlen($code4) > 0 & strlen($code4) > 0){
                         $student = Student::where([
                             'name' => $name, 'email' => $row[4], 
                             'check' => 'accepted', 'book' => $row[1],
@@ -240,11 +242,13 @@ class StudentController extends Controller
                                 'editorial' => $e, 
                                 'code1' => $code1, 
                                 'code2' => $code2, 
-                                'code3' => $code3
+                                'code3' => $code3,
+                                'code4' => $code4, 
+                                'code5' => $code5
                             ]);
     
-                            // $name, $code, $code2, $code3, $book, $editorial
-                            Mail::to($student->email)->send(new SendCodes($student->name, $code1, $code2, $code3, $student->book, $e));
+                            // $name, $code, $code2, $code3, $code4, $code5, $book, $editorial
+                            Mail::to($student->email)->send(new SendCodes($student->name, $code1, $code2, $code3, $code4, $code5, $student->book, $e));
     
                             $student->update([
                                 'send_codes' => $student->send_codes + 1

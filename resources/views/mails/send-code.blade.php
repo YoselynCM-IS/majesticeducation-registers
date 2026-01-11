@@ -19,10 +19,18 @@
 			@if($code2 === 'BLINK')
 				<b>TU CÓDIGO ES: {{ $code }}</b>
 			@else
-				<b>TU CÓDIGO DE BAE 2 ES: {{ $code }}</b><br>
-				<b>TU CÓDIGO DE BAE 4 ES: {{ $code2 }}</b>
-				@if($code3 !== 'NO')
-					<br><b>TU CÓDIGO DE MIND TWISTERS (LECTURA) ES: {{ $code3 }}</b>
+				@if($code4 == 'NO' && $code5 == 'NO')
+					<b>TU CÓDIGO DE BAE 2 ES: {{ $code }}</b><br>
+					<b>TU CÓDIGO DE BAE 4 ES: {{ $code2 }}</b>
+					@if($code3 !== 'NO')
+						<br><b>TU CÓDIGO DE MIND TWISTERS (LECTURA) ES: {{ $code3 }}</b>
+					@endif
+				@else
+					<b>TU CÓDIGO 1 ES: {{ $code }}</b><br>
+					<b>TU CÓDIGO 2 ES: {{ $code2 }}</b><br>
+					<b>TU CÓDIGO 3 ES: {{ $code3 }}</b><br>
+					<b>TU CÓDIGO 4 ES: {{ $code4 }}</b><br>
+					<b>TU CÓDIGO 5 ES: {{ $code5 }}</b>
 				@endif
 			@endif
 		@endif
