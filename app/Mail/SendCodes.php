@@ -15,6 +15,8 @@ class SendCodes extends Mailable implements ShouldQueue
     private $code;
     private $code2;
     private $code3;
+    private $code4;
+    private $code5;
     private $book;
     private $editorial;
     /**
