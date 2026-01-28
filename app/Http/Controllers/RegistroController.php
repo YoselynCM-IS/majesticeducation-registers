@@ -116,7 +116,7 @@ class RegistroController extends Controller
             if($s->check == 'accepted'){
                 if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
                 } else {
-                    Mail::to($s->email)->send(new PreRegister($estudiante['message'], $s));
+                    Mail::to($s->email)->queue(new PreRegister($estudiante['message'], $s));
                     $s->update(['validate' => 'ENVIADO']);
                 }
             }
@@ -366,7 +366,7 @@ class RegistroController extends Controller
             if($s->check !== 'process'){
                 if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
                 } else {
-                    Mail::to($s->email)->send(new PreRegister($estudiante['message'], $s));
+                    Mail::to($s->email)->queue(new PreRegister($estudiante['message'], $s));
                     $s->update(['validate' => 'ENVIADO']);
                 }
             }
@@ -394,7 +394,7 @@ class RegistroController extends Controller
 
         if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
         } else {
-            Mail::to($student->email)->send(new PreRegister($message, $student));
+            Mail::to($student->email)->queue(new PreRegister($message, $student));
             $student->update(['validate' => 'ENVIADO']);
         }
 
@@ -410,7 +410,7 @@ class RegistroController extends Controller
         $student = Student::whereId($request->id)->withTrashed()->with('codigos')->first();
         $student->codigos->map(function($code) use (&$prueba){
             // $name, $code, $code2, $code3, $code4, $code5, $book, $editorial
-            Mail::to($code->student->email)->send(new SendCodes($code->student->name, $code->code1, $code->code2, $code->code3, $code->code4, $code->code5, $code->student->book, $code->editorial));
+            Mail::to($code->student->email)->queue(new SendCodes($code->student->name, $code->code1, $code->code2, $code->code3, $code->code4, $code->code5, $code->student->book, $code->editorial));
         });
         return response()->json(true);
     }

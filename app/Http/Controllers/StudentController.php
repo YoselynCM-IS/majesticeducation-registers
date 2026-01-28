@@ -248,7 +248,7 @@ class StudentController extends Controller
                             ]);
     
                             // $name, $code, $code2, $code3, $code4, $code5, $book, $editorial
-                            Mail::to($student->email)->send(new SendCodes($student->name, $code1, $code2, $code3, $code4, $code5, $student->book, $e));
+                            Mail::to($student->email)->queue(new SendCodes($student->name, $code1, $code2, $code3, $code4, $code5, $student->book, $e));
     
                             $student->update([
                                 'send_codes' => $student->send_codes + 1
@@ -343,7 +343,7 @@ class StudentController extends Controller
         }
 
         if($student->check !== 'rejected'){
-            Mail::to($student->email)->send(new PreRegister($message, $student));
+            Mail::to($student->email)->queue(new PreRegister($message, $student));
             $student->update(['validate' => 'ENVIADO']);
         }
 
