@@ -46,8 +46,8 @@ class WorkingHours extends Command
         $status = ['accepted', 'rejected'];
         
         $lista = Excel::raw(new DayExport($hoy, $hoy,$status), \Maatwebsite\Excel\Excel::XLSX);
-        Mail::to('alma.omega09@gmail.com')
-            ->cc(['jennyomega7@gmail.com'])
-            ->send(new SendRegisters($lista, $hoy));
+        // Mail::to('alma.omega09@gmail.com')
+        //     ->cc(['jennyomega7@gmail.com'])
+        //     ->send(new SendRegisters($lista, $hoy));
     }
 }

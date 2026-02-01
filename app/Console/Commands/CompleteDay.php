@@ -52,8 +52,8 @@ class CompleteDay extends Command
         
         // Mail::to('yosecmart@gmail.com')
         //     ->cc(['yoscm2@gmail.com'])
-        Mail::to('alma.omega09@gmail.com')
-            ->cc(['jennyomega7@gmail.com'])
-            ->send(new SendRegisters($lista, $yesterday));
+        // Mail::to('alma.omega09@gmail.com')
+        //     ->cc(['jennyomega7@gmail.com'])
+        //     ->send(new SendRegisters($lista, $yesterday));
     }
 }

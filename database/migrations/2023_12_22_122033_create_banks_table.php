@@ -13,13 +13,13 @@ class CreateBanksTable extends Migration
      */
     public function up()
     {
-        Schema::create('banks', function (Blueprint $table) {
-            $table->id();
-            $table->string('bank');
-            $table->string('tipo');
-            $table->bigInteger('numero');
-            $table->timestamps();
-        });
+        // Schema::create('banks', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('bank');
+        //     $table->string('tipo');
+        //     $table->bigInteger('numero');
+        //     $table->timestamps();
+        // });
     }
 
     /**

@@ -13,14 +13,14 @@ class CreateReferenciasTable extends Migration
      */
     public function up()
     {
-        Schema::create('referencias', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('school_id')->nullable();
-            $table->foreign('school_id')->references('id')->on('schools');
-            $table->string('referencia')->nullable();
-            $table->enum('tipo', ['CIE', 'cuenta']);
-            $table->timestamps();
-        });
+        // Schema::create('referencias', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->unsignedBigInteger('school_id')->nullable();
+        //     $table->foreign('school_id')->references('id')->on('schools');
+        //     $table->string('referencia')->nullable();
+        //     $table->enum('tipo', ['CIE', 'cuenta']);
+        //     $table->timestamps();
+        // });
     }
 
     /**

@@ -9,7 +9,7 @@
 	<body style="background-color: white; color: black;">
         <h2>Hola {{ $name }}</h2>
 		<p>
-			Te enviamos el código para acceder al libro {{ $book }}:
+			Te enviamos el código para acceder al libro <b>{{ $book }}</b>:
 		</p>
 	    @if($editorial === 'MAJESTIC EDUCATION')
 			<ol>

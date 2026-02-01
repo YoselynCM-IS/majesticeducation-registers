@@ -46,14 +46,14 @@ class SendCodes extends Mailable implements ShouldQueue
 
         if(env('APP_NAME') == 'MAJESTIC EDUCATION'){
             $from = 'registro.pagos@majesticeducation-registers.com';
-            $cc = "rp.majesticeducacion@gmail.com";
+            // $cc = "rp.majesticeducacion@gmail.com";
         } else {
             $from = 'registro.pagos@omegabook-registers.com';
-            $cc = "rp.omegabook@gmail.com";
+            // $cc = "rp.omegabook@gmail.com";
         }
 
         return $this->from($from)
-            ->bcc($cc)
+            // ->bcc($cc)
             ->subject(__("Código"))
             ->markdown('mails.send-code')
             ->with('name', $this->name)

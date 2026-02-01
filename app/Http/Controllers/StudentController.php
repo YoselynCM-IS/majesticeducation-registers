@@ -6,6 +6,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Jobs\SendPreRegisterEmail;
 use App\Exports\EmailsBookExport;
 use App\Exports\DeliveryExport;
 use App\Mail\ErrorPreregister;
@@ -13,6 +14,7 @@ use App\Exports\EmailsExport;
 use App\Exports\DatesExport;
 use App\Imports\CodesImport;
 use Illuminate\Http\Request;
+use App\Jobs\SendCodesEmail;
 use Illuminate\Support\Str;
 use Spatie\Dropbox\Client;
 use App\Mail\PreRegister;
@@ -248,7 +250,7 @@ class StudentController extends Controller
                             ]);
     
                             // $name, $code, $code2, $code3, $code4, $code5, $book, $editorial
-                            Mail::to($student->email)->queue(new SendCodes($student->name, $code1, $code2, $code3, $code4, $code5, $student->book, $e));
+                            SendCodesEmail::dispatch($student, $code1, $code2, $code3, $code4, $code5, $e);
     
                             $student->update([
                                 'send_codes' => $student->send_codes + 1
@@ -343,7 +345,7 @@ class StudentController extends Controller
         }
 
         if($student->check !== 'rejected'){
-            Mail::to($student->email)->queue(new PreRegister($message, $student));
+            SendPreRegisterEmail::dispatch($student, $message);
             $student->update(['validate' => 'ENVIADO']);
         }
 
