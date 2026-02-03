@@ -142,6 +142,7 @@ Route::name('manager.')->prefix('manager')
     Route::get('/books', 'ManagerController@books' )->name('books');
     Route::get('/codes', 'ManagerController@codes' )->name('codes');
     Route::get('/schools', 'ManagerController@schools' )->name('schools');
+    Route::get('/emails', 'ManagerController@emails' )->name('emails');
     Route::name('categories.')->prefix('categories')->group(function () {
         Route::get('/revisions', 'ManagerController@revisions' )->name('revisions');
         Route::get('/lista', 'ManagerController@categories' )->name('lista');
@@ -168,6 +169,7 @@ Route::name('reviewer.')->prefix('reviewer')
     Route::get('/preregister', 'ReviewerController@preregister' )->name('preregister');
     Route::get('/categories', 'ReviewerController@categories' )->name('categories');
     Route::get('/pagos', 'ReviewerController@pagos' )->name('pagos');
+    Route::get('/emails', 'ReviewerController@emails' )->name('emails');
 });
 
 Route::name('books.')->prefix('books')->group(function () {
@@ -220,4 +222,13 @@ Route::name('revisions.')->prefix('revisions')->group(function () {
 
 Route::name('information.')->prefix('information')->group(function () {
     Route::put('/send_error', 'StudentController@send_error' )->name('send_error');
+});
+
+Route::name('emails.')->prefix('emails')->middleware(['auth'])->group(function () {
+    // OBTENER CORREOS POR ESTADO
+    Route::get('get_status', 'EmailController@get_status' )->name('get_status');
+    // OBTENER CORREO POR ID
+    Route::get('show', 'EmailController@show' )->name('show');
+    // BUSCAR CORREOS POR COINCIDENCIA
+    Route::get('search', 'EmailController@search' )->name('search');
 });

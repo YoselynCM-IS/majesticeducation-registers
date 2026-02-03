@@ -44,13 +44,20 @@ class SendCodesEmail implements ShouldQueue
     public function handle()
     {
         Mail::to($this->student->email)->queue(new SendCodes($this->student->name, $this->code1, $this->code2, $this->code3, $this->code4, $this->code5, $this->student->book, $this->editorial));        
+        
+        $data = [
+            'message' => $this->editorial,
+            'name' => $this->student->name,
+            'book' => $this->student->book
+        ];
+
         EmailLog::create([
-            'email'    => $this->student->email,
+        'student_id' => $this->student->id,    
+        'email'    => $this->student->email,
             'subject'  => 'Código',
             'mailable' => SendCodes::class,
-            'payload'  => json_encode([
-                'student_id' => $this->student->id,
-            ]),
+            'message'  => json_encode($data),
+            'message_search' => json_encode($data, JSON_UNESCAPED_UNICODE),
             'sent_at'  => now(),
         ]);
     }

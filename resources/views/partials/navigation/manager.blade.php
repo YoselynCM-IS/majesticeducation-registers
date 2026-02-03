@@ -1,6 +1,3 @@
-<!-- <li class="nav-item">
-    <a class="nav-link" href="{{ route('manager.files') }}">{{ __('Archivos') }}</a>
-</li> -->
 <li class="nav-item">
     <a class="nav-link" href="{{ route('manager.home') }}">{{ __('Inicio') }}</a>
 </li>
@@ -33,4 +30,7 @@
 </li>
 <li class="nav-item">
     <a class="nav-link" href="{{ route('manager.books') }}">{{ __('Libros') }}</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('manager.emails') }}">{{ __('Coreos') }}</a>
 </li>

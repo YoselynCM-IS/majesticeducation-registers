@@ -26,5 +26,5 @@
     <a class="nav-link" href="{{ route('reviewer.books') }}">{{ __('Libros') }}</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('reviewer.preregister') }}">{{ __('Pre-registro') }}</a>
+    <a class="nav-link" href="{{ route('reviewer.emails') }}">{{ __('Coreos') }}</a>
 </li>

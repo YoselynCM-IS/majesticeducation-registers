@@ -70,4 +70,9 @@ class ManagerController extends Controller
     public function pagos(){
         return view('manager.revisiones.pagos');
     }
+
+    // VISUALIZAR CORREOS ENVIADOS / FALLIDOS
+    public function emails(){
+        return view('manager.emails');
+    }
 }

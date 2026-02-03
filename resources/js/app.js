@@ -108,6 +108,8 @@ Vue.component('ne-categorie-component', require('./components/revisions/categori
 Vue.component('rev-list-categories-component', require('./components/revisions/categories/ListCategoriesComponent.vue').default);
 Vue.component('pagos-categories-component', require('./components/revisions/pagos/PagosComponent.vue').default);
 
+// COMPONENTES DE EMAILS
+Vue.component('emails-component', require('./components/emails/EmailsComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

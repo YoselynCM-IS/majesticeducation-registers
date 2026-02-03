@@ -66,4 +66,9 @@ class ReviewerController extends Controller
     public function pagos(){
         return view('reviewer.revisiones.pagos');
     }
+
+    // VISUALIZAR CORREOS ENVIADOS / FALLIDOS
+    public function emails(){
+        return view('reviewer.emails');
+    }
 }
