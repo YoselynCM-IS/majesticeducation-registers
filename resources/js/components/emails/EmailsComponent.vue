@@ -1,9 +1,16 @@
 <template>
     <div>
         <b-row class="mb-2">
-            <b-col sm="3"></b-col>
+            <b-col sm="3">
+                <!-- PAGINACIÓN -->
+                <pagination size="small" :limit="1" :data="emails"
+                    @pagination-change-page="getResults">
+                    <span slot="prev-nav"><i class="fa fa-angle-left"></i></span>
+                    <span slot="next-nav"><i class="fa fa-angle-right"></i></span>
+                </pagination>
+            </b-col>
             <b-col>
-                <b-form-input v-model="querySearch" :disabled="load || status == null" @keyup="searchEmail()" placeholder="Buscar correo..."></b-form-input>
+                <b-form-input v-model="querySearch" :disabled="load || status == null" @keyup="http_searchEmail()" placeholder="Buscar correo..."></b-form-input>
             </b-col>
         </b-row>
         <b-row>
@@ -18,18 +25,21 @@
                 </b-list-group>
             </b-col>
             <b-col>
-                <div v-if="emails.length > 0">
-                    <b-list-group v-for="(email, i) in emails" v-bind:key="i">
-                        <b-list-group-item href="#" @click="showEmail(email)">
-                            <b-row>
-                                <b-col>Para: {{ email.email }}</b-col>
-                                <b-col>{{ email.subject }}</b-col>
-                                <b-col sm="3">{{ email.sent_at | moment("YYYY-MM-DD hh:mm:ss") }}</b-col>
-                            </b-row>
-                        </b-list-group-item>
-                    </b-list-group>
+                <div v-if="!load">
+                    <div v-if="emails.data.length > 0">
+                        <b-list-group v-for="(email, i) in emails.data" v-bind:key="i">
+                            <b-list-group-item href="#" @click="showEmail(email)">
+                                <b-row>
+                                    <b-col>Para: {{ email.email }}</b-col>
+                                    <b-col>{{ email.subject }}</b-col>
+                                    <b-col sm="3">{{ email.sent_at | moment("YYYY-MM-DD hh:mm:ss") }}</b-col>
+                                </b-row>
+                            </b-list-group-item>
+                        </b-list-group>
+                    </div>
+                    <b-alert v-else show variant="light">No se ha enviado ningún correo.</b-alert>
                 </div>
-                <b-alert v-else show variant="light">No se ha enviado ningún correo.</b-alert>
+                <load-component v-else></load-component>
             </b-col>
         </b-row>
 
@@ -43,25 +53,40 @@
 
 <script>
     import DetailsEmailComponent from './partials/DetailsEmailComponent.vue';
+    import LoadComponent from '../funciones/LoadComponent.vue';
     export default {
         props: ['sistemname'],
-        components: {DetailsEmailComponent},
+        components: {DetailsEmailComponent, LoadComponent},
         data(){
             return {
                 load: false,
-                emails: [],
+                emails: { data:[] },
                 email: null,
                 querySearch: null,
-                status: null,
+                status: 'sent',
+                general: true
             }
         },
+        mounted: function(){
+            this.getResults();
+        },
         methods: {
+            // OBTENER RESULTADOS POR TIPO DE BUSQUEDA
+            getResults(page = 1){
+                if(this.general) this.http_byStatus(page);
+                else this.http_searchEmail(page);
+            },
             // OBTENER EMAILS ENVIADOS
             getEmails(status){
-                this.load = true;
                 this.status = status;
                 this.querySearch = null;
-                axios.get('/emails/get_status', {params: {status: status}}).then(response => {
+                this.general = true;
+                this.http_byStatus();
+            },
+            // HTTP DE EMAILS POR STATUS
+            http_byStatus(page = 1){
+                this.load = true;
+                axios.get(`/emails/get_status?page=${page}`, {params: {status: this.status}}).then(response => {
                     this.emails = response.data;
                     this.load = false;
                 }).catch(error => {
@@ -81,9 +106,10 @@
                 });
             },
             // BUSCAR CORREO
-            searchEmail(){
+            http_searchEmail(page = 1){
                 if(this.querySearch.length > 3){
-                    axios.get('/emails/search', {params: {querySearch: this.querySearch, status: this.status}}).then(response => {
+                    this.general = false;
+                    axios.get(`/emails/search?page=${page}`, {params: {querySearch: this.querySearch, status: this.status}}).then(response => {
                         this.emails = response.data;
                     }).catch(error => { });
                 }

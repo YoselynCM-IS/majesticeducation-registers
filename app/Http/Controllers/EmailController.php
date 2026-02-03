@@ -10,7 +10,7 @@ class EmailController extends Controller
 {
     // OBTENER EMAILS POR ESTADO
     public function get_status(Request $request){
-        $emails = EmailLog::where('status', $request->status)->orderBy('created_at', 'desc')->get();
+        $emails = EmailLog::where('status', $request->status)->orderBy('created_at', 'desc')->paginate(50);
         return response()->json($emails);
     }
 
@@ -26,7 +26,7 @@ class EmailController extends Controller
         $emails = EmailLog::where(function($query) use($querySearch){
                     $query->where('email', 'LIKE', '%'.$querySearch.'%')
                         ->orWhere('message_search', 'LIKE', '%'.$querySearch.'%');
-                })->where('status', $request->status)->orderBy('created_at', 'desc')->get();
+                })->where('status', $request->status)->orderBy('created_at', 'desc')->paginate(50);
         return response()->json($emails);
     }
 }
