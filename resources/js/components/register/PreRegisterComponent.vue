@@ -3,7 +3,7 @@
         <ad-packs-component></ad-packs-component>
         <h4 class="text-center"><b>Pre-registro</b></h4>
         <!-- TUTORIAL -->
-        <b-alert class="mb-3 mt-2" variant="dark" show>
+        <b-alert v-if="consAccepted && checkCIE" class="mb-3 mt-2" variant="dark" show>
             <h6>
                 <b>
                     Si necesitas ayuda para realizar tu pre-registro, puedes descargar este 
@@ -11,13 +11,14 @@
                 </b>
             </h6>
             <h6><b>Requisitos</b></h6>
-            <ul>
+            <!-- <ul>
                 <li>Acceder desde una computadora para realizar tu pre-registro</li>
                 <li>Acceder con el navegador <b>Firefox</b></li>
-            </ul>
+            </ul> -->
             <hr>
             <label>Al comprar tu libro con nosotros te ofrecemos la garantía y seguridad de que te será entregado. Te invitamos a <b>NO</b> realizar la compra de tu libro en línea (Amazon, Mercado Libre, entre otras).</label>
         </b-alert>
+        <p v-else><b>SI NO CUENTAS CON TU REFERENCIA CIE, COMUNÍCATE A ATENCIÓN A CLIENTES.</b></p>
         <div v-if="consAccepted">
             <!-- NUMERO DE CUENTA AL CUAL SE DEPOSITO -->
             <b-row>
@@ -464,56 +465,40 @@
                 </ul>
             </b-alert>
         </div>
-        <b-card bg-variant="dark" text-variant="white">
-            <b-row>
-                <b-col sm="8">
-                    <h6><strong>Horario de atención</strong></h6>
-                    <ul>
-                        <li>Lunes a Viernes de 10:00 am - 5:00 pm</li>
-                        <li>Sábado de 10:00 am - 1:00 pm </li>
-                    </ul>
-                </b-col>
-                <b-col>
-                    <h6><strong>Contacto</strong></h6>
-                    <ul>
-                        <li>
-                            <b-icon-telephone></b-icon-telephone> 56 2741 1481 <br>
-                            <a target="_blank" href="https://wa.me/525627411481">
-                                <b-icon-chat></b-icon-chat> Ir a WhatsApp
-                            </a>
-                        </li>
-                        <li>
-                            <b-icon-telephone></b-icon-telephone> 56 2741 0930 <br>
-                            <a target="_blank" href="https://wa.me/525627410930">
-                                <b-icon-chat></b-icon-chat> Ir a WhatsApp
-                            </a>
-                        </li>
-                    </ul>
-                </b-col>
-            </b-row>
-        </b-card>
+        <information-atencion></information-atencion>
         <!-- MODALS -->
          <!-- MENSAJE CONSIDERACIONES -->
-         <b-modal v-model="modalConsider" size="lg" title="IMPORTANTE" hide-footer>
-            <h5><b>ANTES DE REALIZAR TU REGISTRO TOMA EN CUENTA LAS SIGUIENTES CONSIDERACIONES</b></h5><hr>
-            <ul>
-                <li>EL REGISTRO SE DEBE REALIZAR DESDE UNA <b>COMPUTADORA</b></li>
-                <li>UTILIZA EL NAVEGADOR <b>FIREFOX</b></li>
-                <li>ANTES DE GUARDAR EL REGISTRO <b>VERIFICA LA INFORMACION INGRESADA</b> YA QUE NO CONTAMOS CON CAMBIOS NI DEVOLUCIONES</li>
-            </ul>
-            <p>EN CASO DE QUE NO SIGAS ESTAS INDICACIONES, <b>NO PODREMOS GARANTIZAR LA RECEPCION DE TU CORREO</b></p><hr>
-            <b-row>
-                <b-col>
-                    <b-form-checkbox v-model="checkAccept"
-                        id="checkbox-1" name="checkbox-1"
-                        value="accepted" unchecked-value="not_accepted"
-                        >HE LEIDO LAS CONSIDERACIONES
-                    </b-form-checkbox>
-                </b-col>
-                <b-col sm="2">
-                    <b-button variant="info" pill :disabled="checkAccept == 'not_accepted'" @click="btnAccept()">Aceptar</b-button>
-                </b-col>
-            </b-row>
+         <b-modal v-model="modalConsider" size="lg" hide-footer>
+            <template #modal-title><b>IMPORTANTE</b></template>
+            <h6><b>ANTES DE REALIZAR TU REGISTRO TOMA EN CUENTA LO SIGUIENTE:</b></h6><hr>
+            <div v-if="checkCIE == null" class="mb-3">
+                <label><b>¿CUENTAS CON REFERENCIA CIE?</b></label>
+                <b-form-radio-group id="radio-group-1" v-model="checkCIE" :options="options" name="radio-options"></b-form-radio-group>
+            </div>
+            <div v-if="checkCIE">
+                <ul>
+                    <li>EL REGISTRO SE DEBE REALIZAR DESDE UNA <b>COMPUTADORA</b></li>
+                    <li>UTILIZA EL NAVEGADOR <b>FIREFOX</b></li>
+                    <li>ANTES DE GUARDAR EL REGISTRO <b>VERIFICA LA INFORMACION INGRESADA</b> YA QUE NO CONTAMOS CON CAMBIOS NI DEVOLUCIONES</li>
+                </ul>
+                <p>EN CASO DE QUE NO SIGAS ESTAS INDICACIONES, <b>NO PODREMOS GARANTIZAR LA RECEPCION DE TU CORREO</b></p><hr>
+                <b-row>
+                    <b-col>
+                        <b-form-checkbox v-model="checkAccept"
+                            id="checkbox-1" name="checkbox-1"
+                            value="accepted" unchecked-value="not_accepted"
+                            >HE LEIDO LAS CONSIDERACIONES
+                        </b-form-checkbox>
+                    </b-col>
+                    <b-col sm="2">
+                        <b-button variant="info" pill :disabled="checkAccept == 'not_accepted'" @click="btnAccept()">Aceptar</b-button>
+                    </b-col>
+                </b-row>
+            </div>
+            <div v-if="checkCIE !== null && checkCIE == false" class="mb-5">
+                <p><b>COMUNÍCATE A ATENCIÓN A CLIENTES</b></p>
+                <information-atencion></information-atencion>
+            </div>
          </b-modal>
     </div>
 </template>
@@ -533,10 +518,11 @@ import banksMixin from '../../mixins/banksMixin';
 import booksMixin from '../../mixins/booksMixin';
 import typesMixin from '../../mixins/typesMixin';
 import AdPacksComponent from './ads/AdPacksComponent.vue';
+import InformationAtencion from './InformationAtencion.vue';
 export default {
     props: ['tipo', 'sistema'],
     mixins: [banksMixin,booksMixin,typesMixin],
-    components: {AdPacksComponent},
+    components: {AdPacksComponent, InformationAtencion},
     data(){
         return {
             load: false,
@@ -572,7 +558,12 @@ export default {
             },
             modalConsider: false,
             checkAccept: 'not_accepted',
-            consAccepted: false
+            consAccepted: false,
+            checkCIE: null,
+            options: [
+                { text: 'SI', value: true },
+                { text: 'NO', value: false }
+            ]
         }
     },
     created: function () {
