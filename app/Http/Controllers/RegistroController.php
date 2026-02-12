@@ -60,8 +60,9 @@ class RegistroController extends Controller
         return Excel::download(new RegistrosExport($status), 'registros.xlsx');
     }
 
+    // REVISAR EN PROCESO PARA ACEPTARLOS
     public function update_status(){
-        $students = Student::where('check', 'process')->with('registros')->limit(25)->get();
+        $students = Student::where('check', 'process')->with('registros')->limit(50)->get();
 
         \DB::beginTransaction();
         try {
@@ -113,16 +114,16 @@ class RegistroController extends Controller
             \DB::rollBack();
         }
 
-        foreach ($estudiantes as $estudiante) {
-            $s = Student::whereId($estudiante['student']['id'])->first();
-            if($s->check == 'accepted'){
-                if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
-                } else {
-                    SendPreRegisterEmail::dispatch($s, $estudiante['message']);
-                    $s->update(['validate' => 'ENVIADO']);
-                }
-            }
-        }
+        // foreach ($estudiantes as $estudiante) {
+        //     $s = Student::whereId($estudiante['student']['id'])->first();
+        //     if($s->check == 'accepted'){
+        //         if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
+        //         } else {
+        //             SendPreRegisterEmail::dispatch($s, $estudiante['message']);
+        //             $s->update(['validate' => 'ENVIADO']);
+        //         }
+        //     }
+        // }
         
         $hoy = Carbon::now()->format('Y-m-d');
         $students = Student::where('created_at', 'like', '%'.$hoy.'%')->with('school')->orderBy('created_at', 'desc')->get();
@@ -307,6 +308,7 @@ class RegistroController extends Controller
                 $bank !== 'INBURSA' && $bank !== 'SANTANDER' && $bank !== 'SCOTIABANK';
     }
 
+    // REVISAR RECHAZADOS PARA ACEPTARLOS
     public function update_rejected(Request $request){
         $students = Student::where('check', 'rejected')->with('registros')->get();
         \DB::beginTransaction();
@@ -363,16 +365,16 @@ class RegistroController extends Controller
         }
 
         
-        foreach ($estudiantes as $estudiante) {
-            $s = Student::whereId($estudiante['student']['id'])->first();
-            if($s->check !== 'process'){
-                if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
-                } else {
-                    SendPreRegisterEmail::dispatch($s, $estudiante['message']);
-                    $s->update(['validate' => 'ENVIADO']);
-                }
-            }
-        }
+        // foreach ($estudiantes as $estudiante) {
+        //     $s = Student::whereId($estudiante['student']['id'])->first();
+        //     if($s->check !== 'process'){
+        //         if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
+        //         } else {
+        //             SendPreRegisterEmail::dispatch($s, $estudiante['message']);
+        //             $s->update(['validate' => 'ENVIADO']);
+        //         }
+        //     }
+        // }
         
         $students = Student::where('check', 'rejected')->with('school')->orderBy('created_at', 'desc')->get();
 
@@ -389,6 +391,7 @@ class RegistroController extends Controller
         return response()->json($students);
     }
 
+    // REENVIAR CORREO AL ALUMNO SELECCIONADO
     public function resend_mail(Request $request){
         $student = Student::whereId($request->id)->withTrashed()->first();
 
@@ -397,7 +400,6 @@ class RegistroController extends Controller
         if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
         } else {
             SendPreRegisterEmail::dispatch($student, $message);
-            $student->update(['validate' => 'ENVIADO']);
         }
 
         $hoy = Carbon::now()->format('Y-m-d');

@@ -41,32 +41,43 @@ Route::name('folios.')->prefix('folios')->group(function () {
 });
 
 Route::name('student.')->prefix('student')->group(function () {
+    // CONSULTAR REGISTROS DE STUDENT
     Route::get('/show_registers', 'StudentController@show_registers' )->name('show_registers');
+    // BUSCAR REGISTROS POR LIBRO
     Route::get('books_to_email', 'StudentController@books_to_email' )->name('books_to_email');
-
+    // VISTA AL REGISTRO DEL ALUMNO
     Route::get('/register', 'StudentController@register' )->name('register');
-    // Route::post('save_student', 'StudentController@store')->name('save_student');
+    // GUARDAR ESTUDIANTE
     Route::post('preregister', 'StudentController@store')->name('preregister');
+    // CONSULTAR STUDENT CON ID Y FECHA DE CREACIÓN
     Route::get('/consult_data/{date}/{id}', 'StudentController@consult_data' )->name('consult_data');
+    // DESCARGAR REGISTROS PARA ENVIO DE CODIGOS
     Route::get('/download_emails/{school}/{book}', 'StudentController@download_emails' )->name('download_emails');
+    // *** REVISAR DE QUE ES O SI YA NO SE UTILIZA
     Route::get('/download_all/{school}', 'StudentController@download_all' )->name('download_all');
+    // DESCARGAR EXCEL PARA ENVIO DE CODIGOS POR LIBRO
     Route::get('/down_by_book/{book}', 'StudentController@down_by_book' )->name('down_by_book');
-    
+    // ENVIO DE CODIGOS
     Route::post('send_codes', 'StudentController@send_codes')->name('send_codes');
-
+    // BORRAR STUDENT
     Route::delete('delete', 'StudentController@delete')->name('delete');
+    // ACEPTAR RECHAZADOS
     Route::delete('debug_accepted', 'StudentController@debug_accepted')->name('debug_accepted');
+    // DESCARGAR TUTORIAL
     Route::get('/download_tutorial', 'StudentController@download_tutorial' )->name('download_tutorial');
-
+    // MOSTRAR ALUMNOS POR COINCIDENCIA DE NOMBRE
     Route::get('/show_students', 'StudentController@show_students' )->name('show_students');
+    // BUSCAR ALUMNOS POR ESCUELA Y POR COINCIDENCIA DE NOMBRE
     Route::get('/by_school', 'StudentController@by_school' )->name('by_school');
-
+    // ACEPTAR ALUMNO SELECCIONADO
     Route::put('update_status', 'StudentController@update_status')->name('update_status');
+    // MARCAR COMO ENTREGADOS LIBROS
     Route::put('update_delivery', 'StudentController@update_delivery')->name('update_delivery');
-
+    // MARCAR COMO ENTREGADOS LIBROS
     Route::put('mark_delivery', 'StudentController@mark_delivery')->name('mark_delivery');
+    // DESCARGAR LIBROS MARCADOS COMO ENTREGADOS
     Route::get('/download_delivery/{status}/{school}/{book}', 'StudentController@download_delivery' )->name('download_delivery');
-
+    // ACTUALIZAR REGISTRO
     Route::put('update_preregister', 'StudentController@update_preregister')->name('update_preregister');
     
     // VISUALIZAR CODIGOS ENVIADOS POR FECHA
@@ -78,6 +89,12 @@ Route::name('student.')->prefix('student')->group(function () {
     
     // BUSQUEDA POR ESCUELA ENTREGADO Y NO ENTREGADO
     Route::get('/by_school_ne', 'StudentController@by_school_ne' )->name('by_school_ne');
+
+    // OBTENER REGISTROS DE ALUMNO POR ESTADO Y POR STATUS DE ENVIO
+    Route::get('/by_school_check', 'StudentController@by_school_check' )->name('by_school_check');
+
+    // ENVIAR CORREO DE ALUMNOS SELECCIONADOS
+    Route::put('/send_emails', 'StudentController@send_emails')->name('send_emails');
 });
 
 Route::name('schools.')->prefix('schools')->group(function () {
@@ -218,10 +235,6 @@ Route::name('revisions.')->prefix('revisions')->group(function () {
 
     Route::get('/get_pagos', 'RevisionController@get_pagos' )->name('get_pagos');
     
-});
-
-Route::name('information.')->prefix('information')->group(function () {
-    Route::put('/send_error', 'StudentController@send_error' )->name('send_error');
 });
 
 Route::name('emails.')->prefix('emails')->middleware(['auth'])->group(function () {

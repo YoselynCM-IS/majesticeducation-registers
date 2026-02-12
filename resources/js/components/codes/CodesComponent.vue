@@ -4,7 +4,7 @@
             <b-row>
                 <b-col>
                     <b-form-group label="Buscar por escuela:">
-                        <b-form-input v-model="school" @keyup="showSchools()"
+                        <b-form-input v-model="school" @keyup="showSchoolsActive()"
                             style="text-transform:uppercase;">
                         </b-form-input>
                         <div class="list-group" v-if="schools.length" id="listR">
@@ -269,8 +269,10 @@
 <script>
 // SWEETALERT
 import swal from 'sweetalert';
+import searchAllSchoolMixin from '../../mixins/searchAllSchoolMixin';
 export default {
     props: ['registers1', 'registers2'],
+    mixins: [searchAllSchoolMixin],
     data(){
         return {
             modalShow: false,
@@ -297,9 +299,7 @@ export default {
                 {key: 'codes', label: 'Libro'},
                 {key: 'selected', label: ''}
             ],  
-            school: null,
             book: null,
-            schools: [],
             books: [],
             currentPage1: 1,
             currentPage2: 1,
@@ -357,17 +357,6 @@ export default {
             } else {
                 this.errorFormat = true;
                 this.load = false;
-            }
-        },
-        showSchools(){
-            if(this.school.length > 0 && this.school !== ' '){
-                axios.get('/schools/show_schools', {params: {escuela: this.school}}).then(response => {
-                    this.schools = response.data;
-                }).catch(error => {
-                    // PENDIENTE
-                });
-            } else {
-                this.schools = [];
             }
         },
         showBooks(){

@@ -1,5 +1,5 @@
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('administrator.home') }}">{{ __('Inicio') }}</a>
+    <a class="nav-link" href="{{ route('administrator.home') }}">{{ __('Registros') }}</a>
 </li>
 <li class="nav-item">
     <a class="nav-link" href="{{ route('administrator.folios') }}">{{ __('Depósitos') }}</a>

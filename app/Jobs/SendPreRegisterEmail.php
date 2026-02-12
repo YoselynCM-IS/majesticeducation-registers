@@ -27,9 +27,11 @@ class SendPreRegisterEmail implements ShouldQueue
 
     public function handle(): void
     {
+        $s = Student::find($this->student->id);
         // 1. Validar email
         if (!filter_var($this->student->email, FILTER_VALIDATE_EMAIL)) {
             $this->create_emaillog(null, 'failed', 'Email inválido');
+            $s->update(['validate' => 'NO ENVIADO']);
             throw new \Exception('Email inválido');
         }
 
@@ -37,9 +39,11 @@ class SendPreRegisterEmail implements ShouldQueue
             Mail::to($this->student->email)->send(new PreRegister($this->message, $this->student));
             
             $this->create_emaillog(now(), 'sent', null);
+            $s->update(['validate' => 'ENVIADO']);
 
         } catch (\Throwable $e) {
             $this->create_emaillog(null, 'failed', $e->getMessage());
+            $s->update(['validate' => 'NO ENVIADO']);
             throw $e; // Importante → manda el job a failed_jobs
         }
     }

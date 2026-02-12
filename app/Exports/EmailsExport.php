@@ -28,6 +28,7 @@ class EmailsExport implements FromCollection
                 ->join('schools', 'schools.id', '=', 'students.school_id')
                 ->join('books', 'students.book', '=', 'books.name')
                 ->where('check', 'accepted')
+                ->where('validate', 'ENVIADO')
                 ->where('codes', false) 
                 ->where('schools.name', $this->school);
 
@@ -43,6 +44,7 @@ class EmailsExport implements FromCollection
                 ->where('book', 'like', '%DIGITAL%')
                 ->where('book', 'NOT LIKE', '%PACK%') 
                 ->where('check', 'accepted')
+                ->where('validate', 'ENVIADO')
                 ->where('codes', false)
                 ->where('book', $this->book)
                 ->orderBy('students.created_at', 'asc')->get(); 

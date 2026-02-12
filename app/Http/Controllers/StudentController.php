@@ -197,23 +197,27 @@ class StudentController extends Controller
         return response()->json($student);
     }
 
+    // CONSULTAR STUDENT CON ID Y FECHA DE CREACIÓN
     public function consult_data($date, $id){
         $student = Student::where(['id' => $id, 'created_at' => $date])
                     ->with('registro.comprobante', 'school')->first();
         return view('student.consult', compact('student'));
     }
 
+    // DESCARGAR REGISTROS PARA ENVIO DE CODIGOS
     public function download_emails($school, $book){
         $hoy = Carbon::now()->format('Y-m-d');
         $nombre_archivo = $hoy.'_envio-codigos.xlsx';
         return Excel::download(new EmailsExport($school, $book), $nombre_archivo);
     }
 
+    // DESCARGAR LIBROS MARCADOS COMO ENTREGADOS
     public function download_delivery($status, $school, $book){
         $nombre_archivo = $status.'-fisico-digital.xlsx';
         return Excel::download(new DeliveryExport($status, $school, $book), $nombre_archivo);
     }
 
+    // ENVIO DE CODIGOS
     public function send_codes(Request $request){
         $array = Excel::toArray(new CodesImport, request()->file('file'));
         
@@ -234,7 +238,9 @@ class StudentController extends Controller
                     if(strlen($code1) > 0 && strlen($code2) > 0 && strlen($code3) > 0 && strlen($code4) > 0 & strlen($code4) > 0){
                         $student = Student::where([
                             'name' => $name, 'email' => $row[4], 
-                            'check' => 'accepted', 'book' => $row[1],
+                            'check' => 'accepted', 
+                            'validate' => 'ENVIADO',
+                            'book' => $row[1],
                             'codes' => false,
                         ])->first();
                         
@@ -286,18 +292,22 @@ class StudentController extends Controller
         return response()->json($countS);
     }
 
+    // BUSCAR REGISTROS POR LIBRO
     public function books_to_email(Request $request){
         $digitales = Student::where('book', $request->book)
                     ->where('book', 'like', '%DIGITAL%')
                     ->where('book', 'NOT LIKE', '%PACK%')
-                    ->where('check', 'accepted')->with('school')
+                    ->where('check', 'accepted')
+                    ->where('validate', 'ENVIADO')
+                    ->with('school')
                     ->orderBy('created_at', 'asc')->get();
         $fisicos = Student::where('book', $request->book)
-                    ->where('check', 'accepted')->with('school')
+                    ->where('check', 'accepted')
+                    ->where('validate', 'ENVIADO')
                     ->where(function($query) {
                         $query->where('book', 'NOT LIKE', '%DIGITAL%')
                                 ->orWhere('book', 'like', '%PACK%');
-                    })->orderBy('created_at', 'asc')->get();
+                    })->with('school')->orderBy('created_at', 'asc')->get();
         $data = [
             'digitales' => $digitales,
             'fisicos'   => $fisicos
@@ -305,16 +315,19 @@ class StudentController extends Controller
         return response()->json($data);
     }
 
+    // BORRAR STUDENT
     public function delete(Request $request){
         $student = Student::whereId($request->student_id)->delete();
         $students = Student::where('check', 'rejected')->with('school')->orderBy('created_at', 'desc')->get();
         return response()->json($students);
     }
     
+    // DESCARGAR TUTORIAL
     public function download_tutorial(){
         return Storage::disk('dropbox')->download('/PRE-REGISTRO-DE-BAUCHERS.pdf');
     }
 
+    // MOSTRAR ALUMNOS POR COINCIDENCIA DE NOMBRE
     public function show_students(Request $request){
         $students = Student::select('name')
                 ->where('name','like', '%'.$request->student.'%')
@@ -322,6 +335,7 @@ class StudentController extends Controller
         return response()->json($students);
     }
 
+    // ACEPTAR ALUMNO SELECCIONADO
     public function update_status(Request $request){
         $student = Student::whereId($request->student_id)->first();
         
@@ -344,15 +358,16 @@ class StudentController extends Controller
             \DB::rollBack();
         }
 
-        if($student->check !== 'rejected'){
-            SendPreRegisterEmail::dispatch($student, $message);
-            $student->update(['validate' => 'ENVIADO']);
-        }
+        // if($student->check !== 'rejected'){
+        //     SendPreRegisterEmail::dispatch($student, $message);
+        //     $student->update(['validate' => 'ENVIADO']);
+        // }
 
         $students = Student::where('check', 'rejected')->with('school')->orderBy('created_at', 'desc')->get();
         return response()->json($students);
     }
 
+    // MARCAR COMO ENTREGADOS LIBROS
     public function update_delivery(Request $request){
         \DB::beginTransaction();
         try {
@@ -379,6 +394,7 @@ class StudentController extends Controller
         return response()->json($students);
     }
 
+    // BUSCAR ALUMNOS POR ESCUELA Y POR COINCIDENCIA DE NOMBRE
     public function by_school(Request $request){
         $students = Student::where('school_id', $request->school_id)
                         ->where('name','like', '%'.$request->student.'%')
@@ -386,14 +402,15 @@ class StudentController extends Controller
                         ->where('delivery', false)
                         ->where('book','NOT LIKE','%DIGITAL%')
                         ->with('school')->orderBy('name', 'asc')->get();
-
         return response()->json($students);
     }
 
+    // BUSCAR ALUMNOS POR ESCUELA Y POR COINCIDENCIA DE NOMBRE
     public function by_school_ne(Request $request){
         $students = Student::where('school_id', $request->school_id)
                         ->where('name','like', '%'.$request->student.'%')
                         ->where('check', 'accepted')
+                        ->where('validate', 'ENVIADO')
                         ->where(function($query) {
                             $query->where('book', 'NOT LIKE', '%DIGITAL%')
                                     ->orWhere('book', 'like', '%PACK%');
@@ -402,6 +419,7 @@ class StudentController extends Controller
         return response()->json($students);
     }
 
+    // MARCAR COMO ENTREGADOS LIBROS
     public function mark_delivery(Request $request){
         $selected = $request->selected;
         $school = $request->school;
@@ -432,10 +450,12 @@ class StudentController extends Controller
         return response()->json($fisicos);
     }
 
+    // DESCARGAR EXCEL PARA ENVIO DE CODIGOS POR LIBRO
     public function down_by_book($book){
         return Excel::download(new EmailsBookExport($book), 'correos.xlsx');
     }
 
+    // ACEPTAR RECHAZADOS
     public function debug_accepted(){
         \DB::beginTransaction();
         try {
@@ -456,6 +476,7 @@ class StudentController extends Controller
         return response()->json(['num_debug' => $num_debug, 'students' => $students]);
     }
 
+    // ACTUALIZAR REGISTRO
     public function update_preregister(Request $request){
         $this->validate($request, [
             'name' => ['required', 'string', 'min:6'],
@@ -508,25 +529,44 @@ class StudentController extends Controller
         return response()->json($student);
     }
 
+    // VISUALIZAR CODIGOS ENVIADOS POR FECHA
     public function codes_dates(Request $request){
         $digitales = Student::whereBetween('date_codes',[$request->inicio, $request->final])
                     ->with('school')->orderBy('date_codes', 'asc')->get();
         return response()->json($digitales);
     }
 
+    // VISUALIZAR LIBROS ENTREGADOS POR FECHA
     public function delivery_dates(Request $request){
         $fisicos = Student::whereBetween('date_delivery',[$request->inicio, $request->final])
                     ->with('school')->orderBy('date_delivery', 'asc')->get();
         return response()->json($fisicos);
     }
 
+    // DESCARGAR CODIGOS ENVIADOS O LIBROS ENTREGADOS
     public function download_dates($type, $inicio, $final){
         return Excel::download(new DatesExport($type, $inicio, $final), 'enviados-por-fecha.xlsx');
     }
 
-    public function send_error(Request $request){
-        $error = print_r($request->error, true);
-        // Mail::to('yoselynmajestice@gmail.com')->send(new ErrorPreregister($error));
-        return response()->json($error);
+    // OBTENER REGISTROS POR CHECK Y VALIDATE (CORREO)
+    public function by_school_check(Request $request){
+        $students = Student::where('check', 'accepted')
+            ->where('validate', 'NO ENVIADO')
+            ->when($request->school_id != 0, function ($query) use($request){
+                $query->where('school_id', $request->school_id);
+            })
+            ->with('school')->orderBy('created_at', 'asc')->paginate(50);
+        return response()->json($students);
+    }
+
+    // ENVIAR CORREO DE ALUMNOS SELECCIONADOS
+    public function send_emails(Request $request){
+        $message = 'Tu registro se ha completado. Los datos que ingresaste en tu pre-registro han sido verificados correctamente.';
+        $students = collect($request->selected);
+        $students->map(function($student) use($message){
+            $s = Student::find($student['id']);
+            SendPreRegisterEmail::dispatch($s, $message);
+        });
+        return response()->json(true);
     }
 }

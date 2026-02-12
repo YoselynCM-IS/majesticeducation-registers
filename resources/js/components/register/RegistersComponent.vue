@@ -8,14 +8,14 @@
                 </b-button>
             </b-col>
             <b-col sm="3" class="text-right">
-                <b-button v-if="role !== 'sorter'" variant="secondary" pill block @click="modalDownload = true">
+                <b-button v-if="role !== 'sorter'" variant="dark" pill block @click="modalDownload = true">
                     <b-icon-download></b-icon-download> Descargas
                 </b-button>
             </b-col>
             <b-col sm="3" class="text-right">
-                <b-button v-if="role === 'manager'"
-                    variant="dark" block pill @click="debugAccepted()">
-                    <b-icon-arrow-clockwise></b-icon-arrow-clockwise> Depurar aceptados
+                <b-button v-if="role !== 'sorter'" class="mt-1" :disabled="load" block
+                    variant="danger" pill @click="updateRejected()">
+                    <b-icon-arrow-clockwise></b-icon-arrow-clockwise> Revisar rechazados
                 </b-button>
             </b-col>
             <b-col sm="3">
@@ -32,9 +32,9 @@
                 </b-pagination>
             </b-col>
             <b-col sm="3">
-                <b-button v-if="role !== 'sorter'" class="mt-1" :disabled="load" block
-                    variant="danger" pill @click="updateRejected()">
-                    <b-icon-arrow-clockwise></b-icon-arrow-clockwise> Revisar rechazados
+                <b-button v-if="role === 'manager'"
+                    variant="dark" block pill @click="debugAccepted()">
+                    <b-icon-arrow-clockwise></b-icon-arrow-clockwise> Depurar aceptados
                 </b-button>
             </b-col>
         </b-row>

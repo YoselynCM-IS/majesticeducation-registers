@@ -41,17 +41,20 @@ class SchoolController extends Controller
 
     public function schools_to_email(Request $request){
         $digitales = Student::where('school_id', $request->school_id)
-                    ->where('check', 'accepted')->with('school')
+                    ->where('check', 'accepted')
+                    ->where('validate', 'ENVIADO')
                     ->where('book', 'like', '%DIGITAL%')
                     ->where('book', 'NOT LIKE', '%PACK%')
+                    ->with('school')
                     ->orderBy('created_at', 'asc')->get();
 
         $fisicos = Student::where('school_id', $request->school_id)
-                    ->where('check', 'accepted')->with('school')
+                    ->where('check', 'accepted')
+                    ->where('validate', 'ENVIADO')
                     ->where(function($query) {
                         $query->where('book', 'NOT LIKE', '%DIGITAL%')
                                 ->orWhere('book', 'like', '%PACK%');
-                    })->orderBy('created_at', 'asc')->get();
+                    })->with('school')->orderBy('created_at', 'asc')->get();
         $data = [
             'digitales' => $digitales,
             'fisicos'   => $fisicos

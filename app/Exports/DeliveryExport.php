@@ -53,6 +53,7 @@ class DeliveryExport implements FromCollection
                         ->where(function($query) use($s,$estado) {
                             $query->where('schools.name', $s)
                                     ->where('check', 'accepted')
+                                    ->where('validate', 'ENVIADO')
                                     ->where('book', 'like', '%DIGITAL%')
                                     ->where('book', 'NOT LIKE', '%PACK%')
                                     ->where('codes', $estado);
@@ -60,6 +61,7 @@ class DeliveryExport implements FromCollection
                         ->orWhere(function($query) use($s,$estado) {
                             $query->where('schools.name', $s)
                                     ->where('check', 'accepted')
+                                    ->where('validate', 'ENVIADO')
                                     ->where(function($query) {
                                         $query->where('book', 'NOT LIKE', '%DIGITAL%')
                                                 ->orWhere('book', 'like', '%PACK%');
@@ -77,6 +79,7 @@ class DeliveryExport implements FromCollection
                                     ->where('book', 'like', '%DIGITAL%')
                                     ->where('book', 'NOT LIKE', '%PACK%')
                                     ->where('check', 'accepted')
+                                    ->where('validate', 'ENVIADO')
                                     ->where('codes', $estado);
                         })
                         ->orWhere(function($query) use($b,$estado) {
@@ -85,6 +88,7 @@ class DeliveryExport implements FromCollection
                                         $query->where('book', 'NOT LIKE', '%DIGITAL%')
                                                 ->orWhere('book', 'like', '%PACK%');
                                     })->where('check', 'accepted')
+                                    ->where('validate', 'ENVIADO')
                                     ->where('delivery', $estado);
                         })
                         ->orderBy('students.created_at', 'asc')->get();

@@ -1,18 +1,15 @@
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('manager.home') }}">{{ __('Inicio') }}</a>
+    <a class="nav-link" href="{{ route('manager.home') }}">{{ __('Registros') }}</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('manager.folios') }}">{{ __('Depósitos') }}</a>
+    <a class="nav-link" href="{{ route('manager.emails') }}">{{ __('Correos') }}</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('manager.movimientos') }}">{{ __('Movimientos') }}</a>
-</li>
-<li class="nav-item">
-    
+    <a class="nav-link" href="{{ route('manager.codes') }}">{{ __('Codigos') }}</a>
 </li>
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Revisiones
+        Cortes
     </a>
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
     <li><a class="dropdown-item" href="{{ route('manager.categories.lista') }}">Lista</a></li>
@@ -23,7 +20,7 @@
     </ul>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('manager.codes') }}">{{ __('Codigos') }}</a>
+    <a class="nav-link" href="{{ route('manager.folios') }}">{{ __('Depósitos') }}</a>
 </li>
 <li class="nav-item">
     <a class="nav-link" href="{{ route('manager.schools') }}">{{ __('Escuelas') }}</a>
@@ -32,5 +29,5 @@
     <a class="nav-link" href="{{ route('manager.books') }}">{{ __('Libros') }}</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('manager.emails') }}">{{ __('Coreos') }}</a>
+    <a class="nav-link" href="{{ route('manager.movimientos') }}">{{ __('Movimientos') }}</a>
 </li>

@@ -1,8 +1,8 @@
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('reviewer.home') }}">{{ __('Inicio') }}</a>
+    <a class="nav-link" href="{{ route('reviewer.home') }}">{{ __('Registros') }}</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('reviewer.folios') }}">{{ __('Depósitos') }}</a>
+    <a class="nav-link" href="{{ route('reviewer.emails') }}">{{ __('Correos') }}</a>
 </li>
 <li class="nav-item">
     <a class="nav-link" href="{{ route('reviewer.codes') }}">{{ __('Codigos') }}</a>
@@ -20,11 +20,11 @@
     </ul>
 </li>
 <li class="nav-item">
+    <a class="nav-link" href="{{ route('reviewer.folios') }}">{{ __('Depósitos') }}</a>
+</li>
+<li class="nav-item">
     <a class="nav-link" href="{{ route('reviewer.schools') }}">{{ __('Escuelas') }}</a>
 </li>
 <li class="nav-item">
     <a class="nav-link" href="{{ route('reviewer.books') }}">{{ __('Libros') }}</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('reviewer.emails') }}">{{ __('Coreos') }}</a>
 </li>
