@@ -554,8 +554,7 @@ class StudentController extends Controller
             ->where('validate', 'NO ENVIADO')
             ->when($request->school_id != 0, function ($query) use($request){
                 $query->where('school_id', $request->school_id);
-            })
-            ->with('school')->orderBy('created_at', 'asc')->paginate(50);
+            })->with('school')->orderBy('created_at', 'asc')->paginate(50);
         return response()->json($students);
     }
 
@@ -565,6 +564,7 @@ class StudentController extends Controller
         $students = collect($request->selected);
         $students->map(function($student) use($message){
             $s = Student::find($student['id']);
+            $s->update(['validate' => 'PROCESO']);
             SendPreRegisterEmail::dispatch($s, $message);
         });
         return response()->json(true);

@@ -83,6 +83,10 @@
                             <template v-slot:cell(index)="data">
                                 {{ data.index + 1 }}
                             </template>
+                            <template v-slot:cell(name)="data">
+                                {{ data.item.name }} 
+                                <b-badge :variant="data.item.validate == 'NO ENVIADO' ? 'warning':'secondary'">{{ data.item.validate }}</b-badge>
+                            </template>
                             <template v-slot:cell(selected)="{ rowSelected }">
                                 <template v-if="rowSelected">
                                     <b-icon-check-square-fill></b-icon-check-square-fill>
@@ -230,7 +234,7 @@
                 axios.put('/student/send_emails', form).then(response => {
                     this.selected = [];
                     this.selectAll = false;
-                    this.load = false;
+                    this.http_registros();
                 }).catch(error => {
                     // PENDIENTE
                     this.load = false;
