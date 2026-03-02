@@ -16,8 +16,11 @@ class SendPreRegisterEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected Student $student;
-    protected string $message;
+    public $tries = 2;    // Máximo 2 intentos antes de marcar como fallido
+    public $backoff = 60; // Si falla, espera 60 segundos para el segundo intento
+
+    protected $student;
+    protected $message;
 
     public function __construct(Student $student, string $message)
     {
@@ -27,12 +30,21 @@ class SendPreRegisterEmail implements ShouldQueue
 
     public function handle(): void
     {
+        // 1. ESPERA DE SEGURIDAD (2 segundos)
+        // Esto evita saturar el límite por minuto de Hostgator
+        sleep(2); 
+
+        // 2. Verificar si ya fue enviado (Doble validación de seguridad)
         $s = Student::find($this->student->id);
-        // 1. Validar email
+        // if (!$s || $s->validate === 'ENVIADO') {
+        //     return; 
+        // }
+
+        // 3. Validar email
         if (!filter_var($this->student->email, FILTER_VALIDATE_EMAIL)) {
             $this->create_emaillog(null, 'failed', 'Email inválido');
             $s->update(['validate' => 'NO ENVIADO']);
-            throw new \Exception('Email inválido');
+            return; // Usamos return en lugar de Exception para no reintentar algo que nunca funcionará
         }
 
         try {

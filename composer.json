@@ -12,12 +12,13 @@
         "aws/aws-sdk-php": "^3.173",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
+        "guzzlehttp/guzzle": "^7.3",
         "intervention/image": "^2.5",
         "laravel/framework": "^7.29",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.5",
         "maatwebsite/excel": "^3.1",
+        "predis/predis": "^3.4",
         "spatie/flysystem-dropbox": "^1.2"
     },
     "require-dev": {
