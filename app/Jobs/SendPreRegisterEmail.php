@@ -36,9 +36,9 @@ class SendPreRegisterEmail implements ShouldQueue
 
         // 2. Verificar si ya fue enviado (Doble validación de seguridad)
         $s = Student::find($this->student->id);
-        // if (!$s || $s->validate === 'ENVIADO') {
-        //     return; 
-        // }
+        if (!$s || $s->validate === 'ENVIADO') {
+            return; 
+        }
 
         // 3. Validar email
         if (!filter_var($this->student->email, FILTER_VALIDATE_EMAIL)) {
