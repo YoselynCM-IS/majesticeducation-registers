@@ -33,6 +33,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    #listR{
+        position: absolute;
+        z-index: 100;
+    }
 </style>

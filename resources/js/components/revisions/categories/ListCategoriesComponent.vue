@@ -143,7 +143,7 @@ export default {
         // MOSTRAR LAS CAEGORIAS
         show_categories(){
             this.loadall = true;
-            axios.get('/revisions/show_categories')
+            axios.get('/revisions/by_date')
                 .then(response => {
                     this.categories = response.data;
                     this.loadall = false;   
@@ -251,10 +251,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    #listR{
-        position: absolute;
-        z-index: 100;
-    }
-</style>

@@ -93,6 +93,15 @@ class RevisionController extends Controller
         return response()->json($categories);
     }
 
+    // OBTENER CATEGORIAS POR MES ACTUAL
+    public function by_date(){ 
+        $actual_month = Carbon::now()->format('Y-m');
+        $categories = Categorie::where('archivado', 0)
+            ->orderBy('created_at', 'desc')
+            ->where('created_at', 'like', '%'.$actual_month.'%')->get();
+        return response()->json($categories);
+    }
+
     // OBTENER CATEGORIAS POR ESCUELA
     public function categories_byschool(Request $request){
         $categories = Categorie::where('school_id', $request->school_id)->where('archivado', 0)

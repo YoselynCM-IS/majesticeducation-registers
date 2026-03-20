@@ -220,6 +220,7 @@ Route::name('revisions.')->prefix('revisions')->group(function () {
     Route::delete('delete_categorie', 'RevisionController@delete_categorie' )->name('delete_categorie');
 
     Route::get('show_categories', 'RevisionController@show_categories' )->name('show_categories');
+    Route::get('by_date', 'RevisionController@by_date' )->name('by_date');
     Route::get('by_categorie', 'RevisionController@by_categorie' )->name('by_categorie');
 
     Route::get('by_student', 'RevisionController@by_student' )->name('by_student');
