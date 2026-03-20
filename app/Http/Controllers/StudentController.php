@@ -193,6 +193,7 @@ class StudentController extends Controller
                 ->with(['school' => function ($query) {
                         $query->withTrashed();
                 }])->withTrashed()
+                ->withCount('codigos')
                 ->first();
         return response()->json($student);
     }

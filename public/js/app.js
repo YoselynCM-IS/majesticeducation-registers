@@ -101329,7 +101329,7 @@ var render = function() {
             "b-col",
             { attrs: { sm: "2" } },
             [
-              _vm.student.check === "accepted" && _vm.student.codes
+              _vm.student.check === "accepted" && _vm.student.codigos_count > 0
                 ? _c(
                     "b-button",
                     {

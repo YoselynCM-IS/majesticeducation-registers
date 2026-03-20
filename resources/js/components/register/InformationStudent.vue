@@ -3,7 +3,7 @@
         <b-row>
             <b-col><p><b>Fecha de registro:</b> {{ student.created_at | moment("YYYY-MM-DD hh:mm:ss") }}</p></b-col>
             <b-col sm="2">
-                <b-button v-if="student.check === 'accepted' && student.codes" 
+                <b-button v-if="student.check === 'accepted' && student.codigos_count > 0" 
                     variant="dark" pill size="sm" block @click="resend_codigo()" :disabled="load">
                     <i class="fa fa-share"></i> Reenviar código
                 </b-button>
