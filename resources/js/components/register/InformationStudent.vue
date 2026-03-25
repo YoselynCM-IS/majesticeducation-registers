@@ -156,7 +156,24 @@
                         </tr>
                         <tr>
                             <th class="text-right" scope="row">Correo</th>
-                            <td>{{ student.email }}</td>
+                            <td>
+                                {{ student.email }}
+                                <b-button variant="warning" size="sm" pill @click="editEmail(student)"><i class="fa fa-pencil"></i></b-button>
+                                <div v-if="statusEdit" class="mt-2">
+                                    <b-form inline @submit.prevent="onSubmit">
+                                        <b-form-input
+                                            v-model="form.email"
+                                            :disabled="load"
+                                            required
+                                            class="mb-2 mr-sm-2 mb-sm-0"
+                                            placeholder="Correo nuevo"
+                                        ></b-form-input>
+                                        <b-button variant="success" size="sm" pill type="submit" :disabled="load">
+                                            <i class="fa fa-check"></i>
+                                        </b-button>
+                                    </b-form>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <th class="text-right" scope="row">Escuela</th>
@@ -182,7 +199,12 @@ export default {
     props: ['student'],
     data() {
         return {
-            load: false
+            load: false,
+            statusEdit: false,
+            form: {
+                student_id: null,
+                email: null
+            }
         }
     },
     methods: {
@@ -190,31 +212,55 @@ export default {
             this.load = true;
             axios.put('/registros/resend_mail', this.student).then(response => {
                 this.load = false;
-                this.makeToast("El correo se reenvió correctamente.");
+                this.makeToast("El correo se reenvió correctamente.", 'success');
             }).catch(error => {
                 this.load = false;
-                this.makeToast("Ocurrió un problema al reenviar el correo, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.");
+                this.makeToast("Ocurrió un problema al reenviar el correo, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.", 'info');
             });
         },
         resend_codigo() {
             this.load = true;
             axios.put('/registros/resend_codigo', this.student).then(response => {
                 this.load = false;
-                this.makeToast("El código se reenvió correctamente.");
+                this.makeToast("El código se reenvió correctamente.", 'success');
             }).catch(error => {
                 this.load = false;
-                this.makeToast("Ocurrió un problema al reenviar el código, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.");
+                this.makeToast("Ocurrió un problema al reenviar el código, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.", 'info');
             });
         },
-        makeToast(message) {
+        makeToast(message, variant) {
             this.$bvToast.toast(message, {
                 title: 'Mensaje',
                 toaster: 'b-toaster-top-center',
                 solid: true,
                 appendToast: false,
-                variant: 'info'
+                variant: variant
             });
         },
+        // EDITAR EMAIL
+        editEmail(student){
+            this.statusEdit = !this.statusEdit;
+            this.form.student_id = student.id;
+            this.form.email = null;
+        },
+        // GUARDAR CORREO NUEVO
+        onSubmit(){
+            this.load = true;
+            axios.put('/student/update_email', this.form).then(response => {
+                this.load = false;
+                this.student.email = response.data.email;
+                this.statusEdit = false;
+                this.makeToast("El correo electrónico se ha actualizado.", 'success');
+            }).catch(error => {
+                this.load = false;
+                if(error.response.status === 422) {
+                     this.makeToast("El correo electrónico no es valido.", 'warning');
+                } else {
+                    this.makeToast("Ocurrió, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.", 'info');
+                 
+                }
+            });
+        }
     }
 }
 </script>

@@ -95,6 +95,9 @@ Route::name('student.')->prefix('student')->group(function () {
 
     // ENVIAR CORREO DE ALUMNOS SELECCIONADOS
     Route::put('/send_emails', 'StudentController@send_emails')->name('send_emails');
+
+    // ACTUALIZAR CORREO DE ALUMNO
+    Route::put('update_email', 'StudentController@update_email')->name('update_email');
 });
 
 Route::name('schools.')->prefix('schools')->group(function () {

@@ -570,4 +570,21 @@ class StudentController extends Controller
         });
         return response()->json(true);
     }
+
+    // ACTUALIZAR CORREO DE ALUMNO
+    public function update_email(Request $request){
+        $this->validate($request, [
+            'email' => ['required', 'email', 'max:60']
+        ]); 
+
+        $student = Student::withTrashed()->find($request->student_id);
+        \DB::beginTransaction();
+        try {
+            $student->update(['email' => $request->email]);
+            \DB::commit();
+        }  catch (Exception $e) {
+            \DB::rollBack();
+        }
+        return response()->json($student);
+    }
 }

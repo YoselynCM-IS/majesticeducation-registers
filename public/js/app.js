@@ -5349,11 +5349,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['student'],
   data: function data() {
     return {
-      load: false
+      load: false,
+      statusEdit: false,
+      form: {
+        student_id: null,
+        email: null
+      }
     };
   },
   methods: {
@@ -5364,11 +5386,11 @@ __webpack_require__.r(__webpack_exports__);
       axios.put('/registros/resend_mail', this.student).then(function (response) {
         _this.load = false;
 
-        _this.makeToast("El correo se reenvió correctamente.");
+        _this.makeToast("El correo se reenvió correctamente.", 'success');
       })["catch"](function (error) {
         _this.load = false;
 
-        _this.makeToast("Ocurrió un problema al reenviar el correo, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.");
+        _this.makeToast("Ocurrió un problema al reenviar el correo, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.", 'info');
       });
     },
     resend_codigo: function resend_codigo() {
@@ -5378,20 +5400,47 @@ __webpack_require__.r(__webpack_exports__);
       axios.put('/registros/resend_codigo', this.student).then(function (response) {
         _this2.load = false;
 
-        _this2.makeToast("El código se reenvió correctamente.");
+        _this2.makeToast("El código se reenvió correctamente.", 'success');
       })["catch"](function (error) {
         _this2.load = false;
 
-        _this2.makeToast("Ocurrió un problema al reenviar el código, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.");
+        _this2.makeToast("Ocurrió un problema al reenviar el código, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.", 'info');
       });
     },
-    makeToast: function makeToast(message) {
+    makeToast: function makeToast(message, variant) {
       this.$bvToast.toast(message, {
         title: 'Mensaje',
         toaster: 'b-toaster-top-center',
         solid: true,
         appendToast: false,
-        variant: 'info'
+        variant: variant
+      });
+    },
+    // EDITAR EMAIL
+    editEmail: function editEmail(student) {
+      this.statusEdit = !this.statusEdit;
+      this.form.student_id = student.id;
+      this.form.email = null;
+    },
+    // GUARDAR CORREO NUEVO
+    onSubmit: function onSubmit() {
+      var _this3 = this;
+
+      this.load = true;
+      axios.put('/student/update_email', this.form).then(function (response) {
+        _this3.load = false;
+        _this3.student.email = response.data.email;
+        _this3.statusEdit = false;
+
+        _this3.makeToast("El correo electrónico se ha actualizado.", 'success');
+      })["catch"](function (error) {
+        _this3.load = false;
+
+        if (error.response.status === 422) {
+          _this3.makeToast("El correo electrónico no es valido.", 'warning');
+        } else {
+          _this3.makeToast("Ocurrió, por favor verifica tu conexión a internet e intenta de nuevo. Si el error persiste refresca la pagina y vuelve acceder al sistema.", 'info');
+        }
       });
     }
   }
@@ -101830,7 +101879,83 @@ var render = function() {
                     [_vm._v("Correo")]
                   ),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm.student.email))])
+                  _c(
+                    "td",
+                    [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(_vm.student.email) +
+                          "\n                            "
+                      ),
+                      _c(
+                        "b-button",
+                        {
+                          attrs: { variant: "warning", size: "sm", pill: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.editEmail(_vm.student)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-pencil" })]
+                      ),
+                      _vm._v(" "),
+                      _vm.statusEdit
+                        ? _c(
+                            "div",
+                            { staticClass: "mt-2" },
+                            [
+                              _c(
+                                "b-form",
+                                {
+                                  attrs: { inline: "" },
+                                  on: {
+                                    submit: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.onSubmit($event)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("b-form-input", {
+                                    staticClass: "mb-2 mr-sm-2 mb-sm-0",
+                                    attrs: {
+                                      disabled: _vm.load,
+                                      required: "",
+                                      placeholder: "Correo nuevo"
+                                    },
+                                    model: {
+                                      value: _vm.form.email,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.form, "email", $$v)
+                                      },
+                                      expression: "form.email"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-button",
+                                    {
+                                      attrs: {
+                                        variant: "success",
+                                        size: "sm",
+                                        pill: "",
+                                        type: "submit",
+                                        disabled: _vm.load
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-check" })]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  )
                 ]),
                 _vm._v(" "),
                 _c("tr", [
