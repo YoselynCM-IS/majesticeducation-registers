@@ -35,7 +35,7 @@ class SendPreRegisterEmail implements ShouldQueue
         sleep(2); 
 
         // 2. Verificar si ya fue enviado (Doble validación de seguridad)
-        $s = Student::find($this->student->id);
+        $s = Student::withTrashed()->find($this->student->id);
         if (!$s || $s->validate === 'ENVIADO') {
             return; 
         }

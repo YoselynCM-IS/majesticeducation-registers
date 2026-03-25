@@ -399,6 +399,7 @@ class RegistroController extends Controller
 
         if($student->school_id === 1 || $student->school_id === 8){ // NO ENVIAR CORREO A LOS ALUMNOS DE CAMPECHE Y HUIMANGUILLO
         } else {
+            $student->update(['validate' => 'NO ENVIADO']);
             SendPreRegisterEmail::dispatch($student, $message);
         }
 
