@@ -12,13 +12,24 @@
 			Te enviamos el código para acceder al libro <b>{{ $book }}</b>:
 		</p>
 	    @if($editorial === 'MAJESTIC EDUCATION')
-			<ol>
-				<li>Ingresar a: https://www.blinklearning.com/home</li>
-				<li>Descarga el <a href="https://dl.dropbox.com/s/kbv18zto09ky76w/Manual_alumno_blink_ME.pdf"><b>Manual</b></a> para poder registrarte.</li>
-			</ol>
 			@if($code2 === 'BLINK')
+				<ol>
+					<li>Ingresar a: https://www.blinklearning.com/home</li>
+					<li>Descarga el <a href="https://dl.dropbox.com/s/kbv18zto09ky76w/Manual_alumno_blink_ME.pdf"><b>Manual</b></a> para poder registrarte.</li>
+				</ol>
 				<b>TU CÓDIGO ES: {{ $code }}</b>
-			@else
+			@endif
+			@if($code2 === 'AVALLAIN')
+				<ol>
+					<li>Descarga el <a href="https://www.dropbox.com/scl/fi/57ihgges4ssvwbxkzsm46/Primeros-pasos-del-alumno-Avallian.pdf?rlkey=ssktprzz7z1sa9is34mh6vxot&st=q2fwd4p1&dl=1"><b>Manual</b></a> para poder registrarte.</li>
+				</ol>
+				<b>TU CÓDIGO ES: {{ $code }}</b>
+			@endif
+			@if($code2 !== 'BLINK' && $code2 !== 'AVALLAIN')
+				<ol>
+					<li>Ingresar a: https://www.blinklearning.com/home</li>
+					<li>Descarga el <a href="https://dl.dropbox.com/s/kbv18zto09ky76w/Manual_alumno_blink_ME.pdf"><b>Manual</b></a> para poder registrarte.</li>
+				</ol>
 				@if($code4 == 'NO' && $code5 == 'NO')
 					<b>TU CÓDIGO DE BAE 2 ES: {{ $code }}</b><br>
 					<b>TU CÓDIGO DE BAE 4 ES: {{ $code2 }}</b>

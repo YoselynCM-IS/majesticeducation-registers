@@ -4,12 +4,24 @@
         <div v-if="message == 'MAJESTIC EDUCATION'">
             <div v-for="(codigo, i) in email.student.codigos" v-bind="i">
                 <h6><b>CORREO {{ i + 1 }}: </b></h6>
-                <ol>
-                    <li>Ingresar a: https://www.blinklearning.com/home</li>
-                    <li>Descarga el <a href="https://dl.dropbox.com/s/kbv18zto09ky76w/Manual_alumno_blink_ME.pdf"><b>Manual</b></a> para poder registrarte.</li>
-                </ol>
-                <b v-if="codigo.code2 == 'BLINK'">TU CÓDIGO ES: {{ codigo.code1 }}</b>
-                <div v-else>
+                <p v-if="codigo.code2 == 'BLINK'">
+                    <ol>
+                        <li>Ingresar a: https://www.blinklearning.com/home</li>
+                        <li>Descarga el <a href="https://dl.dropbox.com/s/kbv18zto09ky76w/Manual_alumno_blink_ME.pdf"><b>Manual</b></a> para poder registrarte.</li>
+                    </ol>
+                    <b>TU CÓDIGO ES: {{ codigo.code1 }}</b>
+                </p>
+                <p v-if="codigo.code2 == 'AVALLAIN'">
+                    <ol>
+                        <li>Descarga el <a href="https://www.dropbox.com/scl/fi/57ihgges4ssvwbxkzsm46/Primeros-pasos-del-alumno-Avallian.pdf?rlkey=ssktprzz7z1sa9is34mh6vxot&st=q2fwd4p1&dl=1"><b>Manual</b></a> para poder registrarte.</li>
+                    </ol>
+                    <b>TU CÓDIGO ES: {{ codigo.code1 }}</b>
+                </p>
+                <div v-if="codigo.code2 != 'BLINK' && codigo.code2 != 'AVALLAIN'">
+                    <ol>
+                        <li>Ingresar a: https://www.blinklearning.com/home</li>
+                        <li>Descarga el <a href="https://dl.dropbox.com/s/kbv18zto09ky76w/Manual_alumno_blink_ME.pdf"><b>Manual</b></a> para poder registrarte.</li>
+                    </ol>
                     <div v-if="codigo.code4 == 'NO' && codigo.code5 == 'NO'">
                         <b>TU CÓDIGO DE BAE 2 ES: {{ codigo.code1 }}</b><br>
                         <b>TU CÓDIGO DE BAE 4 ES: {{ codigo.code2 }}</b>

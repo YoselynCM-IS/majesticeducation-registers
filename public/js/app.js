@@ -3752,6 +3752,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['message', 'email', 'book']
 });
@@ -97807,11 +97819,26 @@ var render = function() {
             return _c("div", _vm._b({}, "div", i, false), [
               _c("h6", [_c("b", [_vm._v("CORREO " + _vm._s(i + 1) + ": ")])]),
               _vm._v(" "),
-              _vm._m(0, true),
-              _vm._v(" "),
               codigo.code2 == "BLINK"
-                ? _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(codigo.code1))])
-                : _c("div", [
+                ? _c("p", [
+                    _vm._m(0, true),
+                    _vm._v(" "),
+                    _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(codigo.code1))])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              codigo.code2 == "AVALLAIN"
+                ? _c("p", [
+                    _vm._m(1, true),
+                    _vm._v(" "),
+                    _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(codigo.code1))])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              codigo.code2 != "BLINK" && codigo.code2 != "AVALLAIN"
+                ? _c("div", [
+                    _vm._m(2, true),
+                    _vm._v(" "),
                     codigo.code4 == "NO" && codigo.code5 == "NO"
                       ? _c("div", [
                           _c("b", [
@@ -97861,6 +97888,7 @@ var render = function() {
                           ])
                         ])
                   ])
+                : _vm._e()
             ])
           }),
           0
@@ -97869,7 +97897,7 @@ var render = function() {
     _vm._v(" "),
     _vm.message == "EXPRESS PUBLISHING"
       ? _c("div", [
-          _vm._m(1),
+          _vm._m(3),
           _vm._v(" "),
           _c("b", [_vm._v("CÓDIGO(S):")]),
           _vm._v(" "),
@@ -97879,7 +97907,7 @@ var render = function() {
             _c("li", [_vm._v(_vm._s(_vm.codigo.code2))])
           ]),
           _vm._v(" "),
-          _vm._m(2)
+          _vm._m(4)
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -97887,7 +97915,7 @@ var render = function() {
       ? _c("div", [
           _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(_vm.codigo.code1))]),
           _vm._v(" "),
-          _vm._m(3)
+          _vm._m(5)
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -97899,7 +97927,7 @@ var render = function() {
           _vm._v(" "),
           _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(_vm.codigo.code1))]),
           _vm._v(" "),
-          _vm._m(4)
+          _vm._m(6)
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -97921,6 +97949,50 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ol", [
+      _c("li", [_vm._v("Ingresar a: https://www.blinklearning.com/home")]),
+      _vm._v(" "),
+      _c("li", [
+        _vm._v("Descarga el "),
+        _c(
+          "a",
+          {
+            attrs: {
+              href:
+                "https://dl.dropbox.com/s/kbv18zto09ky76w/Manual_alumno_blink_ME.pdf"
+            }
+          },
+          [_c("b", [_vm._v("Manual")])]
+        ),
+        _vm._v(" para poder registrarte.")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ol", [
+      _c("li", [
+        _vm._v("Descarga el "),
+        _c(
+          "a",
+          {
+            attrs: {
+              href:
+                "https://www.dropbox.com/scl/fi/57ihgges4ssvwbxkzsm46/Primeros-pasos-del-alumno-Avallian.pdf?rlkey=ssktprzz7z1sa9is34mh6vxot&st=q2fwd4p1&dl=1"
+            }
+          },
+          [_c("b", [_vm._v("Manual")])]
+        ),
+        _vm._v(" para poder registrarte.")
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
