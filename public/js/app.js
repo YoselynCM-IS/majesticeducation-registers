@@ -3764,6 +3764,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['message', 'email', 'book']
 });
@@ -97896,55 +97911,91 @@ var render = function() {
       : _vm._e(),
     _vm._v(" "),
     _vm.message == "EXPRESS PUBLISHING"
-      ? _c("div", [
-          _vm._m(3),
-          _vm._v(" "),
-          _c("b", [_vm._v("CÓDIGO(S):")]),
-          _vm._v(" "),
-          _c("ol", [
-            _c("li", [_vm._v(_vm._s(_vm.codigo.code1))]),
-            _vm._v(" "),
-            _c("li", [_vm._v(_vm._s(_vm.codigo.code2))])
-          ]),
-          _vm._v(" "),
-          _vm._m(4)
-        ])
+      ? _c(
+          "div",
+          _vm._l(_vm.email.student.codigos, function(codigo, i) {
+            return _c("div", _vm._b({}, "div", i, false), [
+              _c("h6", [_c("b", [_vm._v("CORREO " + _vm._s(i + 1) + ": ")])]),
+              _vm._v(" "),
+              _vm._m(3, true),
+              _vm._v(" "),
+              _c("b", [_vm._v("CÓDIGO(S):")]),
+              _vm._v(" "),
+              _c("ol", [
+                _c("li", [_vm._v(_vm._s(codigo.code1))]),
+                _vm._v(" "),
+                _c("li", [_vm._v(_vm._s(codigo.code2))])
+              ]),
+              _vm._v(" "),
+              _vm._m(4, true)
+            ])
+          }),
+          0
+        )
       : _vm._e(),
     _vm._v(" "),
     _vm.message == "CENGAGE"
-      ? _c("div", [
-          _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(_vm.codigo.code1))]),
-          _vm._v(" "),
-          _vm._m(5)
-        ])
+      ? _c(
+          "div",
+          _vm._l(_vm.email.student.codigos, function(codigo, i) {
+            return _c("div", _vm._b({}, "div", i, false), [
+              _c("h6", [_c("b", [_vm._v("CORREO " + _vm._s(i + 1) + ": ")])]),
+              _vm._v(" "),
+              _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(codigo.code1))]),
+              _vm._v(" "),
+              _vm._m(5, true)
+            ])
+          }),
+          0
+        )
       : _vm._e(),
     _vm._v(" "),
     _vm.message == "RICHMOND"
-      ? _c("div", [
-          _c("p", [
-            _vm._v("Revisa con tu profesor para poder acceder a tu libro.")
-          ]),
-          _vm._v(" "),
-          _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(_vm.codigo.code1))]),
-          _vm._v(" "),
-          _vm._m(6)
-        ])
+      ? _c(
+          "div",
+          _vm._l(_vm.email.student.codigos, function(codigo, i) {
+            return _c("div", _vm._b({}, "div", i, false), [
+              _c("h6", [_c("b", [_vm._v("CORREO " + _vm._s(i + 1) + ": ")])]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v("Revisa con tu profesor para poder acceder a tu libro.")
+              ]),
+              _vm._v(" "),
+              _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(codigo.code1))]),
+              _vm._v(" "),
+              _vm._m(6, true)
+            ])
+          }),
+          0
+        )
       : _vm._e(),
     _vm._v(" "),
     _vm.message == "CLE"
-      ? _c("div", [
-          _c("p", [_vm._v("Ingresar a: https://biblio.manuel-numerique.com/")]),
-          _vm._v(" "),
-          _c("ol", [
-            _c("li", [
-              _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(_vm.code.code1))])
-            ]),
-            _vm._v(" "),
-            _c("li", [_vm._v("TU USUARIO ES: " + _vm._s(_vm.code.code2))]),
-            _vm._v(" "),
-            _c("li", [_vm._v("TU CONTRASEÑA ES: " + _vm._s(_vm.code.code3))])
-          ])
-        ])
+      ? _c(
+          "div",
+          _vm._l(_vm.email.student.codigos, function(codigo, i) {
+            return _c("div", _vm._b({}, "div", i, false), [
+              _c("h6", [_c("b", [_vm._v("CORREO " + _vm._s(i + 1) + ": ")])]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v("Ingresar a: https://biblio.manuel-numerique.com/")
+              ]),
+              _vm._v(" "),
+              _c("ol", [
+                _c("li", [
+                  _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(_vm.code.code1))])
+                ]),
+                _vm._v(" "),
+                _c("li", [_vm._v("TU USUARIO ES: " + _vm._s(_vm.code.code2))]),
+                _vm._v(" "),
+                _c("li", [
+                  _vm._v("TU CONTRASEÑA ES: " + _vm._s(_vm.code.code3))
+                ])
+              ])
+            ])
+          }),
+          0
+        )
       : _vm._e()
   ])
 }

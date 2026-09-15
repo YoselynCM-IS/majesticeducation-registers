@@ -38,30 +38,45 @@
             </div>
         </div>
         <div v-if="message == 'EXPRESS PUBLISHING'">
-            <p>Ingresa a la URL: <a target="_blank" href="https://www.expressdigibooks.com/site/register">https://www.expressdigibooks.com/site/register</a></p>
-			<b>CÓDIGO(S):</b>
-			<ol>
-				<li>{{ codigo.code1 }}</li>
-				<li>{{ codigo.code2 }}</li>
-			</ol>
-			<p>Descarga la <a href="https://dl.dropbox.com/s/8lwce27hv6bc69s/ep-digibooks.pdf"><b>Guia</b></a> para poder acceder al libro</p>
+            <div v-for="(codigo, i) in email.student.codigos" v-bind="i">
+                <h6><b>CORREO {{ i + 1 }}: </b></h6>
+                <p>Ingresa a la URL: <a target="_blank" href="https://www.expressdigibooks.com/site/register">https://www.expressdigibooks.com/site/register</a></p>
+                <b>CÓDIGO(S):</b>
+                <ol>
+                    <li>{{ codigo.code1 }}</li>
+                    <li>{{ codigo.code2 }}</li>
+                </ol>
+                <p>Descarga la <a href="https://dl.dropbox.com/s/8lwce27hv6bc69s/ep-digibooks.pdf"><b>Guia</b></a> para poder acceder al libro</p>
+        
+            </div>
         </div>
         <div v-if="message == 'CENGAGE'">
-            <b>TU CÓDIGO ES: {{ codigo.code1 }}</b>
-			<p>Descarga la <a href="https://www.dropbox.com/scl/fi/ll36bj04rl2wairj0fppe/Infograf-a-Spark.pdf?rlkey=7khpzr4v4979ebe9rn8p7dstb&st=7c6dxkcx&dl=1"><b>infografía</b></a> para poder acceder al libro.</p>
+            <div v-for="(codigo, i) in email.student.codigos" v-bind="i">
+                <h6><b>CORREO {{ i + 1 }}: </b></h6>
+                <b>TU CÓDIGO ES: {{ codigo.code1 }}</b>
+                <p>Descarga la <a href="https://www.dropbox.com/scl/fi/ll36bj04rl2wairj0fppe/Infograf-a-Spark.pdf?rlkey=7khpzr4v4979ebe9rn8p7dstb&st=7c6dxkcx&dl=1"><b>infografía</b></a> para poder acceder al libro.</p>
+        
+            </div>
         </div>
         <div v-if="message == 'RICHMOND'">
-            <p>Revisa con tu profesor para poder acceder a tu libro.</p>
-			<b>TU CÓDIGO ES: {{ codigo.code1 }}</b>
-			<p>Descarga el <a href="https://dl.dropbox.com/s/r4gj72fr5nmix60/student-book_richmond.pdf"><b>instructivo</b></a> para poder acceder al libro.</p>
+            <div v-for="(codigo, i) in email.student.codigos" v-bind="i">
+                <h6><b>CORREO {{ i + 1 }}: </b></h6>
+                <p>Revisa con tu profesor para poder acceder a tu libro.</p>
+                <b>TU CÓDIGO ES: {{ codigo.code1 }}</b>
+                <p>Descarga el <a href="https://dl.dropbox.com/s/r4gj72fr5nmix60/student-book_richmond.pdf"><b>instructivo</b></a> para poder acceder al libro.</p>
+        
+            </div>
         </div>
         <div v-if="message == 'CLE'">
-            <p>Ingresar a: https://biblio.manuel-numerique.com/</p>
-			<ol>
-				<li><b>TU CÓDIGO ES: {{ code.code1 }}</b></li>
-				<li>TU USUARIO ES: {{ code.code2 }}</li>
-				<li>TU CONTRASEÑA ES: {{ code.code3 }}</li>
-			</ol>
+            <div v-for="(codigo, i) in email.student.codigos" v-bind="i">
+                <h6><b>CORREO {{ i + 1 }}: </b></h6>
+                <p>Ingresar a: https://biblio.manuel-numerique.com/</p>
+                <ol>
+                    <li><b>TU CÓDIGO ES: {{ code.code1 }}</b></li>
+                    <li>TU USUARIO ES: {{ code.code2 }}</li>
+                    <li>TU CONTRASEÑA ES: {{ code.code3 }}</li>
+                </ol>
+            </div>
         </div>
     </div>
 </template>
