@@ -19,7 +19,7 @@ class Student extends Model
         'delivery', 'date_delivery', 'user_delivery',
         'codes', 'date_codes', 'user_codes', 'send_codes',
         'validate', 'teacher', 'group',
-        'reviewed', 'date_reviewed', 'numcuenta'
+        'reviewed', 'date_reviewed', 'numcuenta', 'created_at'
     ];
 
     public function school(){

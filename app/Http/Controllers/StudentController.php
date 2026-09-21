@@ -497,7 +497,8 @@ class StudentController extends Controller
                 'book' => Str::of($request->book)->upper(), 
                 'quantity' => (int)$request->quantity, 
                 'price' => (float)$request->price,
-                'total' => (float)$request->a_depositar
+                'total' => (float)$request->a_depositar,
+                'created_at' => Carbon::now()
             ]);
 
             $comprobantes = collect($request->comprobantes);
