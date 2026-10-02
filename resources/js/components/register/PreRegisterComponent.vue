@@ -1,7 +1,10 @@
 <template>
     <div>
-        <ad-packs-component></ad-packs-component>
+        <!-- <ad-packs-component></ad-packs-component> -->
         <h4 class="text-center"><b>Pre-registro</b></h4>
+        <b-alert class="mb-3 mt-2" variant="warning" show>
+            <b>NO HAY CAMBIOS NI DEVOLUCIONES</b>
+        </b-alert>
         <!-- TUTORIAL -->
         <b-alert v-if="consAccepted && checkCIE" class="mb-3 mt-2" variant="dark" show>
             <h6>
@@ -11,10 +14,6 @@
                 </b>
             </h6>
             <h6><b>Requisitos</b></h6>
-            <!-- <ul>
-                <li>Acceder desde una computadora para realizar tu pre-registro</li>
-                <li>Acceder con el navegador <b>Firefox</b></li>
-            </ul> -->
             <hr>
             <label>Al comprar tu libro con nosotros te ofrecemos la garantía y seguridad de que te será entregado. Te invitamos a <b>NO</b> realizar la compra de tu libro en línea (Amazon, Mercado Libre, entre otras).</label>
         </b-alert>

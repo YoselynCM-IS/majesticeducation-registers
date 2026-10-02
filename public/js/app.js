@@ -5995,7 +5995,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 // OMEGA BOOK
 // BANCOMER: 0172427206
 // BANCOMER: 012180001724272063
@@ -102151,9 +102150,13 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("ad-packs-component"),
-      _vm._v(" "),
       _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "b-alert",
+        { staticClass: "mb-3 mt-2", attrs: { variant: "warning", show: "" } },
+        [_c("b", [_vm._v("NO HAY CAMBIOS NI DEVOLUCIONES")])]
+      ),
       _vm._v(" "),
       _vm.consAccepted && _vm.checkCIE
         ? _c(

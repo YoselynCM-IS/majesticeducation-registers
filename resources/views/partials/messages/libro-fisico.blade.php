@@ -2,4 +2,5 @@
 <ul>
     <li>Este correo impreso.</li>
     <li>El comprobante original de tu pago.</li>
+    <li>Demás documentos que se soliciten en el manual de compra.</li>
 </ul>
