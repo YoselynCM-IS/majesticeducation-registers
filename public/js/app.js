@@ -97867,14 +97867,16 @@ var render = function() {
                               "TU CÓDIGO DE BAE 4 ES: " + _vm._s(codigo.code2)
                             )
                           ]),
+                          _c("br"),
                           _vm._v(" "),
-                          _vm.code.code3 !== "NO" ? _c("br") : _vm._e(),
-                          _c("b", [
-                            _vm._v(
-                              "TU CÓDIGO DE MIND TWISTERS (LECTURA) ES: " +
-                                _vm._s(codigo.code3)
-                            )
-                          ])
+                          codigo.code3 !== "NO"
+                            ? _c("b", [
+                                _vm._v(
+                                  "TU CÓDIGO DE MIND TWISTERS (LECTURA) ES: " +
+                                    _vm._s(codigo.code3)
+                                )
+                              ])
+                            : _vm._e()
                         ])
                       : _c("div", [
                           _c("b", [
@@ -97982,14 +97984,12 @@ var render = function() {
               _vm._v(" "),
               _c("ol", [
                 _c("li", [
-                  _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(_vm.code.code1))])
+                  _c("b", [_vm._v("TU CÓDIGO ES: " + _vm._s(codigo.code1))])
                 ]),
                 _vm._v(" "),
-                _c("li", [_vm._v("TU USUARIO ES: " + _vm._s(_vm.code.code2))]),
+                _c("li", [_vm._v("TU USUARIO ES: " + _vm._s(codigo.code2))]),
                 _vm._v(" "),
-                _c("li", [
-                  _vm._v("TU CONTRASEÑA ES: " + _vm._s(_vm.code.code3))
-                ])
+                _c("li", [_vm._v("TU CONTRASEÑA ES: " + _vm._s(codigo.code3))])
               ])
             ])
           }),

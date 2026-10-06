@@ -24,8 +24,8 @@
                     </ol>
                     <div v-if="codigo.code4 == 'NO' && codigo.code5 == 'NO'">
                         <b>TU CÓDIGO DE BAE 2 ES: {{ codigo.code1 }}</b><br>
-                        <b>TU CÓDIGO DE BAE 4 ES: {{ codigo.code2 }}</b>
-                        <br v-if="code.code3 !== 'NO'"><b>TU CÓDIGO DE MIND TWISTERS (LECTURA) ES: {{ codigo.code3 }}</b>
+                        <b>TU CÓDIGO DE BAE 4 ES: {{ codigo.code2 }}</b><br>
+                        <b v-if="codigo.code3 !== 'NO'">TU CÓDIGO DE MIND TWISTERS (LECTURA) ES: {{ codigo.code3 }}</b>
                     </div>
                     <div v-else>
                         <b>TU CÓDIGO 1 ES: {{ codigo.code1 }}</b><br>
@@ -72,9 +72,9 @@
                 <h6><b>CORREO {{ i + 1 }}: </b></h6>
                 <p>Ingresar a: https://biblio.manuel-numerique.com/</p>
                 <ol>
-                    <li><b>TU CÓDIGO ES: {{ code.code1 }}</b></li>
-                    <li>TU USUARIO ES: {{ code.code2 }}</li>
-                    <li>TU CONTRASEÑA ES: {{ code.code3 }}</li>
+                    <li><b>TU CÓDIGO ES: {{ codigo.code1 }}</b></li>
+                    <li>TU USUARIO ES: {{ codigo.code2 }}</li>
+                    <li>TU CONTRASEÑA ES: {{ codigo.code3 }}</li>
                 </ol>
             </div>
         </div>
